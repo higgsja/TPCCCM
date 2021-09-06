@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <entry key="Version">1.0</entry>
+  <entry key="Title">Database Error</entry>
+  
+<!-- Core Messages -->
+  <entry key="TableNotFound">Table not found: %s.
+  
+  Rerun the setup configuration to restore tables in the %s database.
+  </entry>
+  <entry key="NoResultSet">No results from query.
+  </entry>
+  <entry key="dmOfxExcessClosing">
+  Closing transactions exceed opening transactions:
+  Account: %s
+  Opening Ticker: %s
+  Opening SecId: %s
+  Opening Units: %s
+  Opening Trade Date: %s
+  </entry>
+  
+  <entry key="IPAddressFailed">Database access denied. This is most likely due to the accessing IP address not being registered.
+  
+Navigate to https://whatsmyip.com/ and email the IP address to Joe@Higgs-Tx.com to register the IP address.</entry>
+
+  <entry key="LoginFailed">Login to High Performance Investing failed. Terminating application.</entry>
+  
+  <entry key="DBConnectionFailed">Connection to: %s failed; terminating application.</entry>
+
+</properties>

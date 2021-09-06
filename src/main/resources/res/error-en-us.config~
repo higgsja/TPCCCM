@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <entry key="Version">1.0</entry>
+  <entry key="Title"> -- Error</entry>
+  <entry key="Err1">Class: </entry>
+  <entry key="Err2">Method: </entry>
+  <entry key="Err3">Message: </entry>
+  <entry key="Error502Add">Ensure TWS is running.</entry>
+  <entry key="Formatted1">
+  Invalid command line parameter(s): %s.
+  Command line parameters:
+  	--daily        Daily updates
+  	--equity_info  Update equity_info table from sources
+  	--equity_history Update historical equity data from sources
+  	--chains		   Refresh all option chains for equities in the 'equityinfo' file
+  	--filename			Filename for processes that require it
+  	--lots			    Pull data from SQL tables and construct lots.
+  	--process_ofx_file	Takes an OFX file and processes it into the OFX database
+  	--refreshDataMart	refreshes the data mart from the OFX database
+  	
+  Example: java -Djava.awt.headless=true -jar /home/white/Documents/Dev/Apps/AppTWS.jar --process_ofx_file --file /home/user/data/data.ofx
+
+  	</entry>
+  <entry key="Formatted2">Unable to connect to TWS host '%s' on port '%s' with client ID '%s'.</entry>
+  <entry key="Formatted3">Unhandled case '%s' in switch statement.</entry>
+  <entry key="Formatted4">'%s' operating system not supported.</entry>
+    <entry key="Formatted5">Directory creation failed: %s
+  
+  Will be unable to save configuration information.
+  </entry>
+  <entry key="Formatted6">File creation failed: %s
+  
+  Will be unable to save configuration information.
+  </entry>
+  <entry key="Formatted7">File access issue: %s
+  
+  Will be unable to save configuration information.
+  </entry>
+  <entry key = "Formatted8">Invalid OFX response:
+  %s
+  </entry>
+  <entry key = "Formatted9">No such file or directory:
+  %s
+  </entry>
+  <entry key = "Formatted10">Unable to create output file:
+  %s
+  </entry>
+  <entry key = "Formatted11">Unable to connect to database: 
+  %s; it likely does not exist or connection to the database cannot be completed.
+  </entry>
+  <entry key = "Formatted12">Unable to create table: 
+  %s
+  </entry>
+  <entry key = "Formatted13">Table insert failed: 
+  %s
+  </entry>
+  <entry key = "Formatted14">SQL Error: 
+  %s
+  </entry>
+   <entry key = "Formatted15">No results from query: 
+  %s
+  </entry>
+  <entry key = "Formatted16">No results from source:
+  %s
+  </entry>
+  <entry key = "Formatted17">Total rows changed at source:
+  %s
+  </entry>
+  <entry key = "Formatted18">Unknown host:
+  %s
+  Network may be offline.
+  </entry>
+  <entry key = "Formatted19">File '%s' does not exist. Do you want to create it?</entry>
+  <entry key = "Formatted20">Directory '%s' does not exist. Do you want to create it?</entry>
+  <entry key = "Formatted21">Directory '%s' could not be created</entry>
+  <entry key = "GeneralError">Error: %s 
+  <!--<entry key="GeneralError">test-->
+  </entry>
+  <entry key = "IEXTickerNotFound">Error: Historical data for ticker '%s' not available</entry>
+  <entry key = "IEX402">Error: IEX message quota exceeded on '%s%</entry>
+  <entry key = "IEX404">Error: IEX Resource not found '%s'</entry>
+  <entry key = "IEX429">Error: IEX too many requests too fast on '%s'</entry>
+  <entry key = "IEX500">Error: IEX cloud server error on '%s'</entry>
+  <!--<entry key="GeneralError">test-->
+  <entry key = "HttpError">Http error:
+  Error code: %s
+  Message: %s
+  </entry>
+  <entry key = "Formatted19">Duplicate entry, table insert failed: 
+  %s
+  </entry>
+  <entry key = "OfxResponseEmpty">Response from financial institution 
+  OFX server did not contain any information.</entry>
+  <entry key="TWSError">TWS is not connected.</entry>
+  <!-- begin OFX Status Codes -->
+  <entry key = "OfxStatus0">Success</entry>
+  <entry key = "OfxStatus1">Client is up-to-date (Info)</entry>
+  <entry key = "OfxStatus2000">General error (Error)</entry>
+  <entry key = "OfxStatus2001">Invalid account (Error)</entry>
+  <entry key = "OfxStatus2002">General account error (Error)</entry>
+  <entry key = "OfxStatus2003">Account not found (Error)</entry>
+  <entry key = "OfxStatus2004">Account closed (Error)</entry>
+  <entry key = "OfxStatus2005">Account not authorized (Error)</entry>
+  
+  <!-- Sign on message error codes -->
+  <entry key = "OfxSignonStatus0">Success</entry>
+  <entry key = "OfxSignonStatus2000">General error (error).</entry>
+  <entry key = "OfxSignonStatus3000">User credentials are correct but further authentication required (error).</entry>
+  <entry key = "OfxSignonStatus3001">Multi-factor authentication (MFAChallengeA) contains invalid information. This notifies the client to send MFACHALLENGERQ.</entry>
+  <entry key = "OfxSignonStatus13504">Financial Institution element (FI) missing or invalid in response (error).</entry>
+  <entry key = "OfxSignonStatus15000">Must change USERPASS (info).</entry>
+  <entry key = "OfxSignonStatus15500">Sign on invalid (error).</entry>
+  <entry key = "OfxSignonStatus15501">Customer account already in use (error).</entry>
+  <entry key = "OfxSignonStatus15502">USERPASS lockout (error).</entry>
+  <entry key = "OfxSignonStatus15506">Empty sign on transaction not supported (error).</entry>
+  <entry key = "OfxSignonStatus15507">Sign on invalid without supporting pin change request (error>.</entry>
+  <entry key = "OfxSignonStatus15510">Client user ID error (error).</entry>
+  <entry key = "OfxSignonStatus15511">User should contact financial institution (error).</entry>
+  <entry key = "OfxSignonStatus15512">OFX server requires AUTHTOKEN in sign o9n during the next session (error).</entry>
+  <entry key = "OfxSignonStatus15513">AUTHTOKEN invalid (error).</entry>
+ 
+  <!-- End sign on message error codes -->
+  
+  <!-- end OFX Status Codes -->
+  
+  <entry key = "EquityHistoryNoData">No history data available in the database</entry>
+ 
+</properties>

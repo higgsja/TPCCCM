@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <entry key="Version">1.0</entry>
+  <entry key="OfxFiles">
+  <!-- comma delimited -->
+  /home/white/Documents/Quicken/17780196.qfx,/home/white/Documents/Quicken/17531730.qfx
+  </entry>
+
+
+  <entry key="SQLBrokers">SELECT DISTINCT BrokerId 
+  FROM jahPortfolio.IBTransactionsNew AS IBTransactionsNew
+  </entry>
+  <entry key="SQLAccounts">SELECT DISTINCT AcctId 
+  FROM jahPortfolio.IBTransactionsNew AS IBTransactionsNew 
+  WHERE BrokerId = ?
+  </entry>
+  <entry key="SQLSecurities">SELECT DISTINCT SecUniqueId, Ticker FROM 
+  jahPortfolio.IBTransactionsNew AS IBTransactionsNew 
+  WHERE BrokerId = ? AND AcctId = ? order by Ticker asc
+  </entry>
+  <entry key="SQLSecurity">SELECT TransName, TransType, ShPerCtrct, Units, 
+  Price, Cmmsn, Tax, Fees, Total, cast(DtTrade as DATE) as DtTrade 
+  FROM jahPortfolio.IBTransactionsNew AS IBTransactionsNew 
+  WHERE BrokerId = ? AND AcctId = ? and SecUniqueId = ? 
+  AND DtTrade > '2016-12-31' ORDER BY DtTrade ASC
+  </entry>
+
+  <!-- Ofx SQL Statements vv-->
+  <entry key="OfxSQLInsert">insert into %s (%s) values (%s)
+  </entry>
+  <!-- update Accounts set AcctOrg='Acct Org', AcctName='Acct 1' where AcctId=1 -->
+  <entry key="OfxSQLUpdate">update %s set %s where %s</entry>
+  <entry key="OfxSQLBrokersTableQueryBrokerId">
+  select BrokerId from hlhtxc5_dbOfx.Brokers as brokers where brokers.BrokerIdFi='%s'
+  </entry>
+  <entry key="OfxSQLAccountsTableQueryAcctId">
+  select AcctId from hlhtxc5_dbOfx.Accounts as accounts where accounts.BrokerId='%s' and accounts.JoomlaId='%s' and accounts.InvAcctIdFi='%s'
+  </entry>
+  <entry key="OfxSQLInvPosTableQueryInvPosId">
+  select InvPosId from hlhtxc5_dbOfx.InvPos 
+	where AcctId = '%s' and DtAsOf = '%s' and SecId='%s' and HeldInAcct='%s' 
+    and PosType ='%s' and Units ='%s' and UnitPrice = '%s' and MktVal = '%s'
+    and DtPriceAsOf = '%s'
+  </entry>
+  <entry key="OfxSQLPayeeTableQueryOfxPayeeId">
+  select OfxPayeeId from hlhtxc5_dbOfx.Payee where Name='%s' and Addr1='%s' 
+  and City='%s' and State='%s' and PostalCode='%s'
+  </entry>
+<!-- Ofx SQL Statements ^^-->
+</properties>
