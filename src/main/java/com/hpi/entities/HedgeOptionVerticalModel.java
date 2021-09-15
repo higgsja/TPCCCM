@@ -20,11 +20,8 @@ public class HedgeOptionVerticalModel
 
     static
     {
-//        SQL =
-//            "select EquityId, Symbol, AskPrice, LastPrice, PutCall, StrikePrice, ImpliedVolatility, Delta, OpenInterest, DataDate from `optionHistory` where Symbol = '%s' and ExpirationDate > now() and DataDate  = (select max(DataDate) as DataDate from optionHistory where Symbol = 'aapl') and StrikePrice > '209.00' and StrikePrice < '221.00' order by StrikePrice";
-
         SQL =
-            "select EquityId, Symbol, AskPrice, LastPrice, PutCall, StrikePrice, ImpliedVolatility, Delta, OpenInterest, DataDate from `optionHistory` where Symbol = '%s' and DataDate = (select max(DataDate) as DataDate from optionHistory where Symbol = '%s') and ExpirationDate = '%s' and PutCall = 'call' and StrikePrice >= '%s' and StrikePrice <= '%s' order by StrikePrice";
+            "select EquityId, Symbol, AskPrice, LastPrice, PutCall, StrikePrice, ImpliedVolatility, Delta, OpenInterest, DataDate from OptionHistory where Symbol = '%s' and DataDate = (select max(DataDate) as DataDate from OptionHistory where Symbol = '%s') and ExpirationDate = '%s' and PutCall = 'call' and StrikePrice >= '%s' and StrikePrice <= '%s' order by StrikePrice";
 
         VERTICAL_MODELS = new ArrayList<>();
     }

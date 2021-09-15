@@ -15,12 +15,9 @@ public class LastDailyOptionModel
 //        "insert ignore into hlhtxc5_dmOfx.Util_LastDailyOption select oof.EquityId, max(oh.DataDate) as DataDate, oh.BidPrice, oh.AskPrice, oh.LastPrice, round((oh.AskPrice + oh.BidPrice) / 2, 2) as Price, oh.PutCall, oh.StrikePrice from hlhtxc5_dmOfx.OpenOptionFIFO as oof left join hlhtxc5_dmOfx.OptionHistory as oh on oh.EquityId = oof.EquityId where oh.DataDate >= subdate(now(), interval 7 day) group by oof.EquityId";
     
     //arbitrarily using 4 days prior in an attempt to reduce processing time
-    public static final String CREATE_VIEW = "create view Util_LastDailyOption select oof.EquityId, max(oh.DataDate) as DataDate, oh.BidPrice, oh.AskPrice, oh.LastPrice, round((oh.AskPrice + oh.BidPrice) / 2, 2) as Price, oh.PutCall, oh.StrikePrice from hlhtxc5_dmOfx.OpenOptionFIFO as oof left join hlhtxc5_dmOfx.optionHistory as oh on oh.EquityId = oof.EquityId where oh.DataDate >= subdate(now(), interval 4 day)";
-        
-        //"insert ignore into hlhtxc5_dmOfx.Util_LastDailyOption select oof.EquityId, max(oh.DataDate) as DataDate, oh.BidPrice, oh.AskPrice, oh.LastPrice, round((oh.AskPrice + oh.BidPrice) / 2, 2) as Price, oh.PutCall, oh.StrikePrice from hlhtxc5_dmOfx.OpenOptionFIFO as oof left join hlhtxc5_dmOfx.optionHistory as oh on oh.EquityId = oof.EquityId where oh.DataDate >= subdate(now(), interval 4 day) group by oof.EquityId";
-
+    public static final String CREATE_VIEW = "create view Util_LastDailyOption select oof.EquityId, max(oh.DataDate) as DataDate, oh.BidPrice, oh.AskPrice, oh.LastPrice, round((oh.AskPrice + oh.BidPrice) / 2, 2) as Price, oh.PutCall, oh.StrikePrice from hlhtxc5_dmOfx.OpenOptionFIFO as oof left join hlhtxc5_dmOfx.OptionHistory as oh on oh.EquityId = oof.EquityId where oh.DataDate >= subdate(now(), interval 4 day)";
     
-    public static final String CREATE_TABLE = "insert ignore into hlhtxc5_dmOfx.Util_LastDailyOption select oof.EquityId, max(oh.DataDate) as DataDate, oh.BidPrice, oh.AskPrice, oh.LastPrice, round((oh.AskPrice + oh.BidPrice) / 2, 2) as Price, oh.PutCall, oh.StrikePrice from hlhtxc5_dmOfx.OpenOptionFIFO as oof left join hlhtxc5_dmOfx.optionHistory as oh on oh.EquityId = oof.EquityId where oh.DataDate >= subdate(now(), interval 4 day) group by oof.EquityId";
+    public static final String CREATE_TABLE = "insert ignore into hlhtxc5_dmOfx.Util_LastDailyOption select oof.EquityId, max(oh.DataDate) as DataDate, oh.BidPrice, oh.AskPrice, oh.LastPrice, round((oh.AskPrice + oh.BidPrice) / 2, 2) as Price, oh.PutCall, oh.StrikePrice from hlhtxc5_dmOfx.OpenOptionFIFO as oof left join hlhtxc5_dmOfx.OptionHistory as oh on oh.EquityId = oof.EquityId where oh.DataDate >= subdate(now(), interval 4 day) group by oof.EquityId";
     
     private String equityId;
     private java.sql.Date dataDate;

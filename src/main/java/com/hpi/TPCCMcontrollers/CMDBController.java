@@ -327,6 +327,10 @@ public class CMDBController
             }
         } catch (SQLException ex)
         {
+            //todo: remove this; just using for PCG issue
+            if (ex.getErrorCode() == 1054){
+                return -1;
+            }
             // failed on duplicate, ok
             if (ex.getErrorCode() != 1062)
             {

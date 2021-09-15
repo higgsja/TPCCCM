@@ -4,12 +4,14 @@ import java.util.*;
 import lombok.*;
 
 @NoArgsConstructor @AllArgsConstructor @Builder @Getter @Setter
-public class PositionClosedModel {
+public class PositionClosedModel
+{
 
     public PositionClosedModel(Integer positionId, Integer dmAcctId, Integer joomlaId, String ticker,
         //        String equityId,
         String positionName, Integer tacticId, Double units, Double priceOpen, Double price, Double gainPct,
-        java.sql.Date dateOpen, java.sql.Date dateClose, Integer days, String comment, Double gain, String positionType) {
+        java.sql.Date dateOpen, java.sql.Date dateClose, Integer days, String comment, Double gain, String positionType)
+    {
         this.positionId = positionId;
         this.dmAcctId = dmAcctId;
         this.joomlaId = joomlaId;
@@ -30,19 +32,20 @@ public class PositionClosedModel {
         this.positionClosedTransactionModels = new ArrayList<>();
     }
 
-    public static final String POSITION_INSERT =
-        "insert ignore into hlhtxc5_dmOfx.PositionsClosed (DMAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, DateClose, Days, Comment, Gain, PositionType) values (%s, %s, '%s', '%s', '%s', %s, %s, %s, %s, %s, '%s', '%s', %s, %s, %s, '%s')";
+    public static final String POSITION_INSERT
+        = "insert ignore into hlhtxc5_dmOfx.PositionsClosed (DMAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, DateClose, Days, Comment, Gain, PositionType) values (%s, %s, '%s', '%s', '%s', %s, %s, %s, %s, %s, '%s', '%s', %s, %s, %s, '%s')";
 
-    public static final String POSITION_UPDATE_TACTICID =
-        "update hlhtxc5_dmOfx.PositionsClosed set TacticId = '%s' where PositionId = '%s'";
+    public static final String POSITION_UPDATE_TACTICID
+        = "update hlhtxc5_dmOfx.PositionsClosed set TacticId = '%s' where PositionId = '%s'";
 
-    public static final String POSITION_UPDATE_POSITIONNAME =
-        "update hlhtxc5_dmOfx.PositionsClosed set PositionName = '%s' where PositionId = '%s'";
+    public static final String POSITION_UPDATE_POSITIONNAME
+        = "update hlhtxc5_dmOfx.PositionsClosed set PositionName = '%s' where PositionId = '%s'";
 
-    public static final String POSITION_UPDATE_FIELDS =
-        "update hlhtxc5_dmOfx.PositionsClosed set Units = '%s', PriceOpen = '%s', Price = '%s', GainPct = '%s', DateOpen = '%s', Days = '%s', TacticId = '%s' where PositionId = '%s'";
+    public static final String POSITION_UPDATE_FIELDS
+        = "update hlhtxc5_dmOfx.PositionsClosed set Units = '%s', PriceOpen = '%s', Price = '%s', GainPct = '%s', DateOpen = '%s', Days = '%s', TacticId = '%s' where PositionId = '%s'";
 
-    public PositionClosedModel(PositionClosedModel pcm) {
+    public PositionClosedModel(PositionClosedModel pcm)
+    {
         this.positionId = pcm.positionId;
         this.dmAcctId = pcm.dmAcctId;
         this.joomlaId = pcm.joomlaId;
@@ -62,30 +65,30 @@ public class PositionClosedModel {
         this.positionType = pcm.positionType;
         this.positionClosedTransactionModels = new ArrayList<>();
 
-        for (PositionClosedTransactionModel pctm : pcm.getPositionClosedTransactionModels()) {
+        for (PositionClosedTransactionModel pctm : pcm.getPositionClosedTransactionModels())
+        {
             this.positionClosedTransactionModels.add(new PositionClosedTransactionModel(pctm));
         }
     }
 
     //do not store ClientSectorId; we get it from the source, ClientEquityAttributes, when required
-     private Integer positionId;
-     private Integer dmAcctId;
-     private Integer joomlaId;
-     private String ticker;
-     private String equityId;
-     private String positionName;
-     private Integer tacticId;
-     private Double units;
-     private Double priceOpen;
-     private Double price;
-     private Double gainPct;
-     private java.sql.Date dateOpen;
-     private java.sql.Date dateClose;
-     private Integer days;
-     private String comment;
-     private Double gain;
-     private String positionType;    //long, short
+    private Integer positionId;
+    private Integer dmAcctId;
+    private Integer joomlaId;
+    private String ticker;
+    private String equityId;
+    private String positionName;
+    private Integer tacticId;
+    private Double units;
+    private Double priceOpen;
+    private Double price;
+    private Double gainPct;
+    private java.sql.Date dateOpen;
+    private java.sql.Date dateClose;
+    private Integer days;
+    private String comment;
+    private Double gain;
+    private String positionType;    //long, short
 
-    @Builder.Default @Getter private final ArrayList<PositionClosedTransactionModel> positionClosedTransactionModels =
-        new ArrayList<>();
+    @Builder.Default @Getter private final ArrayList<PositionClosedTransactionModel> positionClosedTransactionModels = new ArrayList<>();
 }
