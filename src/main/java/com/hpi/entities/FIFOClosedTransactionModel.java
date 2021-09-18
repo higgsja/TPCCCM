@@ -18,6 +18,7 @@ public class FIFOClosedTransactionModel
     public static final String SELECT_ALL_BY_JOOMLAID_EQUITYTYPE
         = "select DMAcctId, JoomlaId, FiTId, TransactionGrp, Ticker, EquityId, TransactionName, DateOpen, DateClose, DateExpire, Units, PriceOpen, PriceClose, TotalOpen, TotalClose, Gain, GainPct, EquityType, PositionType, Transactiontype, Complete, Days from hlhtxc5_dmOfx.FIFOClosedTransactions where JoomlaId = '%s' and EquityType = '%s' order by EquityId, DateOpen, DateClose ;";
 
+    //limit to current year
     public static final String SELECT_INCOMPLETE_BY_JOOMLAID_EQUITYTYPE
         = "select DMAcctId, JoomlaId, FiTId, TransactionGrp, Ticker, EquityId, TransactionName, DateOpen, DateClose, DateExpire, Units, PriceOpen, PriceClose, TotalOpen, TotalClose, Gain, GainPct, EquityType, PositionType, Transactiontype, Complete, Days from hlhtxc5_dmOfx.FIFOClosedTransactions where Complete <> 1 and JoomlaId = '%s' and EquityType = '%s' order by EquityId, DateOpen, DateClose";
 
