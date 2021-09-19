@@ -14,6 +14,8 @@ public class FIFOClosedTransactionModel
 
     public static final Integer NOT_COMPLETE = 0;
     public static final Integer COMPLETE = 1;
+    
+    public static final String COLUMNS = "DMAcctId, JoomlaId, FiTId, TransactionGrp, Ticker, EquityId, TransactionName, DateOpen, DateClose, DateExpire, Units, PriceOpen, PriceClose, TotalOpen, TotalClose, Gain, GainPct, EquityType, PositionType, TransactionType, Complete, Days";
 
     public static final String SELECT_ALL_BY_JOOMLAID_EQUITYTYPE
         = "select DMAcctId, JoomlaId, FiTId, TransactionGrp, Ticker, EquityId, TransactionName, DateOpen, DateClose, DateExpire, Units, PriceOpen, PriceClose, TotalOpen, TotalClose, Gain, GainPct, EquityType, PositionType, Transactiontype, Complete, Days from hlhtxc5_dmOfx.FIFOClosedTransactions where JoomlaId = '%s' and EquityType = '%s' order by EquityId, DateOpen, DateClose ;";
