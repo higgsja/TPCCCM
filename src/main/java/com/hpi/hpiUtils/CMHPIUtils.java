@@ -2,23 +2,18 @@ package com.hpi.hpiUtils;
 
 import com.hpi.TPCCMcontrollers.*;
 import com.hpi.TPCCMprefs.*;
-import java.sql.*;
 import java.text.*;
 import java.time.*;
 import java.time.format.*;
 import java.util.*;
 import java.util.Date;
 import java.util.Properties;
-import java.util.TimeZone;
 import java.util.logging.*;
 import javax.swing.*;
 import org.apache.commons.lang3.*;
 import org.apache.commons.lang3.time.*;
 
 public class CMHPIUtils {
-    private final String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-
     public static synchronized void showMsgInitializing(String aClass,
         String aMethod,
         String aMsg, Integer iIcon) {
@@ -90,12 +85,10 @@ public class CMHPIUtils {
                 sb.toString(), aTitle, iIcon);
         }
         else {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    JOptionPane.showMessageDialog(CMGlobalsModel.getFrame(),
-                        sb.toString(), aTitle, iIcon);
-                }
+            SwingUtilities.invokeLater(() ->
+            {
+                JOptionPane.showMessageDialog(CMGlobalsModel.getFrame(),
+                    sb.toString(), aTitle, iIcon);
             });
         }
     }
@@ -163,47 +156,6 @@ public class CMHPIUtils {
         return sbRet.toString();
     }
 
-    public static String formatHTMLMessage(String aString, Integer intMaxLength) {
-        StringBuffer sbRet;
-        sbRet = new StringBuffer();
-        String s1, sLine;
-        String[] sWords;
-        int iLength, iWords, iLines;
-
-        // there will be no line feeds or carriage returns in the string
-        // split on space
-        sWords = aString.split(" ");
-        sLine = "";
-        iWords = 1;
-        iLines = 1;
-
-        for (String saWord : sWords) {
-            if (sLine.length() + saWord.length() > intMaxLength) {
-                if (iLines == 1) {
-                    sLine += "<br>";
-                    sbRet.append(sLine);
-                    sLine = saWord + " ";
-                    iLines++;
-                }
-                else {
-                    sLine += "</br><br>";
-                    sbRet.append(sLine);
-                    sLine = saWord + " ";
-                    iLines++;
-                }
-            }
-            else {
-                sLine += saWord + " ";
-            }
-        }
-
-        sbRet.append(sLine);
-//        sbRet = sbRet.delete(sbRet.length() - 4, sbRet.length());
-//        sbRet.append("</html>");
-
-        return "<html>" + sbRet.toString() + "</html>";
-    }
-
     public static synchronized String charFill(int length, char charFill) {
         if (length > 0) {
             char[] array = new char[length];
@@ -235,22 +187,6 @@ public class CMHPIUtils {
         return new java.sql.Date(date.getTime());
     }
 
-    public static synchronized LocalDate convertSQLDateToLocalDate(java.sql.Date date) {
-        return date.toInstant()
-            .atZone(ZoneId.systemDefault())
-            .toLocalDate();
-    }
-
-    /**
-     * Convert SQL Date to java LocalDateTime
-     *
-     * @param date: java Date to be converted
-     *
-     * @return LocalDateTime
-     */
-    public static LocalDateTime convertSQLDateToLocalDateTime(java.sql.Date date) {
-        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
-    }
 
     /**
      * Convert string YYYY-MM-DD to LocalDateTime
@@ -264,24 +200,6 @@ public class CMHPIUtils {
         return LocalDateTime.parse(date, formatter);
     }
     
-    public static java.sql.Date convertLocalDateTimeToSQLDate(LocalDateTime dateTime){
-        return java.sql.Date.valueOf(dateTime.toLocalDate());
-    }
-    
-    public static java.sql.Date convertLocalDateToSQLDate(LocalDate date){
-        return java.sql.Date.valueOf(date);
-    }
-
-    /**
-     *
-     * @return String, short date
-     */
-    public static synchronized String getShortDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-        Calendar currentDate = Calendar.getInstance();
-        return formatter.format(currentDate.getTime());
-    }
-
     /**
      *
      * @return String, short date
@@ -307,18 +225,6 @@ public class CMHPIUtils {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddhhmmss");
         Calendar currentDate = Calendar.getInstance();
         return formatter.format(currentDate.getTime());
-    }
-
-    /**
-     * Formats current local date to yyyy-MM-dd hh:mm:ss at GMT
-     *
-     * @return String, long date
-     */
-    public static String getLongGMTDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat(
-            "yyyy-MM-dd hh:mm:ss");
-        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return formatter.format(new Date());
     }
 
     public static String getOCCTicker(String ticker, Date expireDate,
@@ -389,47 +295,5 @@ public class CMHPIUtils {
         transactionName += putcall.equalsIgnoreCase("c") ? "Call" : "Put";
 
         return transactionName;
-    }
-
-    public static final Boolean checkSymbolSQL(String symbolString) {
-        String sql;
-        ResultSet rs;
-
-        sql =
-            "select Ticker from hlhtxc5_dmOfx.EquityInfo as ei where ei.Ticker = '%s' and `Date` = (select max(`Date`) as `Date` from hlhtxc5_dmOfx.EquityInfo where ei.Ticker = '%s' limit 1);";
-
-        symbolString = symbolString.trim().toUpperCase();
-
-        sql = String.format(sql, symbolString, symbolString);
-
-        try (Connection con = CMDBController.getConnection();
-             PreparedStatement pStmt = con.prepareStatement(sql);) {
-            pStmt.clearWarnings();
-            rs = pStmt.executeQuery();
-
-            if (rs.first()) {
-                rs.close();
-                pStmt.close();
-                con.close();
-                return true;
-            }
-        }
-        catch (SQLException e) {
-            String s = String.format(CMLanguageController.getErrorProps().
-                getProperty("Formatted14"),
-                e.toString());
-
-            CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getErrorProps().
-                    getProperty("Title"),
-                Thread.currentThread().
-                    getStackTrace()[1].getClassName(),
-                Thread.currentThread().
-                    getStackTrace()[1].getMethodName(),
-                s,
-                JOptionPane.ERROR_MESSAGE);
-        }
-
-        return false;
     }
 }
