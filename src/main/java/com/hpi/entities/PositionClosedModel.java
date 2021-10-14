@@ -33,7 +33,7 @@ public class PositionClosedModel
     }
 
     public static final String POSITION_INSERT
-        = "insert ignore into hlhtxc5_dmOfx.PositionsClosed (DMAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, DateClose, Days, Comment, Gain, PositionType) values (%s, %s, '%s', '%s', '%s', %s, %s, %s, %s, %s, '%s', '%s', %s, %s, %s, '%s')";
+        = "insert ignore into hlhtxc5_dmOfx.PositionsClosed (DMAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, DateClose, Days, Gain, PositionType) values (%s, %s, '%s', '%s', '%s', %s, %s, %s, %s, %s, '%s', '%s', %s, %s, '%s')";
 
     public static final String POSITION_UPDATE_TACTICID
         = "update hlhtxc5_dmOfx.PositionsClosed set TacticId = '%s' where PositionId = '%s'";
