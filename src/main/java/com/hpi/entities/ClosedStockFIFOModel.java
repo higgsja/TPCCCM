@@ -7,10 +7,13 @@ import lombok.*;
 @Getter @Setter
 @Builder
 public class ClosedStockFIFOModel {
-    public static final String INSERT_ALL_VALUES = "insert into hlhtxc5_dmOfx.ClosedStockFIFO (%s) values ";
+    public static final String INSERT_VALUES = "insert into hlhtxc5_dmOfx.ClosedStockFIFO (%s) values ";
 
     public static final String ALL_FIELDS =
         "DMAcctId, JoomlaId, FiTId, TransactionGrp, EquityId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId, GainPct, Complete";
+    
+public static final String STUB_FIELDS =
+        "DMAcctId, JoomlaId, FiTId, TransactionGrp, EquityId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId, GainPct, Complete";
 
     public static final String DEMO_FIELDS =
         "FiTId, TransactionGrp, EquityId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId, GainPct, Complete";
@@ -50,7 +53,7 @@ public class ClosedStockFIFOModel {
         sb.append("").append(os.getFees()).append(",");
         sb.append("").append(os.getTransLoad()).append(",");
         sb.append("").append(os.getTotalOpen()).append(",");
-        sb.append("").append(os.getTotalClose()).append(",");
+//        sb.append("").append(os.getTotalClose()).append(",");
         sb.append("").append(os.getCurSym() == null ? null : os.getCurSym()).append(",");
         sb.append("'").append(os.getSubAcctSec()).append("',");
         sb.append("'").append(os.getSubAcctFund()).append("',");

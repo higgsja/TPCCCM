@@ -27,7 +27,8 @@ public class StockController
     //*** Singleton
     private static StockController instance;
 
-    static {
+    static
+    {
 
     }
 
@@ -50,7 +51,8 @@ public class StockController
 
     public synchronized static StockController getInstance()
     {
-        if (StockController.instance == null) {
+        if (StockController.instance == null)
+        {
             StockController.instance
                 = new StockController();
         }
@@ -80,21 +82,21 @@ public class StockController
         this.getAccounts();
 
         // Iterate through the accounts
-        for (Account account : this.accountList) {
+        for (Account account : this.accountList)
+        {
             System.out.println("      Processing account: " + account.getClientAcctName());
 
             // get unique list of equityId from OpeningStockModel
             this.getDistinctEquityId(account.getDmAcctId());
 
             // iterate through equityId
-            for (String equityId : this.equityIdList) {
+            for (String equityId : this.equityIdList)
+            {
                 // get opening list
-                getAcctOpeningStock(account.getDmAcctId(),
-                    equityId);
+                getAcctOpeningStock(account.getDmAcctId(), equityId);
 
                 // get closing list
-                getAcctClosingStock(account.getDmAcctId(),
-                    equityId);
+                getAcctClosingStock(account.getDmAcctId(), equityId);
 
                 processFIFOStockLots();
 
@@ -122,11 +124,13 @@ public class StockController
             this.userId);
 
         try (Connection con = CMDBController.getConnection();
-            PreparedStatement pStmt = con.prepareStatement(sql)) {
+            PreparedStatement pStmt = con.prepareStatement(sql))
+        {
             con.clearWarnings();
             rs = pStmt.executeQuery();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 accountTemp = new Account(
                     rs.getInt("DMAcctId"),
                     rs.getInt("BrokerId"),
@@ -139,7 +143,8 @@ public class StockController
                 this.accountList.add(accountTemp);
             }
             rs.close();
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new CMDAOException(CMLanguageController.
                 getDBErrorProp("Title"),
                 Thread.currentThread()
@@ -177,17 +182,20 @@ public class StockController
             this.userId);
 
         try (Connection con = CMDBController.getConnection();
-            PreparedStatement pStmt = con.prepareStatement(sql)) {
+            PreparedStatement pStmt = con.prepareStatement(sql))
+        {
 
             con.clearWarnings();
             rs = pStmt.executeQuery();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 this.equityIdList.add(rs.getString("EquityId"));
             }
 
             rs.close();
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new CMDAOException(CMLanguageController.
                 getDBErrorProp("Title"),
                 Thread.currentThread()
@@ -224,9 +232,11 @@ public class StockController
                     account,
                     equityId,
                     this.userId));
-            ResultSet rs = pStmt.executeQuery()) {
+            ResultSet rs = pStmt.executeQuery())
+        {
 
-            while (rs.next()) {
+            while (rs.next())
+            {
 
                 osTemp = OpeningStockModel.builder()
                     .dmAcctId(rs.getInt("DMAcctId"))
@@ -260,7 +270,8 @@ public class StockController
             }
 
 //            rs.close();
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new CMDAOException(CMLanguageController.
                 getDBErrorProp("Title"),
                 Thread.currentThread()
@@ -292,9 +303,11 @@ public class StockController
                     account,
                     equityId,
                     this.userId));
-            ResultSet rs = pStmt.executeQuery();) {
+            ResultSet rs = pStmt.executeQuery();)
+        {
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 csTemp = ClosingStockModel.builder()
                     .dmAcctId(rs.getInt("DMAcctId"))
                     .joomlaId(rs.getInt("JoomlaId"))
@@ -327,7 +340,8 @@ public class StockController
             }
 
             rs.close();
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new CMDAOException(CMLanguageController.
                 getDBErrorProp("Title"),
                 Thread.currentThread()
@@ -348,7 +362,8 @@ public class StockController
         openingStock = 0;
         //todo: do not like using labeled goto
         openingStock:
-        for (OpeningStockModel os : this.stockOpeningList) {
+        for (OpeningStockModel os : this.stockOpeningList)
+        {
 //            this.progressBarCLI.barUpdate(openingStock,
 //                this.stockOpeningList.size(), os.getEquityId());
             openingStock++;
@@ -361,9 +376,11 @@ public class StockController
         }//for (OpeningStockModel os : this.stockOpeningList)
 
         // should be no remaining closing transactions
-        for (ClosingStockModel cs : this.stockClosingList) {
+        for (ClosingStockModel cs : this.stockClosingList)
+        {
             if (!cs.getUnits()
-                .equals(0.0)) {
+                .equals(0.0))
+            {
                 s = String.format(CMLanguageController.getErrorProp(
                     "GeneralError"),
                     "Stock Opening and closing transactions mismatch.\n") + cs.getEquityId() + "\n" + cs
@@ -400,24 +417,29 @@ public class StockController
         String sql;
 
 //        closingStock:
-        for (ClosingStockModel cs : this.stockClosingList) {
+        for (ClosingStockModel cs : this.stockClosingList)
+        {
 
-            if (cs.getUnits() == 0) {
+            if (cs.getUnits() == 0)
+            {
                 // no units left in this closing
                 continue;
             }
 
-            if (os.getUnits() == 0.0) {
+            if (os.getUnits() == 0.0)
+            {
                 // opening has been completely covered
                 break;
             }
 
             // type of openingStock matters
-            switch (StockTransactionTypeEnum.valueOf(os.getTransactionType())) {
+            switch (StockTransactionTypeEnum.valueOf(os.getTransactionType()))
+            {
                 case BUY:
                     // only look at sell
                     if (StockTransactionTypeEnum.valueOf(cs.getTransactionType())
-                        != StockTransactionTypeEnum.SELL) {
+                        != StockTransactionTypeEnum.SELL)
+                    {
                         continue;
                     }
                     break;
@@ -425,7 +447,8 @@ public class StockController
                 case SELLSHORT:
                     // only look at buytocover
                     if (StockTransactionTypeEnum.valueOf(cs.getTransactionType())
-                        != StockTransactionTypeEnum.BUYTOCOVER) {
+                        != StockTransactionTypeEnum.BUYTOCOVER)
+                    {
                         continue;
                     }
                     break;
@@ -439,15 +462,18 @@ public class StockController
             cUnits = Math.abs(cs.getUnits());
             comp = 0;
 
-            if ((oUnits.compareTo(cUnits)) > 0) {
+            if ((oUnits.compareTo(cUnits)) > 0)
+            {
                 comp = 1;
             }
 
-            if ((oUnits.compareTo(cUnits)) < 0) {
+            if ((oUnits.compareTo(cUnits)) < 0)
+            {
                 comp = -1;
             }
 
-            switch (comp) {
+            switch (comp)
+            {
                 case -1:
                     // opening less than closing, need to split closing
                     // alloc is what remains in closing
@@ -463,6 +489,7 @@ public class StockController
                         .ticker(cs.getTicker())
                         .dateOpen(cs.getDateOpen())
                         .dateClose(cs.getDateClose())
+                        .shPerCtrct(cs.getShPerCtrct())
                         .units(cs.getUnits() * (1.0 - alloc))
                         .priceOpen(cs.getPriceOpen())
                         .priceClose(cs.getPriceClose())
@@ -488,12 +515,14 @@ public class StockController
 
                     // closing gets reduced
                     cs.setUnits(cs.getUnits() + os.getUnits());
+
                     // opening gets reduced
                     os.setUnits(0.0);
-                    cs.setCommission(cs.getCommission() * alloc);
-                    cs.setTaxes(cs.getTaxes() * alloc);
-                    cs.setFees(cs.getFees() * alloc);
-                    cs.setTransLoad(cs.getTransLoad() * alloc);
+
+                    cs.setCommission(cs.getCommission() == null ? null : cs.getCommission() * alloc);
+                    cs.setTaxes(cs.getTaxes() == null ? null : cs.getTaxes() * alloc);
+                    cs.setFees(cs.getFees() == null ? null : cs.getFees() * alloc);
+                    cs.setTransLoad(cs.getTransLoad() == null ? null : cs.getTransLoad() * alloc);
                     cs.setTotalClose(cs.getTotalClose() * alloc);
                     break;
                 case 0:
@@ -510,6 +539,7 @@ public class StockController
                         .units(cs.getUnits())
                         .priceOpen(cs.getPriceOpen())
                         .priceClose(cs.getPriceClose())
+                        .shPerCtrct(cs.getShPerCtrct())
                         .markUpDn(cs.getMarkUpDn())
                         .commission(cs.getCommission())
                         .taxes(cs.getTaxes())
@@ -531,6 +561,7 @@ public class StockController
 
                     // closing gets reduced
                     cs.setUnits(cs.getUnits() + os.getUnits());
+
                     // opening gets reduced
                     os.setUnits(0.0);
                     break;
@@ -552,6 +583,7 @@ public class StockController
                         .units(cs.getUnits())
                         .priceOpen(cs.getPriceOpen())
                         .priceClose(cs.getPriceClose())
+                        .shPerCtrct(cs.getShPerCtrct())
                         .markUpDn(cs.getMarkUpDn())
                         .commission(cs.getCommission())
                         .taxes(cs.getTaxes())
@@ -573,12 +605,14 @@ public class StockController
 
                     // opening gets reduced
                     os.setUnits(cs.getUnits() + os.getUnits());
+
                     // closing gets reduced
                     cs.setUnits(0.0);
-                    os.setCommission(cs.getCommission() * alloc);
-                    os.setTaxes(cs.getTaxes() * alloc);
-                    os.setFees(cs.getFees() * alloc);
-                    os.setTransLoad(cs.getTransLoad() * alloc);
+
+                    os.setCommission(cs.getCommission() == null ? null : cs.getCommission() * alloc);
+                    os.setTaxes(cs.getTaxes() == null ? null : cs.getTaxes() * alloc);
+                    os.setFees(cs.getFees() == null ? null : cs.getFees() * alloc);
+                    os.setTransLoad(cs.getTransLoad() == null ? null : cs.getTransLoad() * alloc);
                     os.setTotalOpen(os.getTotalOpen() * alloc);
                     break;
                 default:
@@ -601,7 +635,8 @@ public class StockController
             os.getJoomlaId(),
             os.getFiTId()));
 
-        if (os.getUnits() != 0) {
+        if (os.getUnits() != 0)
+        {
             // there is a remaining open position
             // add to stockOpenList
             osTemp = OpeningStockModel.builder()
@@ -612,6 +647,7 @@ public class StockController
                 .ticker(os.getTicker())
                 .dateOpen(os.getDateOpen())
                 .dateClose(os.getDateClose())
+                .shPerCtrct(os.getShPerCtrct())
                 .units(os.getUnits())
                 .priceOpen(os.getPriceOpen())
                 .priceClose(os.getPriceClose())
@@ -661,12 +697,13 @@ public class StockController
         updateTotalClose = 0.0;
 
         // no closing transactions
-        if (!this.stockClosedTransList.isEmpty()) {
+        if (!this.stockClosedTransList.isEmpty())
+        {
             // there were closing transactions
             // create object for ClosedStockFIFOModel, get ClosedGrp id
             // erase os.units always 0 here
-            sql = String.format(ClosedStockFIFOModel.INSERT_ALL_VALUES,
-                ClosedStockFIFOModel.ALL_FIELDS)
+            sql = String.format(ClosedStockFIFOModel.INSERT_VALUES,
+                ClosedStockFIFOModel.STUB_FIELDS)
                 + ClosedStockFIFOModel.insertAll(os,
                     this.userId);
 
@@ -674,11 +711,12 @@ public class StockController
 
             // add stockClosedTransList to ClosedStockTransModel
             updateCloseDate = null;
-            for (ClosingStockModel cs : this.stockClosedTransList) {
+            for (ClosingStockModel cs : this.stockClosedTransList)
+            {
                 //every transList should have the same date
                 updateCloseDate = cs.getDateClose();
 
-                sql = String.format(ClosedStockTransModel.INSERT_ALL_VALUES,
+                sql = String.format(ClosedStockTransModel.INSERT_VALUES,
                     ClosedStockTransModel.ALL_FIELDS)
                     + ClosedStockTransModel.insertAll(os,
                         cs,
@@ -688,19 +726,37 @@ public class StockController
                 CMDBController.executeSQL(sql);
 
                 updateUnits += cs.getUnits();
-                updateCommission += cs.getCommission();
-                updateTaxes += cs.getTaxes();
-                updateFees += cs.getFees();
-                updateTransLoad += cs.getTransLoad();
+                if (cs.getCommission() != null)
+                {
+                    updateCommission += cs.getCommission();
+                }
+
+                if (cs.getTaxes() != null)
+                {
+                    updateTaxes += cs.getTaxes();
+                }
+
+                if (cs.getFees() != null)
+                {
+                    updateFees += cs.getFees();
+                }
+
+                if (cs.getTransLoad() != null)
+                {
+                    updateTransLoad += cs.getTransLoad();
+                }
+
                 updateTotalClose += cs.getTotalClose();
             }
 
             // strange situation where updateUnits = 0
             //todo: actually put good data into the elements rather than this
             //or remove the row from ClosedStockFIFOModel
-            if (updateUnits.equals(0.0)) {
+            if (updateUnits.equals(0.0))
+            {
                 updateUnitPriceClose = 0.0;
-            } else {
+            } else
+            {
                 updateUnitPriceClose = Math.abs(Math.round(
                     (updateTotalClose + updateCommission + updateTaxes + updateFees + updateTransLoad) * 10000)
                     / (updateUnits * 10000));
@@ -713,6 +769,7 @@ public class StockController
                 + " , Taxes = " + Double.toString(updateTaxes)
                 + " , Fees = " + Double.toString(updateFees)
                 + " , TransLoad = " + Double.toString(updateTransLoad)
+                + " , TotalOpen = " + Double.toString(os.getPriceOpen() * updateUnits)
                 + " , TotalClose = " + Double.toString(updateTotalClose)
                 + " , PriceClose = " + Double.toString(updateUnitPriceClose)
                 + " , DateClose = " + "'" + updateCloseDate + "'"
@@ -729,11 +786,13 @@ public class StockController
     {
         String sSQL;
 
-        if (!this.stockOpenList.isEmpty()) {
+        if (!this.stockOpenList.isEmpty())
+        {
             // there are open positions
             // stockOpen -> OpenStockFIFO
 
-            for (OpeningStockModel os : this.stockOpenList) {
+            for (OpeningStockModel os : this.stockOpenList)
+            {
                 sSQL = String.format(OpenStockFIFOModel.INSERT_ALL_VALUES,
                     OpenStockFIFOModel.ALL_FIELDS);
                 sSQL += " " + OpenStockFIFOModel.insertAll(os,
