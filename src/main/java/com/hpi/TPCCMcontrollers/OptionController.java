@@ -9,7 +9,10 @@ import java.util.*;
 import javax.swing.*;
 import lombok.*;
 
-public class OptionController {
+@Getter @Setter
+public class OptionController
+{
+
     private ArrayList<Account> accountList;
     private ArrayList<String> equityIdList;
     private ArrayList<OpeningOptionModel> optionOpeningBuyList;
@@ -19,37 +22,25 @@ public class OptionController {
     private ArrayList<ClosingOptionModel> optionClosedList;
     private ArrayList<ClosingOptionModel> optionClosedTransList;
     private ArrayList<OpeningOptionModel> optionOpenList;
-    @Setter private Integer userId;
+    private Integer userId;
 
     private final CMProgressBarCLI progressBarCLI;
 
     //*** Singleton
     private static OptionController instance;
 
-    static {
+    static
+    {
     }
 
-    protected OptionController() {
+    protected OptionController()
+    {
         // protected prevents instantiation outside of package 
         this.userId = CMDBModel.getUserId();
+
         //force a progress bar
         this.progressBarCLI = new CMProgressBarCLI("true");
-    }
 
-    public synchronized static OptionController getInstance() {
-        if (OptionController.instance == null) {
-            OptionController.instance =
-                new OptionController();
-        }
-        return OptionController.instance;
-    }
-    //***
-
-    void initCustom() {
-
-    }
-
-    public void processFIFOOptionLotsAccounts() {
         this.accountList = new ArrayList<>();
         this.equityIdList = new ArrayList<>();
         this.optionOpeningBuyList = new ArrayList<>();
@@ -59,25 +50,58 @@ public class OptionController {
         this.optionClosedList = new ArrayList<>();
         this.optionClosedTransList = new ArrayList<>();
         this.optionOpenList = new ArrayList<>();
+    }
+
+    public synchronized static OptionController getInstance()
+    {
+        if (OptionController.instance == null)
+        {
+            OptionController.instance
+                = new OptionController();
+        }
+        return OptionController.instance;
+    }
+    //***
+
+    void initCustom()
+    {
+
+    }
+
+    public void processFIFOOptionLotsAccounts()
+    {
+//        this.accountList = new ArrayList<>();
+//        this.equityIdList = new ArrayList<>();
+//        this.optionOpeningBuyList = new ArrayList<>();
+//        this.optionClosingSellList = new ArrayList<>();
+//        this.optionOpeningSellList = new ArrayList<>();
+//        this.optionClosingBuyList = new ArrayList<>();
+//        this.optionClosedList = new ArrayList<>();
+//        this.optionClosedTransList = new ArrayList<>();
+//        this.optionOpenList = new ArrayList<>();
 
         // query Accounts for list of DMAcctId
         this.getAccounts();
 
         // Iterate through the accounts
-        for (Account account : this.accountList) {
+        for (Account account : this.accountList)
+        {
             System.out.println("      Processing account: " + account.getClientAcctName());
 
             // get unique list of equityId from OpeningOptions
             this.getDistinctEquityId(account.getDmAcctId());
 
             // iterate through equityId
-            for (String equityId : this.equityIdList) {
+            for (String equityId : this.equityIdList)
+            {
                 //iterate the transaction types
-                for (OptionTransactionTypeEnum tte : OptionTransactionTypeEnum.values()) {
-                    if (tte.toString().contains("open")) {
+                for (OptionTransactionTypeEnum tte : OptionTransactionTypeEnum.values())
+                {
+                    if (tte.toString().contains("open"))
+                    {
                         this.getAcctOptionsOpen(account.getDmAcctId(), equityId, tte.toString());
-                    }
-                    else {
+                    } else
+                    {
                         this.getAcctOptionsClose(account.getDmAcctId(), equityId, tte.toString());
                     }
                 }
@@ -103,22 +127,25 @@ public class OptionController {
         }
     }
 
-    void getAccounts() {
+    void getAccounts()
+    {
         String sql;
         ResultSet rs;
         Account accountTemp;
 
-        sql =
-            "select Accounts.DMAcctId, BrokerId, AcctId, Org, FId, InvAcctIdFi, ClientAcctName from hlhtxc5_dmOfx.Accounts, hlhtxc5_dmOfx.ClientAccts where Accounts.DMAcctId = ClientAccts.DMAcctId and ClientAccts.Active = 'Yes' and ClientAccts.JoomlaId = '%s';";
+        sql
+            = "select Accounts.DMAcctId, BrokerId, AcctId, Org, FId, InvAcctIdFi, ClientAcctName from hlhtxc5_dmOfx.Accounts, hlhtxc5_dmOfx.ClientAccts where Accounts.DMAcctId = ClientAccts.DMAcctId and ClientAccts.Active = 'Yes' and ClientAccts.JoomlaId = '%s';";
 
         sql = String.format(sql, this.userId);
 
         try (Connection con = CMDBController.getConnection();
-             PreparedStatement pStmt = con.prepareStatement(sql)) {
+            PreparedStatement pStmt = con.prepareStatement(sql))
+        {
             con.clearWarnings();
             rs = pStmt.executeQuery();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 accountTemp = new Account(
                     rs.getInt("DMAcctId"),
                     rs.getInt("BrokerId"),
@@ -132,8 +159,8 @@ public class OptionController {
             }
 
             rs.close();
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new CMDAOException(CMLanguageController.
                 getDBErrorProp("Title"),
                 Thread.currentThread().getStackTrace()[1].getClassName(),
@@ -142,12 +169,13 @@ public class OptionController {
         }
     }
 
-    public void getDistinctEquityId(Integer account) {
+    public void getDistinctEquityId(Integer account)
+    {
         ResultSet rs;
         String sql;
 
-        sql =
-            "select distinct A.EquityId from (select distinct EquityId from hlhtxc5_dmOfx.OpeningOptions where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select distinct EquityId from hlhtxc5_dmOfx.ClientOpeningOptions where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select distinct EquityId from hlhtxc5_dmOfx.ClosingOptions where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select distinct EquityId from hlhtxc5_dmOfx.ClientClosingOptions where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0)) as A  order by EquityId;";
+        sql
+            = "select distinct A.EquityId from (select distinct EquityId from hlhtxc5_dmOfx.OpeningOptions where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select distinct EquityId from hlhtxc5_dmOfx.ClientOpeningOptions where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select distinct EquityId from hlhtxc5_dmOfx.ClosingOptions where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select distinct EquityId from hlhtxc5_dmOfx.ClientClosingOptions where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0)) as A  order by EquityId;";
         sql = String.format(sql,
             account, this.userId,
             account, this.userId,
@@ -155,18 +183,20 @@ public class OptionController {
             account, this.userId);
 
         try (Connection con = CMDBController.getConnection();
-             PreparedStatement pStmt = con.prepareStatement(sql)) {
+            PreparedStatement pStmt = con.prepareStatement(sql))
+        {
 
             con.clearWarnings();
             rs = pStmt.executeQuery();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 this.equityIdList.add(rs.getString("EquityId"));
             }
 
             rs.close();
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new CMDAOException(CMLanguageController.
                 getDBErrorProp("Title"),
                 Thread.currentThread().getStackTrace()[1].getClassName(),
@@ -184,7 +214,8 @@ public class OptionController {
      */
     public void getAcctOptionsOpen(
         Integer account, String equityId,
-        String optTransType) {
+        String optTransType)
+    {
         String sqlOpen;
         OpeningOptionModel ooTemp;
 
@@ -193,10 +224,12 @@ public class OptionController {
             account, equityId, optTransType, this.userId);
 
         try (Connection con = CMDBController.getConnection();
-             PreparedStatement pStmtOpen = con.prepareStatement(sqlOpen);
-             ResultSet rs = pStmtOpen.executeQuery();) {
+            PreparedStatement pStmtOpen = con.prepareStatement(sqlOpen);
+            ResultSet rs = pStmtOpen.executeQuery();)
+        {
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 ooTemp = OpeningOptionModel.builder()
                     .dmAcctId(rs.getInt("DMAcctId"))
                     .joomlaId(rs.getInt("JoomlaId"))
@@ -231,7 +264,8 @@ public class OptionController {
                     .strikePrice(rs.getDouble("StrikePrice"))
                     .build();
 
-                switch (optTransType) {
+                switch (optTransType)
+                {
                     case "buytoopen":
                         this.optionOpeningBuyList.add(ooTemp);
                         break;
@@ -241,8 +275,8 @@ public class OptionController {
                     default:
                 }
             }
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new CMDAOException(CMLanguageController.
                 getDBErrorProp("Title"),
                 Thread.currentThread().getStackTrace()[1].getClassName(),
@@ -260,7 +294,8 @@ public class OptionController {
      */
     public void getAcctOptionsClose(
         Integer account, String equityId,
-        String optTransType) {
+        String optTransType)
+    {
         ResultSet rs;
         String sqlClose;
         ClosingOptionModel coTemp;
@@ -272,11 +307,14 @@ public class OptionController {
             account, equityId, optTransType, this.userId);
 
         try (Connection con = CMDBController.getConnection();
-             PreparedStatement pStmtClose = con.prepareStatement(sqlClose);) {
+            PreparedStatement pStmtClose = con.prepareStatement(sqlClose);)
+        {
 
-            if (optTransType.equalsIgnoreCase("BUYTOCLOSE") || optTransType.equalsIgnoreCase("SELLTOCLOSE")) {
+            if (optTransType.equalsIgnoreCase("BUYTOCLOSE") || optTransType.equalsIgnoreCase("SELLTOCLOSE"))
+            {
                 rs = pStmtClose.executeQuery();
-                while (rs.next()) {
+                while (rs.next())
+                {
                     coTemp = ClosingOptionModel.builder()
                         .dmAcctId(rs.getInt("DMAcctId"))
                         .joomlaId(rs.getInt("JoomlaId"))
@@ -311,7 +349,8 @@ public class OptionController {
                         .strikePrice(rs.getDouble("StrikePrice"))
                         .build();
 
-                    switch (optTransType) {
+                    switch (optTransType)
+                    {
                         case "buytoclose":
                             this.optionClosingBuyList.add(coTemp);
                             break;
@@ -323,11 +362,12 @@ public class OptionController {
                 }
             }
 
-            if (rs != null) {
+            if (rs != null)
+            {
                 rs.close();
             }
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             throw new CMDAOException(CMLanguageController.
                 getDBErrorProp("Title"),
                 Thread.currentThread().getStackTrace()[1].getClassName(),
@@ -336,14 +376,16 @@ public class OptionController {
         }
     }
 
-    private void processFIFOOptionLotsBuyToOpen() {
+    public void processFIFOOptionLotsBuyToOpen()
+    {
         String s;
         Integer openingOption;
 
         // iterate through all OpeningBuy of one EquityId
         openingOption = 0;
-        openingOption:
-        for (OpeningOptionModel oo : this.optionOpeningBuyList) {
+//        openingOption:
+        for (OpeningOptionModel oo : this.optionOpeningBuyList)
+        {
 //            this.progressBarCLI.barUpdate(openingOption,
 //                this.optionOpeningBuyList.size(), oo.getEquityId());
             openingOption++;
@@ -356,12 +398,14 @@ public class OptionController {
         }//for (OpeningOptionModel os : this.optionOpeningList)
 
         // should be no remaining closing transactions
-        for (ClosingOptionModel co : this.optionClosingSellList) {
-            if (!co.getUnits().equals(0.0)) {
+        for (ClosingOptionModel co : this.optionClosingSellList)
+        {
+            if (!co.getUnits().equals(0.0))
+            {
                 s = String.format(CMLanguageController.
                     getErrorProp("GeneralError"),
                     "Option Opening and closing transactions mismatch.\n") + "EquityId: " + co.getEquityId() + "  "
-                        + "FiTId: " + co.getFiTId() + "  " + "Units Left: " + co.getUnits();
+                    + "FiTId: " + co.getFiTId() + "  " + "Units Left: " + co.getUnits();
 
                 CMHPIUtils.showDefaultMsg(
                     CMLanguageController.getAppProp("Title") + CMLanguageController.getErrorProp("Title"),
@@ -378,14 +422,16 @@ public class OptionController {
         this.doOptionOpenList();
     }
 
-    private void processFIFOOptionLotsSellToOpen() {
+    public void processFIFOOptionLotsSellToOpen()
+    {
         String s;
         Integer openingOption;
 
         // iterate through all OpeningSell of one EquityId
         openingOption = 0;
-        openingOption:
-        for (OpeningOptionModel oo : this.optionOpeningSellList) {
+//        openingOption:
+        for (OpeningOptionModel oo : this.optionOpeningSellList)
+        {
 //            this.progressBarCLI.barUpdate(openingOption,
 //                this.optionOpeningSellList.size(), oo.getEquityId());
             openingOption++;
@@ -398,12 +444,14 @@ public class OptionController {
         }//for (OpeningOptionModel os : this.optionOpeningList)
 
         // should be no remaining closing transactions
-        for (ClosingOptionModel co : this.optionClosingSellList) {
-            if (!co.getUnits().equals(0.0)) {
+        for (ClosingOptionModel co : this.optionClosingSellList)
+        {
+            if (!co.getUnits().equals(0.0))
+            {
                 s = String.format(CMLanguageController.
                     getErrorProp("GeneralError"),
                     "Option Opening and closing transactions mismatch.\n") + "EquityId: " + co.getEquityId() + "  "
-                        + "FiTId: " + co.getFiTId() + "  " + "Units Left: " + co.getUnits();
+                    + "FiTId: " + co.getFiTId() + "  " + "Units Left: " + co.getUnits();
 
                 CMHPIUtils.showDefaultMsg(
                     CMLanguageController.getAppProp("Title") + CMLanguageController.getErrorProp("Title"),
@@ -423,7 +471,8 @@ public class OptionController {
     /*
      * Given an opening option, iterate closing op
      */
-    private void doOptionClosingSellList(OpeningOptionModel oo) {
+    private void doOptionClosingSellList(OpeningOptionModel oo)
+    {
         int comp;
         Double oUnits;
         Double cUnits;
@@ -432,14 +481,17 @@ public class OptionController {
         ClosingOptionModel coTemp;
         String sql;
 
-        for (ClosingOptionModel co : this.optionClosingSellList) {
+        for (ClosingOptionModel co : this.optionClosingSellList)
+        {
 
-            if (co.getUnits() == 0.0) {
+            if (co.getUnits() == 0.0)
+            {
                 // no units left in this closing
                 continue;
             }
 
-            if (oo.getUnits() == 0.0) {
+            if (oo.getUnits() == 0.0)
+            {
                 // opening has been completely covered
                 break; // closingOption;
             }
@@ -448,15 +500,18 @@ public class OptionController {
             cUnits = Math.abs(co.getUnits());
             comp = 0;
 
-            if ((oUnits.compareTo(cUnits)) > 0) {
+            if ((oUnits.compareTo(cUnits)) > 0)
+            {
                 comp = 1;
             }
 
-            if ((oUnits.compareTo(cUnits)) < 0) {
+            if ((oUnits.compareTo(cUnits)) < 0)
+            {
                 comp = -1;
             }
 
-            switch (comp) {
+            switch (comp)
+            {
                 case -1:
                     // opening less than closing, need to split closing
                     // alloc is what remains in closing
@@ -499,51 +554,18 @@ public class OptionController {
                         .strikePrice(co.getStrikePrice())
                         .build();
 
-//                    coTemp = new ClosingOptionModel(
-//                        co.getDmAcctId(),
-//                        co.getJoomlaId(),
-//                        co.getFiTId(),
-//                        co.getSecId(),
-//                        co.getEquityId(),
-//                        co.getTicker(),
-//                        co.getOptType(),
-//                        co.getStrikePrice(),
-//                        co.getDtExpire(),
-//                        co.getGmtDtTrade(),
-//                        co.getGmtDtSettle(),
-//                        co.getShPerCtrct(),
-//                        co.getUnits() * (1.0 - alloc),
-//                        co.getUnitPrice(),
-//                        co.getMarkUpDn(),
-//                        co.getCommission() * (1.0 - alloc),
-//                        co.getTaxes() * (1.0 - alloc),
-//                        co.getFees() * (1.0 - alloc),
-//                        co.getTransLoad() * (1.0 - alloc),
-//                        co.getTotal() * (1.0 - alloc),
-//                        co.getCurSym(),
-//                        co.getSubAcctSec(),
-//                        co.getSubAcctFund(),
-//                        co.getOptTransType(),
-//                        co.getReversalFiTId(),
-//                        co.getRelFiTId(),
-//                        co.getRelType(),
-//                        co.getSecured(),
-//                        co.getClosingOpen(),
-//                        co.getClosingHigh(),
-//                        co.getClosingLow(),
-//                        co.getClosingClose(),
-//                        co.getTransType(),
-//                        co.getComment());
                     this.optionClosedTransList.add(coTemp);
 
                     // closing gets reduced
                     co.setUnits(co.getUnits() + oo.getUnits());
+
                     // opening gets reduced
                     oo.setUnits(0.0);
-                    co.setCommission(co.getCommission() * alloc);
-                    co.setTaxes(co.getTaxes() * alloc);
-                    co.setFees(co.getFees() * alloc);
-                    co.setTransLoad(co.getTransLoad() * alloc);
+
+                    co.setCommission(co.getCommission() == null ? null : co.getCommission() * alloc);
+                    co.setTaxes(co.getTaxes() == null ? null : co.getTaxes() * alloc);
+                    co.setFees(co.getFees() == null ? null : co.getFees() * alloc);
+                    co.setTransLoad(co.getTransLoad() == null ? null : co.getTransLoad() * alloc);
                     co.setTotalClose(co.getTotalClose() * alloc);
                     break;
                 case 0:
@@ -582,46 +604,12 @@ public class OptionController {
                         .transactionType(co.getTransactionType())
                         .strikePrice(co.getStrikePrice())
                         .build();
-//                    coTemp = new ClosingOptionModel(
-//                        co.getDmAcctId(),
-//                        co.getJoomlaId(),
-//                        co.getFiTId(),
-//                        co.getSecId(),
-//                        co.getEquityId(),
-//                        co.getTicker(),
-//                        co.getOptType(),
-//                        co.getStrikePrice(),
-//                        co.getDtExpire(),
-//                        co.getGmtDtTrade(),
-//                        co.getGmtDtSettle(),
-//                        co.getShPerCtrct(),
-//                        co.getUnits(),
-//                        co.getUnitPrice(),
-//                        co.getMarkUpDn(),
-//                        co.getCommission(),
-//                        co.getTaxes(),
-//                        co.getFees(),
-//                        co.getTransLoad(),
-//                        co.getTotal(),
-//                        co.getCurSym(),
-//                        co.getSubAcctSec(),
-//                        co.getSubAcctFund(),
-//                        co.getOptTransType(),
-//                        co.getReversalFiTId(),
-//                        co.getRelFiTId(),
-//                        co.getRelType(),
-//                        co.getSecured(),
-//                        co.getClosingOpen(),
-//                        co.getClosingHigh(),
-//                        co.getClosingLow(),
-//                        co.getClosingClose(),
-//                        co.getTransType(),
-//                        co.getComment());
 
                     this.optionClosedTransList.add(coTemp);
 
                     // closing gets reduced
                     co.setUnits(co.getUnits() + oo.getUnits());
+
                     // opening gets reduced
                     oo.setUnits(0.0);
                     break;
@@ -665,52 +653,19 @@ public class OptionController {
                         .transactionType(co.getTransactionType())
                         .strikePrice(co.getStrikePrice())
                         .build();
-//                    coTemp = new ClosingOptionModel(
-//                        co.getDmAcctId(),
-//                        co.getJoomlaId(),
-//                        co.getFiTId(),
-//                        co.getSecId(),
-//                        co.getEquityId(),
-//                        co.getTicker(),
-//                        co.getOptType(),
-//                        co.getStrikePrice(),
-//                        co.getDtExpire(),
-//                        co.getGmtDtTrade(),
-//                        co.getGmtDtSettle(),
-//                        co.getShPerCtrct(),
-//                        co.getUnits(),
-//                        co.getUnitPrice(),
-//                        co.getMarkUpDn(),
-//                        co.getCommission(),
-//                        co.getTaxes(),
-//                        co.getFees(),
-//                        co.getTransLoad(),
-//                        co.getTotal(),
-//                        co.getCurSym(),
-//                        co.getSubAcctSec(),
-//                        co.getSubAcctFund(),
-//                        co.getOptTransType(),
-//                        co.getReversalFiTId(),
-//                        co.getRelFiTId(),
-//                        co.getRelType(),
-//                        co.getSecured(),
-//                        co.getClosingOpen(),
-//                        co.getClosingHigh(),
-//                        co.getClosingLow(),
-//                        co.getClosingClose(),
-//                        co.getTransType(),
-//                        co.getComment());
 
                     this.optionClosedTransList.add(coTemp);
 
                     // opening gets reduced
                     oo.setUnits(co.getUnits() + oo.getUnits());
+
                     // closing gets reduced
                     co.setUnits(0.0);
-                    oo.setCommission(co.getCommission() * alloc);
-                    oo.setTaxes(co.getTaxes() * alloc);
-                    oo.setFees(co.getFees() * alloc);
-                    oo.setTransLoad(co.getTransLoad() * alloc);
+
+                    oo.setCommission(co.getCommission() == null ? null : co.getCommission() * alloc);
+                    oo.setTaxes(co.getTaxes() == null ? null : co.getTaxes() * alloc);
+                    oo.setFees(co.getFees() == null ? null : co.getFees() * alloc);
+                    oo.setTransLoad(co.getTransLoad() == null ? null : co.getTransLoad() * alloc);
                     //opening and closing have opposite signs
                     oo.setTotalOpen(oo.getTotalOpen() * alloc);
                     break;
@@ -724,7 +679,8 @@ public class OptionController {
         CMDBController.executeSQL(String.format(OpeningOptionModel.UPDATE_UNITS, oo.getUnits(),
             oo.getDmAcctId(), oo.getJoomlaId(), oo.getFiTId()));
 
-        if (oo.getUnits() > 0) {
+        if (oo.getUnits() > 0)
+        {
             // there is a remaining open position
             // add to optionOpenList
             ooTemp = OpeningOptionModel.builder()
@@ -761,38 +717,6 @@ public class OptionController {
                 .strikePrice(oo.getStrikePrice())
                 .build();
 
-//            ooTemp = new OpeningOptionModel(
-//                oo.getDmAcctId(),
-//                oo.getJoomlaId(),
-//                oo.getFiTId(),
-//                oo.getSecId(),
-//                oo.getEquityId(),
-//                oo.getTicker(),
-//                oo.getOptType(),
-//                oo.getStrikePrice(),
-//                oo.getDtExpire(),
-//                oo.getGmtDtTrade(),
-//                oo.getGmtDtSettle(),
-//                oo.getShPerCtrct(),
-//                oo.getUnits(),
-//                oo.getUnitPrice(),
-//                oo.getMarkUpDn(),
-//                oo.getCommission(),
-//                oo.getTaxes(),
-//                oo.getFees(),
-//                oo.getTransLoad(),
-//                oo.getTotal(),
-//                oo.getCurSym(),
-//                oo.getSubAcctSec(),
-//                oo.getSubAcctFund(),
-//                oo.getOptTransType(),
-//                oo.getReversalFiTId(),
-//                oo.getOpeningOpen(),
-//                oo.getOpeningHigh(),
-//                oo.getOpeningLow(),
-//                oo.getOpeningClose(),
-//                oo.getTransType(),
-//                oo.getComment());
             this.optionOpenList.add(ooTemp);
         }
     }
@@ -800,7 +724,8 @@ public class OptionController {
     /*
      * Given an opening option, iterate closing op
      */
-    private void doOptionClosingBuyList(OpeningOptionModel oo) {
+    private void doOptionClosingBuyList(OpeningOptionModel oo)
+    {
         int comp;
         Double oUnits;
         Double cUnits;
@@ -809,14 +734,17 @@ public class OptionController {
         ClosingOptionModel coTemp;
         String sql;
 
-        for (ClosingOptionModel co : this.optionClosingBuyList) {
+        for (ClosingOptionModel co : this.optionClosingBuyList)
+        {
 
-            if (co.getUnits() == 0.0) {
+            if (co.getUnits() == 0.0)
+            {
                 // no units left in this closing
                 continue;
             }
 
-            if (oo.getUnits() == 0.0) {
+            if (oo.getUnits() == 0.0)
+            {
                 // opening has been completely covered
                 break; // closingOption;
             }
@@ -825,15 +753,18 @@ public class OptionController {
             cUnits = Math.abs(co.getUnits());
             comp = 0;
 
-            if ((oUnits.compareTo(cUnits)) > 0) {
+            if ((oUnits.compareTo(cUnits)) > 0)
+            {
                 comp = 1;
             }
 
-            if ((oUnits.compareTo(cUnits)) < 0) {
+            if ((oUnits.compareTo(cUnits)) < 0)
+            {
                 comp = -1;
             }
 
-            switch (comp) {
+            switch (comp)
+            {
                 case -1:
                     // opening less than closing, need to split closing
                     // alloc is what remains in closing
@@ -876,51 +807,18 @@ public class OptionController {
                         .strikePrice(co.getStrikePrice())
                         .build();
 
-//                    coTemp = new ClosingOptionModel(
-//                        co.getDmAcctId(),
-//                        co.getJoomlaId(),
-//                        co.getFiTId(),
-//                        co.getSecId(),
-//                        co.getEquityId(),
-//                        co.getTicker(),
-//                        co.getOptType(),
-//                        co.getStrikePrice(),
-//                        co.getDtExpire(),
-//                        co.getGmtDtTrade(),
-//                        co.getGmtDtSettle(),
-//                        co.getShPerCtrct(),
-//                        co.getUnits() * (1.0 - alloc),
-//                        co.getUnitPrice(),
-//                        co.getMarkUpDn(),
-//                        co.getCommission() * (1.0 - alloc),
-//                        co.getTaxes() * (1.0 - alloc),
-//                        co.getFees() * (1.0 - alloc),
-//                        co.getTransLoad() * (1.0 - alloc),
-//                        co.getTotal() * (1.0 - alloc),
-//                        co.getCurSym(),
-//                        co.getSubAcctSec(),
-//                        co.getSubAcctFund(),
-//                        co.getOptTransType(),
-//                        co.getReversalFiTId(),
-//                        co.getRelFiTId(),
-//                        co.getRelType(),
-//                        co.getSecured(),
-//                        co.getClosingOpen(),
-//                        co.getClosingHigh(),
-//                        co.getClosingLow(),
-//                        co.getClosingClose(),
-//                        co.getTransType(),
-//                        co.getComment());
                     this.optionClosedTransList.add(coTemp);
 
                     // closing gets reduced
                     co.setUnits(co.getUnits() + oo.getUnits());
+
                     // opening gets reduced
                     oo.setUnits(0.0);
-                    co.setCommission(co.getCommission() * alloc);
-                    co.setTaxes(co.getTaxes() * alloc);
-                    co.setFees(co.getFees() * alloc);
-                    co.setTransLoad(co.getTransLoad() * alloc);
+
+                    co.setCommission(co.getCommission() == null ? null : co.getCommission() * alloc);
+                    co.setTaxes(co.getTaxes() == null ? null : co.getTaxes() * alloc);
+                    co.setFees(co.getFees() == null ? null : co.getFees() * alloc);
+                    co.setTransLoad(co.getTransLoad() == null ? null : co.getTransLoad() * alloc);
                     co.setTotalClose(co.getTotalClose() * alloc);
                     break;
                 case 0:
@@ -960,45 +858,11 @@ public class OptionController {
                         .strikePrice(co.getStrikePrice())
                         .build();
 
-//                    coTemp = new ClosingOptionModel(
-//                        co.getDmAcctId(),
-//                        co.getJoomlaId(),
-//                        co.getFiTId(),
-//                        co.getSecId(),
-//                        co.getEquityId(),
-//                        co.getTicker(),
-//                        co.getOptType(),
-//                        co.getStrikePrice(),
-//                        co.getDtExpire(),
-//                        co.getGmtDtTrade(),
-//                        co.getGmtDtSettle(),
-//                        co.getShPerCtrct(),
-//                        co.getUnits(),
-//                        co.getUnitPrice(),
-//                        co.getMarkUpDn(),
-//                        co.getCommission(),
-//                        co.getTaxes(),
-//                        co.getFees(),
-//                        co.getTransLoad(),
-//                        co.getTotal(),
-//                        co.getCurSym(),
-//                        co.getSubAcctSec(),
-//                        co.getSubAcctFund(),
-//                        co.getOptTransType(),
-//                        co.getReversalFiTId(),
-//                        co.getRelFiTId(),
-//                        co.getRelType(),
-//                        co.getSecured(),
-//                        co.getClosingOpen(),
-//                        co.getClosingHigh(),
-//                        co.getClosingLow(),
-//                        co.getClosingClose(),
-//                        co.getTransType(),
-//                        co.getComment());
                     this.optionClosedTransList.add(coTemp);
 
                     // closing gets reduced
                     co.setUnits(co.getUnits() + oo.getUnits());
+
                     // opening gets reduced
                     oo.setUnits(0.0);
                     break;
@@ -1043,51 +907,18 @@ public class OptionController {
                         .strikePrice(co.getStrikePrice())
                         .build();
 
-//                    coTemp = new ClosingOptionModel(
-//                        co.getDmAcctId(),
-//                        co.getJoomlaId(),
-//                        co.getFiTId(),
-//                        co.getSecId(),
-//                        co.getEquityId(),
-//                        co.getTicker(),
-//                        co.getOptType(),
-//                        co.getStrikePrice(),
-//                        co.getDtExpire(),
-//                        co.getGmtDtTrade(),
-//                        co.getGmtDtSettle(),
-//                        co.getShPerCtrct(),
-//                        co.getUnits(),
-//                        co.getUnitPrice(),
-//                        co.getMarkUpDn(),
-//                        co.getCommission(),
-//                        co.getTaxes(),
-//                        co.getFees(),
-//                        co.getTransLoad(),
-//                        co.getTotal(),
-//                        co.getCurSym(),
-//                        co.getSubAcctSec(),
-//                        co.getSubAcctFund(),
-//                        co.getOptTransType(),
-//                        co.getReversalFiTId(),
-//                        co.getRelFiTId(),
-//                        co.getRelType(),
-//                        co.getSecured(),
-//                        co.getClosingOpen(),
-//                        co.getClosingHigh(),
-//                        co.getClosingLow(),
-//                        co.getClosingClose(),
-//                        co.getTransType(),
-//                        co.getComment());
                     this.optionClosedTransList.add(coTemp);
 
                     // opening gets reduced
                     oo.setUnits(co.getUnits() + oo.getUnits());
+
                     // closing gets reduced
                     co.setUnits(0.0);
-                    oo.setCommission(co.getCommission() * alloc);
-                    oo.setTaxes(co.getTaxes() * alloc);
-                    oo.setFees(co.getFees() * alloc);
-                    oo.setTransLoad(co.getTransLoad() * alloc);
+
+                    oo.setCommission(co.getCommission() == null ? null : co.getCommission() * alloc);
+                    oo.setTaxes(co.getTaxes() == null ? null : co.getTaxes() * alloc);
+                    oo.setFees(co.getFees() == null ? null : co.getFees() * alloc);
+                    oo.setTransLoad(co.getTransLoad() == null ? null : co.getTransLoad() * alloc);
                     //opening and closing have opposite signs
                     oo.setTotalOpen(oo.getTotalOpen() * alloc);
                     break;
@@ -1105,7 +936,8 @@ public class OptionController {
         CMDBController.executeSQL(String.format(OpeningOptionModel.UPDATE_UNITS, oo.getUnits(),
             oo.getDmAcctId(), oo.getJoomlaId(), oo.getFiTId()));
 
-        if (oo.getUnits() != 0) {
+        if (oo.getUnits() != 0)
+        {
             // there is a remaining open position
             // add to optionOpenList
             ooTemp = OpeningOptionModel.builder()
@@ -1142,38 +974,6 @@ public class OptionController {
                 .strikePrice(oo.getStrikePrice())
                 .build();
 
-//            ooTemp = new OpeningOptionModel(
-//                oo.getDmAcctId(),
-//                oo.getJoomlaId(),
-//                oo.getFiTId(),
-//                oo.getSecId(),
-//                oo.getEquityId(),
-//                oo.getTicker(),
-//                oo.getOptType(),
-//                oo.getStrikePrice(),
-//                oo.getDtExpire(),
-//                oo.getGmtDtTrade(),
-//                oo.getGmtDtSettle(),
-//                oo.getShPerCtrct(),
-//                oo.getUnits(),
-//                oo.getUnitPrice(),
-//                oo.getMarkUpDn(),
-//                oo.getCommission(),
-//                oo.getTaxes(),
-//                oo.getFees(),
-//                oo.getTransLoad(),
-//                oo.getTotal(),
-//                oo.getCurSym(),
-//                oo.getSubAcctSec(),
-//                oo.getSubAcctFund(),
-//                oo.getOptTransType(),
-//                oo.getReversalFiTId(),
-//                oo.getOpeningOpen(),
-//                oo.getOpeningHigh(),
-//                oo.getOpeningLow(),
-//                oo.getOpeningClose(),
-//                oo.getTransType(),
-//                oo.getComment());
             this.optionOpenList.add(ooTemp);
         }
     }
@@ -1181,7 +981,8 @@ public class OptionController {
     /*
      * pair the opening to closing and write to the database
      */
-    void doOptionClosedTransListSQL(OpeningOptionModel oo) {
+    void doOptionClosedTransListSQL(OpeningOptionModel oo)
+    {
         String sSQL;
         Integer rowIndex;
         Double updateUnits;
@@ -1203,7 +1004,8 @@ public class OptionController {
         updateShPerCtrct = 0;
         updateCloseDate = null;
 
-        if (!this.optionClosedTransList.isEmpty()) {
+        if (!this.optionClosedTransList.isEmpty())
+        {
             //closing transactions available
 
             // put this opening transaction into ClosedOptionFIFOModel
@@ -1229,9 +1031,11 @@ public class OptionController {
             sSQL += ", '";
             sSQL += oo.getDateOpen();
             sSQL += "', ";
-            if (oo.getDateClose() == null){
+            if (oo.getDateClose() == null)
+            {
                 sSQL += "null, '";
-            }else{
+            } else
+            {
                 sSQL += "'" + oo.getDateClose() + "', '";
             }
             sSQL += oo.getDateExpire();
@@ -1258,9 +1062,11 @@ public class OptionController {
             sSQL += ", ";
             sSQL += oo.getTotalClose(); //openingOptions.TotalClose is null
             sSQL += ", ";
-            if (oo.getCurSym() == null){
+            if (oo.getCurSym() == null)
+            {
                 sSQL += "null, '";
-            }else{
+            } else
+            {
                 sSQL += "'" + oo.getCurSym() + "', '";
             }
             sSQL += oo.getTransactionType();
@@ -1274,7 +1080,8 @@ public class OptionController {
             //  even if a group of 1
 //            sSQL1 =
 //                "insert into hlhtxc5_dmOfx.ClosedOptionTrans (DMAcctId, JoomlaId, FiTIdOpening, ClosedGrp, FiTIdClosing, SecId, EquityId, TransactionName, Ticker, OptType, StrikePrice, DtExpire, GMTDtTrade, GMTDtSettle, ShPerCtrct, Units, UnitPrice, MarkUpDn, Commission, Taxes, Fees, TransLoad, Total, CurSym, SubAcctSec, SubAcctFund, OptTransType, ReversalFiTId) values (";
-            for (ClosingOptionModel co : this.optionClosedTransList) {
+            for (ClosingOptionModel co : this.optionClosedTransList)
+            {
                 sSQL = String.format(ClosedOptionTrans.INSERT_ALL_VALUES, ClosedOptionTrans.ALL_FIELDS);
                 sSQL += oo.getDmAcctId();
                 sSQL += ", '";
@@ -1296,14 +1103,18 @@ public class OptionController {
                 sSQL += "', ";
                 sSQL += co.getStrikePrice();
                 sSQL += ", ";
-                if (co.getDateOpen() == null){
+                if (co.getDateOpen() == null)
+                {
                     sSQL += "null, '";
-                }else{
+                } else
+                {
                     sSQL += co.getDateOpen() + "', '";
                 }
-                if (co.getDateClose() == null){
+                if (co.getDateClose() == null)
+                {
                     sSQL += "null, '";
-                }else{
+                } else
+                {
                     sSQL += co.getDateClose() + "', '";
                 }
                 sSQL += co.getDateExpire();
@@ -1347,20 +1158,32 @@ public class OptionController {
                 // todo: seems bogus, but setting units to -x if it is a sell
                 //  transaction
                 if (co.getTransactionType().equalsIgnoreCase("selltoopen")
-                        || co.getTransactionType().equalsIgnoreCase("selltoclose")) {
+                    || co.getTransactionType().equalsIgnoreCase("selltoclose"))
+                {
                     co.setUnits(-1.0 * Math.abs(co.getUnits()));
                 }
 
                 if (co.getTransactionType().equalsIgnoreCase("buytoclose")
-                        || co.getTransactionType().equalsIgnoreCase("buytoopen")) {
+                    || co.getTransactionType().equalsIgnoreCase("buytoopen"))
+                {
                     co.setUnits(Math.abs(co.getUnits()));
                 }
                 updateUnits += co.getUnits();
-                updateCommission += co.getCommission();
-                updateTaxes += co.getTaxes();
-                updateFees += co.getFees();
-                updateTransLoad += co.getTransLoad();
-                updateTotalClose += co.getTotalClose();
+                if (co.getCommission() != null){
+                updateCommission += co.getCommission();}
+                
+                if (co.getTaxes() != null){
+                updateTaxes += co.getTaxes();}
+                
+                if (co.getFees() != null){
+                updateFees += co.getFees();}
+                
+                if (co.getTransLoad() != null){
+                updateTransLoad += co.getTransLoad();}
+                
+                if (co.getTotalClose() != null){
+                updateTotalClose += co.getTotalClose();}
+                
                 updateShPerCtrct = co.getShPerCtrct();
 //                updateCloseDate = co.getDateOpen();
                 updateCloseDate = co.getDateClose();
@@ -1368,13 +1191,19 @@ public class OptionController {
 
             // todo: this may not be right. Unit price should not
             //  include fees, etc.
-            if (updateUnits.equals(0.0)) {
+            //  have to add fees back into totalClose to get gross from which price can be derived
+            if (updateUnits.equals(0.0))
+            {
                 updateUnitPriceClose = 0.0;
-            }
-            else {
+            } else
+            {
+//                updateUnitPriceClose = Math.round(
+//                    (updateTotalClose + updateCommission + updateTaxes + updateFees + updateTransLoad) * 10000)
+//                    / (updateUnits * 10000 * updateShPerCtrct);
+                
                 updateUnitPriceClose = Math.round(
                     (updateTotalClose + updateCommission + updateTaxes + updateFees + updateTransLoad) * 10000)
-                                           / (updateUnits * 10000 * updateShPerCtrct);
+                    / (updateUnits * 10000 * updateShPerCtrct);
             }
 
             // update ClosedOptionFIFOModel object with Total and 
@@ -1385,7 +1214,6 @@ public class OptionController {
 //                updateTransLoad) + " , TotalClose = " + Double.toString(updateTotalClose) + " , PriceClose = "
 //                       + Double.toString(updateUnitPriceClose) + " , DateClose = '" + updateCloseDate + "'"
 //                       + " where TransactionGrp = " + rowIndex + ";";
-
             CMDBController.executeSQL(String.format(ClosedOptionFIFOModel.UPDATE_TOTAL_TOTALCLOSE,
                 Double.toString(updateUnits),
                 Double.toString(updateCommission),
@@ -1401,14 +1229,19 @@ public class OptionController {
         }
     }
 
-    void doOptionOpenList() {
-        if (!this.optionOpenList.isEmpty()) {
+    void doOptionOpenList()
+    {
+        if (!this.optionOpenList.isEmpty())
+        {
 
             // there are open positions
             // optionOpen -> OpenOptionFIFO
-            for (OpeningOptionModel oo : this.optionOpenList) {
+            for (OpeningOptionModel oo : this.optionOpenList)
+            {
                 // optTransType selltoopen? buytoclose? No, never happens
-                CMDBController.executeSQL(String.format(OpenOptionFIFOModel.INSERT_ALL_VALUES, OpenOptionFIFOModel.ALL_FIELDS) + OpenOptionFIFOModel.insertAll(oo, userId));
+                CMDBController.executeSQL(String
+                    .format(OpenOptionFIFOModel.INSERT_ALL_VALUES, OpenOptionFIFOModel.ALL_FIELDS) + OpenOptionFIFOModel
+                    .insertAll(oo, userId));
             }
         }
     }

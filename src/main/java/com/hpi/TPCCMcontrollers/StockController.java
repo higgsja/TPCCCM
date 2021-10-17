@@ -759,7 +759,7 @@ public class StockController
             {
                 updateUnitPriceClose = Math.abs(Math.round(
                     (updateTotalClose + updateCommission + updateTaxes + updateFees + updateTransLoad) * 10000)
-                    / (updateUnits * 10000));
+                    / (updateUnits * 10000));                
             }
 
             // update ClosedStockFIFOModel object
