@@ -10,7 +10,7 @@ import lombok.*;
 import org.junit.*;
 
 @AllArgsConstructor
-public class OptionTest1
+public class OptionTest2
     extends OptionControllerBase
 {
 
@@ -36,7 +36,7 @@ public class OptionTest1
     }
 
     /**
-     * buy long, sell to close
+     * sell short, buy to close
      */
 //    @Ignore
     @Test
@@ -108,16 +108,16 @@ public class OptionTest1
         Double[][] doubleTests =
         {
             {
-                1.0, cofm.getUnits(), -10.0
+                1.0, cofm.getUnits(), 10.0
             },
             {
-                2.0, cofm.getPriceOpen(), 2.83
+                2.0, cofm.getPriceOpen(), 2.73
             },
             {
-                3.0, cofm.getTotalOpen(), -2831.1600
+                3.0, cofm.getTotalOpen(), 2728.7500
             },
             {
-                4.0, cofm.getTotalClose(), 98.81
+                4.0, cofm.getTotalClose(), -2631.16
             }
         };
 
@@ -143,9 +143,9 @@ public class OptionTest1
     //  always use what is available for a start point; then
     //  always add more for further testing
     private final OpeningOptionModel oom1 = OpeningOptionModel.builder()
-        .dmAcctId(1)
+        .dmAcctId(2)
         .joomlaId(USER_ID)
-        .fiTId("200413_2359_0")
+        .fiTId("200413_1161_0")
         .ticker("PCG")
         //        .transactionName("")  //no transaction names in openingOptions
         .equityId("PCG   200918C00013000")
@@ -153,19 +153,19 @@ public class OptionTest1
         //        .dateClose(null)
         .dateExpire(java.sql.Date.valueOf("2020-09-18"))
         .shPerCtrct(100)
-        .units(10.0)
-        .priceOpen(2.83)
+        .units(-10.0)
+        .priceOpen(2.73)
         //        .priceClose(null)
         //        .markUpDn(null)
         //        .commission(null)
         //        .taxes(null)
-        .fees(1.16)
+        .fees(1.25)
         //        .transLoad(null)
-        .totalOpen(-2831.1600)
+        .totalOpen(2728.75)
         //        .totalClose(null)
         //        .curSym(null)
-        .subAcctSec("MARGIN")
-        .subAcctFund("MARGIN")
+        .subAcctSec("CASH")
+        .subAcctFund("CASH")
         //        .reversalFiTId(null)
         //        .comment("")
         .openingOpen(11.82)
@@ -174,34 +174,34 @@ public class OptionTest1
         .openingClose(11.6)
         .equityType("OPTION")
         .optionType("CALL")
-        .transactionType("BUYTOOPEN")
+        .transactionType("SELLTOOPEN")
         .strikePrice(13.0)
         .build();
 
     private final ClosingOptionModel com1 = ClosingOptionModel.builder()
-        .dmAcctId(1)
+        .dmAcctId(2)
         .joomlaId(USER_ID)
-        .fiTId("200723_3171_0")
+        .fiTId("200415_1193_0")
         .ticker("PCG")
         //        .transactionName("")  //no transaction names in openingOptions
         .equityId("PCG   200918C00013000")
         //        .dateOpen(null)
-        .dateClose(java.sql.Date.valueOf("2020-07-23"))
+        .dateClose(java.sql.Date.valueOf("2020-04-15"))
         .dateExpire(java.sql.Date.valueOf("2020-09-18"))
         .shPerCtrct(100)
-        .units(-10.0)
+        .units(10.0)
         //        .priceOpen(null)
-        .priceClose(0.1)
+        .priceClose(2.63)
         //        .markUpDn(null)
         //        .commission(null)
         //        .taxes(null)
-        .fees(1.19)
+        .fees(1.16)
         //        .transLoad(null)
         //        .totalOpen(null)
-        .totalClose(98.81)
+        .totalClose(-2631.16)
         //        .curSym(null)
-        .subAcctSec("MARGIN")
-        .subAcctFund("MARGIN")
+        .subAcctSec("CASH")
+        .subAcctFund("CASH")
         //        .reversalFiTId(null)
         //        .comment("")
         //        .closingOpen(11.82)
@@ -210,7 +210,7 @@ public class OptionTest1
         //        .closingClose(11.6)
         .equityType("OPTION")
         .optionType("CALL")
-        .transactionType("SELLTOCLOSE")
+        .transactionType("BUYTOCLOSE")
         .strikePrice(13.0)
         .build();
 }

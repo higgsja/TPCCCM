@@ -12,10 +12,9 @@ import lombok.*;
  * positionTransaction is a leg in a final position
  * it may aggregate multiple lots *on the same day* in the fifoTransactions
  */
-public class PositionOpenTransactionModel
-    extends PositionModelAbstract {
+public class PositionOpenTransactionModel{
     public static final String POSITION_TRANSACTION_INSERT =
-        "insert ignore into hlhtxc5_dmOfx.PositionsOpenTransactions(DMAcctId, JoomlaId, PositionId, FiTId, EquityId, TransactionName, Ticker, DateOpen, Units, PriceOpen, DateExpire, Days, PositionType, TotalOpen, EquityType, Gain, GainPct, TransactionType, Complete, MktVal, LMktVal, ActPct) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+        "insert ignore into hlhtxc5_dmOfx.PositionsOpenTransactions(DMAcctId, JoomlaId, PositionId, FiTId, TransactionName, Ticker, DateOpen, Units, PriceOpen, DateExpire, Days, PositionType, TotalOpen, EquityType, Gain, GainPct, TransactionType, Complete, MktVal, LMktVal, ActPct) values (%s, %s, %s, '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', %s, '%s', %s, %s, '%s', %s, %s, %s, %s)";
 
     public PositionOpenTransactionModel(PositionOpenTransactionModel potm) {
         this.dmAcctId = potm.dmAcctId;
@@ -38,9 +37,12 @@ public class PositionOpenTransactionModel
         this.transactionType = potm.transactionType;
         this.complete = potm.complete;
         this.bComplete = potm.bComplete;
+        
+        
         this.mktVal = potm.mktVal;
         this.lMktVal = potm.lMktVal;
         this.actPct = potm.actPct;
+        
         this.fifoOpenTransactionModels = new ArrayList<>();
         this.fifoClosedTransactionModels = new ArrayList<>();
 
@@ -86,7 +88,6 @@ public class PositionOpenTransactionModel
     @Builder.Default @Getter private final ArrayList<FIFOClosedTransactionModel> fifoClosedTransactionModels =
         new ArrayList<>();
     
-    @Override
     public void setBComplete(Boolean complete) {
         this.bComplete = complete;
 
@@ -98,7 +99,6 @@ public class PositionOpenTransactionModel
         }
     }
 
-    @Override
     public void setComplete(Integer complete) {
         this.complete = complete;
 

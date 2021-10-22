@@ -82,24 +82,22 @@ public class FIFOOpenTransactionModel
         = "insert into hlhtxc5_dmOfx.FIFOOpenTransactions (DMAcctId, JoomlaId, FiTId, EquityId, TransactionName, Ticker, DateOpen, ShPerCtrct, Units, PriceOpen, TotalOpen, TransactionType, EquityType, PositionType, Complete, Days) select DMAcctId, JoomlaId, FiTId, EquityId, TransactionName, Ticker, DateOpen, 1, Units, PriceOpen, TotalOpen, TransactionType, 'STOCK', if(strcmp(TransactionType,'BUY') = 0, 'LONG', 'SHORT'), 0, 0 from hlhtxc5_dmOfx.OpenStockFIFO where EquityId <> 'Unknown' and JoomlaId = '%s';";
 
     public static final String SELECT_INCOMPLETE_BY_JOOMLAID_EQUITYTYPE
-        //        = "select * from hlhtxc5_dmOfx.%s as fct where fct.Complete <> 1 and fct.JoomlaId = '%s' and fct.EquityType = '%s' order by EquityId, DateOpen, DateClose";
         = "select * from hlhtxc5_dmOfx.%s as fct where fct.Complete <> 1 and fct.JoomlaId = '%s' and fct.EquityType = '%s' order by fct.EquityId, fct.DMAcctId";
 
     public static final String UPDATE_COMPLETE
         = "update hlhtxc5_dmOfx.%s set Complete = '%s' where DMAcctId = '%s' and JoomlaId = '%s' and FiTId = '%s'";
 
     public static final String ALL_FIELDS
-        = "DMAcctId, JoomlaId, FiTId, TransactionGrp, Ticker, EquityId, TransactionName, DateOpen, DateClose, DateExpire, Units, PriceOpen, PriceClose, TotalOpen, TotalClose, Gain, GainPct, EquityType, PosType, TransactionType, Complete, OptionType, StrikePrice, ShPerCtrct, Days, ClientSectorId, MktVal, LMktVal, ActPct";
+        = "DMAcctId, JoomlaId, FiTId, Ticker, EquityId, TransactionName, DateOpen, DateClose, DateExpire, Units, PriceOpen, PriceClose, TotalOpen, TotalClose, Gain, GainPct, EquityType, PositionType, TransactionType, Complete, OptionType, StrikePrice, ShPerCtrct, Days, ClientSectorId, MktVal, LMktVal, ActPct";
 
     public static final String DEMO_FIELDS
-        = "FiTId, TransactionGrp, Ticker, EquityId, TransactionName, DateOpen, DateClose, DateExpire, Units, PriceOpen, PriceClose, TotalOpen, TotalClose, Gain, GainPct, EquityType, PosType, TransactionType, Complete, OptionType, StrikePrice, ShPerCtrct, Days, ClientSectorId, MktVal, LMktVal, ActPct";
+        = "FiTId, TransactionGrp, Ticker, EquityId, TransactionName, DateOpen, DateClose, DateExpire, Units, PriceOpen, PriceClose, TotalOpen, TotalClose, Gain, GainPct, EquityType, PositionType, TransactionType, Complete, OptionType, StrikePrice, ShPerCtrct, Days, ClientSectorId, MktVal, LMktVal, ActPct";
 
     public FIFOOpenTransactionModel(FIFOOpenTransactionModel fotm)
     {
         this.dmAcctId = fotm.dmAcctId;
         this.joomlaId = fotm.joomlaId;
         this.fiTId = fotm.fiTId;
-//        this.transactionGrp = fotm.transactionGrp;
         this.ticker = fotm.ticker;
         this.equityId = fotm.equityId;
         this.transactionName = fotm.transactionName;
@@ -131,7 +129,6 @@ public class FIFOOpenTransactionModel
     private Integer dmAcctId;
     private Integer joomlaId;
     private String fiTId;
-//    private Integer transactionGrp;
     private String ticker;
     private String equityId;
     private String transactionName;
@@ -151,6 +148,8 @@ public class FIFOOpenTransactionModel
     private Integer complete;
     private Boolean bComplete;
     //do not store clientSectorId here as it can change; get it from ClientEquityAttributes as required
+    //for open that is where we get it so go ahead and store
+    //todo: for consistency should eliminate this
     private String optionType;
     private Double strikePrice;
     private Integer shPerCtrct;

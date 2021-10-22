@@ -39,7 +39,7 @@ public class ClosedOptionFIFOModel {
     private Double fees;
     private Double transLoad;
     private Double totalOpen;
-    private Double totalclose;
+    private Double totalClose;
     private String curSym;
     private String transactionType;
 }

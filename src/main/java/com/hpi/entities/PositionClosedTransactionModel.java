@@ -12,10 +12,9 @@ import lombok.*;
  * positionTransaction is a leg in a final position
  *  it may aggregate multiple lots *on the same day* in the fifoTransactions
  */
-public class PositionClosedTransactionModel
-extends PositionModelAbstract{
+public class PositionClosedTransactionModel{
     public static final String POSITION_TRANSACTION_INSERT =
-        "insert into hlhtxc5_dmOfx.PositionsClosedTransactions(DMAcctId, JoomlaId, PositionId, FiTId, EquityId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, PositionType, TotalOpen, TotalClose, EquityType, Gain, GainPct, TransactionType, Complete) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+        "insert into hlhtxc5_dmOfx.PositionsClosedTransactions(DMAcctId, JoomlaId, PositionId, FiTId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, Days, PositionType, TotalOpen, TotalClose, EquityType, Gain, GainPct, TransactionType, Complete) values (%s, %s, %s, '%s', '%s', '%s', '%s', '%s', %s, %s, %s, %s, '%s', %s, %s, '%s', %s, %s, '%s', %s)";
 
     public PositionClosedTransactionModel(PositionClosedTransactionModel pctm) {
         this.dmAcctId = pctm.dmAcctId;
@@ -39,6 +38,7 @@ extends PositionModelAbstract{
         this.gain = pctm.gain;
         this.gainPct = pctm.gainPct;
         this.transactionType = pctm.transactionType;
+        this.equityType = pctm.equityType;
         this.complete = pctm.complete;
         this.bComplete = pctm.bComplete;
         this.fifoClosedTransactionModels = new ArrayList<>();

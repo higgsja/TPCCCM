@@ -13,7 +13,7 @@ public class OptionControllerBase
     public static final Integer USER_ID = 5;
     
     @BeforeClass
-    public static void setupClass()
+    public static void beforeClass()
     {
         CMDBModel.getInstance();
         CMDBModel.setUserId(USER_ID);
@@ -25,7 +25,7 @@ public class OptionControllerBase
     }
 
     @AfterClass
-    public static void tearDownClass()
+    public static void afterClass()
     {
     }
     

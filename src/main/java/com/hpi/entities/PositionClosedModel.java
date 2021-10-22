@@ -7,33 +7,33 @@ import lombok.*;
 public class PositionClosedModel
 {
 
-    public PositionClosedModel(Integer positionId, Integer dmAcctId, Integer joomlaId, String ticker,
-        //        String equityId,
-        String positionName, Integer tacticId, Double units, Double priceOpen, Double price, Double gainPct,
-        java.sql.Date dateOpen, java.sql.Date dateClose, Integer days, String comment, Double gain, String positionType)
-    {
-        this.positionId = positionId;
-        this.dmAcctId = dmAcctId;
-        this.joomlaId = joomlaId;
-        this.ticker = ticker;
-//        this.equityId = equityId;
-        this.positionName = positionName;
-        this.tacticId = tacticId;
-        this.units = units;
-        this.priceOpen = priceOpen;
-        this.price = price;
-        this.gainPct = gainPct;
-        this.dateOpen = dateOpen;
-        this.dateClose = dateClose;
-        this.days = days;
-        this.comment = comment;
-        this.gain = gain;
-        this.positionType = positionType;
-        this.positionClosedTransactionModels = new ArrayList<>();
-    }
+//    public PositionClosedModel(Integer positionId, Integer dmAcctId, Integer joomlaId, String ticker,
+//        //        String equityId,
+//        String positionName, Integer tacticId, Double units, Double priceOpen, Double price, Double gainPct,
+//        java.sql.Date dateOpen, java.sql.Date dateClose, Integer days, String comment, Double gain, String positionType)
+//    {
+//        this.positionId = positionId;
+//        this.dmAcctId = dmAcctId;
+//        this.joomlaId = joomlaId;
+//        this.ticker = ticker;
+////        this.equityId = equityId;
+//        this.positionName = positionName;
+//        this.tacticId = tacticId;
+//        this.units = units;
+//        this.priceOpen = priceOpen;
+//        this.price = price;
+//        this.gainPct = gainPct;
+//        this.dateOpen = dateOpen;
+//        this.dateClose = dateClose;
+//        this.days = days;
+//        this.comment = comment;
+//        this.gain = gain;
+//        this.positionType = positionType;
+//        this.positionClosedTransactionModels = new ArrayList<>();
+//    }
 
     public static final String POSITION_INSERT
-        = "insert ignore into hlhtxc5_dmOfx.PositionsClosed (DMAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, DateClose, Days, Gain, PositionType) values (%s, %s, '%s', '%s', '%s', %s, %s, %s, %s, %s, '%s', '%s', %s, %s, '%s')";
+        = "insert ignore into hlhtxc5_dmOfx.PositionsClosed (DMAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, DateClose, Days, Gain, PositionType, TransactionType, TotalOpen, TotalClose, EquityType) values (%s, %s, '%s', '%s', '%s', %s, %s, %s, %s, %s, '%s', '%s', %s, %s, '%s', '%s', %s, %s, '%s')";
 
     public static final String POSITION_UPDATE_TACTICID
         = "update hlhtxc5_dmOfx.PositionsClosed set TacticId = '%s' where PositionId = '%s'";
@@ -63,6 +63,11 @@ public class PositionClosedModel
         this.comment = pcm.comment;
         this.gain = pcm.gain;
         this.positionType = pcm.positionType;
+        this.transactionType = pcm.transactionType;
+        this.totalOpen = pcm.totalOpen;
+        this.totalClose = pcm.totalClose;
+        this.equityType = pcm.equityType;
+        
         this.positionClosedTransactionModels = new ArrayList<>();
 
         for (PositionClosedTransactionModel pctm : pcm.getPositionClosedTransactionModels())
@@ -89,6 +94,10 @@ public class PositionClosedModel
     private String comment;
     private Double gain;
     private String positionType;    //long, short
+    private String transactionType;
+    private Double totalOpen;
+    private Double totalClose;
+    private String equityType;
 
     @Builder.Default @Getter private final ArrayList<PositionClosedTransactionModel> positionClosedTransactionModels = new ArrayList<>();
 }
