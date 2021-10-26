@@ -12,11 +12,14 @@ import lombok.*;
  * positionTransaction is a leg in a final position
  * it may aggregate multiple lots *on the same day* in the fifoTransactions
  */
-public class PositionOpenTransactionModel{
-    public static final String POSITION_TRANSACTION_INSERT =
-        "insert ignore into hlhtxc5_dmOfx.PositionsOpenTransactions(DMAcctId, JoomlaId, PositionId, FiTId, TransactionName, Ticker, DateOpen, Units, PriceOpen, DateExpire, Days, PositionType, TotalOpen, EquityType, Gain, GainPct, TransactionType, Complete, MktVal, LMktVal, ActPct) values (%s, %s, %s, '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', %s, '%s', %s, %s, '%s', %s, %s, %s, %s)";
+public class PositionOpenTransactionModel
+{
 
-    public PositionOpenTransactionModel(PositionOpenTransactionModel potm) {
+    public static final String POSITION_TRANSACTION_INSERT
+        = "insert ignore into hlhtxc5_dmOfx.PositionsOpenTransactions(DMAcctId, JoomlaId, PositionId, FiTId, TransactionName, Ticker, DateOpen, Units, PriceOpen, DateExpire, Days, PositionType, TotalOpen, EquityType, Gain, GainPct, TransactionType, Complete, MktVal, LMktVal, ActPct) values (%s, %s, %s, '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', %s, '%s', %s, %s, '%s', %s, %s, %s, %s)";
+
+    public PositionOpenTransactionModel(PositionOpenTransactionModel potm)
+    {
         this.dmAcctId = potm.dmAcctId;
         this.joomlaId = potm.joomlaId;
         this.positionId = potm.positionId;
@@ -37,20 +40,21 @@ public class PositionOpenTransactionModel{
         this.transactionType = potm.transactionType;
         this.complete = potm.complete;
         this.bComplete = potm.bComplete;
-        
-        
+
         this.mktVal = potm.mktVal;
         this.lMktVal = potm.lMktVal;
         this.actPct = potm.actPct;
-        
+
         this.fifoOpenTransactionModels = new ArrayList<>();
         this.fifoClosedTransactionModels = new ArrayList<>();
 
-        for (FIFOOpenTransactionModel fotm : potm.getFifoOpenTransactionModels()) {
+        for (FIFOOpenTransactionModel fotm : potm.getFifoOpenTransactionModels())
+        {
             this.fifoOpenTransactionModels.add(new FIFOOpenTransactionModel(fotm));
         }
         
-                for (FIFOClosedTransactionModel fctm : potm.getFifoClosedTransactionModels()) {
+        for (FIFOClosedTransactionModel fctm : potm.getFifoClosedTransactionModels())
+        {
             this.fifoClosedTransactionModels.add(new FIFOClosedTransactionModel(fctm));
         }
     }
@@ -80,26 +84,28 @@ public class PositionOpenTransactionModel{
     private Double actPct;
 
     //have fifoOpenTransactionModels and fifoClosedTransactionModels extend a base fifoTransactionModel
-    
     //one or more transactions make up the transaction model (lots)
-    @Builder.Default @Getter private final ArrayList<FIFOOpenTransactionModel> fifoOpenTransactionModels =
-        new ArrayList<>();
+    @Builder.Default @Getter private final ArrayList<FIFOOpenTransactionModel> fifoOpenTransactionModels
+        = new ArrayList<>();
 
-    @Builder.Default @Getter private final ArrayList<FIFOClosedTransactionModel> fifoClosedTransactionModels =
-        new ArrayList<>();
-    
-    public void setBComplete(Boolean complete) {
+    @Builder.Default @Getter private final ArrayList<FIFOClosedTransactionModel> fifoClosedTransactionModels
+        = new ArrayList<>();
+
+    public void setBComplete(Boolean complete)
+    {
         this.bComplete = complete;
 
-        if (this.bComplete) {
+        if (this.bComplete)
+        {
             this.complete = 1;
-        }
-        else {
+        } else
+        {
             this.complete = 0;
         }
     }
 
-    public void setComplete(Integer complete) {
+    public void setComplete(Integer complete)
+    {
         this.complete = complete;
 
         this.bComplete = this.complete == 1;
