@@ -8,10 +8,11 @@ import org.junit.*;
 @Getter @Setter
 public class OptionControllerBase
 {
+
     public static OptionController optionController;
-    
+
     public static final Integer USER_ID = 5;
-    
+
     @BeforeClass
     public static void beforeClass()
     {
@@ -28,13 +29,13 @@ public class OptionControllerBase
     public static void afterClass()
     {
     }
-    
-@Before
+
+    @Before
     public void before()
     {
         //clear closedOptionFIFO for user id
         CMDBController.executeSQL("delete from hlhtxc5_dmOfx.ClosedOptionFIFO where JoomlaId = " + USER_ID);
-        
+
         //clear closedOptionTrans for user id
         CMDBController.executeSQL("delete from hlhtxc5_dmOfx.ClosedOptionTrans where JoomlaId = " + USER_ID);
 
@@ -52,7 +53,7 @@ public class OptionControllerBase
         //clear OpeningTransactions
         CMDBController
             .executeSQL("delete from hlhtxc5_dmOfx.OpeningTransactions where JoomlaId = " + USER_ID);
-        
+
         //clear ClosingTransactions
         CMDBController
             .executeSQL("delete from hlhtxc5_dmOfx.ClosingTransactions where JoomlaId = " + USER_ID);

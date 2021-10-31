@@ -22,13 +22,17 @@ public class ClosingOptionModel {
     public static final String GET_ALL_AVAIL =
         "select * from hlhtxc5_dmOfx.ClosingOptions where DMAcctId = '%s' and EquityId = '%s' and TransactionType = '%s' and JoomlaId = '%s' and not(Units = 0) union select DMAcctId, JoomlaId, FiTId, Ticker, EquityId, TransactionName, DateOpen, DateClose, DateExpire, ShPerCtrct, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, ReversalFiTId, Comment, ClosingOpen, ClosingHigh, ClosingLow, ClosingClose, EquityType, OptionType, TransactionType, StrikePrice from hlhtxc5_dmOfx.ClientClosingOptions where DMAcctId = '%s' and EquityId = '%s' and TransactionType = '%s' and JoomlaId = '%s' and not(Units = 0) order by EquityId, DateClose, FiTId";
     
-    public static final String UPDATE_UNITS = "update hlhtxc5_dmOfx.ClosingOptions set Units = '%s' where DMAcctId = '%s' and JoomlaId = '%s' and FiTId = '%s';";
+    public static final String UPDATE_UNITS = "update hlhtxc5_dmOfx.ClosingOptions set Units = %s where DMAcctId = %s and JoomlaId = %s and FiTId = '%s';";
 
     public static final String ALL_FIELDS =
         "DMAcctId, JoomlaId, FiTId, Ticker, EquityId, TransactionName, DateOpen, DateClose, DateExpire, ShPerCtrct, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, ReversalFiTId, Comment, ClosingOpen, ClosingHigh, ClosingLow, ClosingClose, EquityType, OptionType, TransactionType, StrikePrice";
 
     public static final String DEMO_FIELDS =
         "EquityId, TransactionName, DateOpen, DateClose, DateExpire, ShPerCtrct, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, ReversalFiTId, Comment, ClosingOpen, ClosingHigh, ClosingLow, ClosingClose, EquityType, OptionType, TransactionType, StrikePrice";
+    
+    public static final String INSERT_ALL_VALUES = "insert ignore into hlhtxc5_dmOfx.ClosingOptions (" 
+        + ALL_FIELDS 
+        + ") values (";
 
     private Integer dmAcctId;
     private Integer joomlaId;
