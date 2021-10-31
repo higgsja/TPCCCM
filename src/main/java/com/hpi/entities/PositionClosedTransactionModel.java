@@ -13,6 +13,7 @@ import lombok.*;
  *  it may aggregate multiple lots *on the same day* in the fifoTransactions
  */
 public class PositionClosedTransactionModel{
+    //cannot set EquityId in options so cannot set at all
     public static final String POSITION_TRANSACTION_INSERT =
         "insert into hlhtxc5_dmOfx.PositionsClosedTransactions(DMAcctId, JoomlaId, PositionId, FiTId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, Days, PositionType, TotalOpen, TotalClose, EquityType, Gain, GainPct, TransactionType, Complete) values (%s, %s, %s, '%s', '%s', '%s', '%s', '%s', %s, %s, %s, %s, '%s', %s, %s, '%s', %s, %s, '%s', %s)";
 
