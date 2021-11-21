@@ -4,7 +4,6 @@ import com.hpi.TPCCMcontrollers.*;
 import com.hpi.TPCCMsql.*;
 import com.hpi.entities.*;
 import java.sql.*;
-import java.util.*;
 import javax.swing.*;
 import lombok.*;
 import org.junit.*;
@@ -40,12 +39,12 @@ public class OptionTest1
      */
 //    @Ignore
     @Test
-    public void OptionTest2A()
+    public void OptionTest1A()
     {
         String sql;
         ClosedOptionFIFOModel cofm;
         ResultSet rs;
-        
+
         cofm = null;
 
         //opening
@@ -130,14 +129,11 @@ public class OptionTest1
 //        {
 //            (new TestInteger(test[0], test[1], test[2])).doTest();
 //        }
-
         for (Double[] test : doubleTests)
         {
             (new TestDouble(test[0], test[1], test[2])).doTest();
         }
     }
-
-    private static final ArrayList<OpeningStockModel> transactionList = new ArrayList<>();
 
     //do not change the oom* elements as it will break tests
     //  always use what is available for a start point; then

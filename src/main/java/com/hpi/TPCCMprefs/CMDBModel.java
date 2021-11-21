@@ -32,7 +32,7 @@ public class CMDBModel
     private static ArrayList<String> dbDriverList;
     private static ArrayList<DB> dbList;
     private static String version;
-    private static String joomlaUserId;
+    private static String joomlaUserName;
     private static String joomlaPassword;
     private static Integer userId;
 
@@ -47,7 +47,7 @@ public class CMDBModel
         CMDBModel.dbHostList = new ArrayList<>();
         CMDBModel.dbDriverList = new ArrayList<>();
         CMDBModel.dbList = new ArrayList<>();
-        CMDBModel.joomlaUserId = null;
+        CMDBModel.joomlaUserName = null;
         CMDBModel.joomlaPassword = null;
     }
     private static CMDBModel instance;
@@ -71,8 +71,7 @@ public class CMDBModel
     {
         if (CMDBModel.instance == null)
         {
-            CMDBModel.instance = new CMDBModel(
-                  sConfigFilename);
+            CMDBModel.instance = new CMDBModel(sConfigFilename);
         }
 
         return CMDBModel.instance;
@@ -232,11 +231,12 @@ public class CMDBModel
                 case "userid":
                     if (element.ownText().isEmpty())
                     {
-                        CMDBModel.joomlaUserId = "";
+                        CMDBModel.joomlaUserName = "";
                     }
                     else
                     {
-                        CMDBModel.joomlaUserId = element.ownText();
+                        CMDBModel.joomlaUserName = element.ownText();
+//                        Integer.parseInt(CMDBModel.joomlaUserId);
                     }
                     break;
                 case "pw":
@@ -379,16 +379,16 @@ public class CMDBModel
         String sql;
         ResultSet rs;
 
-        if (CMDBModel.joomlaUserId == null
+        if (CMDBModel.joomlaUserName == null
               || CMDBModel.joomlaPassword == null
-              || CMDBModel.joomlaUserId.isEmpty()
+              || CMDBModel.joomlaUserName.isEmpty()
               || CMDBModel.joomlaPassword.isEmpty())
         {
             return;
         }
         // access Joomla database for ID
         sql = "select id from hlhtxc5_hpiJoomla.hpiJ_users where username = '"
-              + CMDBModel.joomlaUserId + "';";
+              + CMDBModel.joomlaUserName + "';";
         try (Connection con = CMDBController.getConnection();
              PreparedStatement pStmt = con.prepareStatement(sql))
         {
@@ -458,7 +458,7 @@ public class CMDBModel
 
             writer.write(CMHPIUtils.charFill(iTab, "\t".charAt(0)));
             writer.write("<UserId>");
-            writer.write(CMDBModel.joomlaUserId);
+            writer.write(CMDBModel.joomlaUserName);
             writer.write("</UserId>");
             writer.write(endLine);
 
@@ -1005,12 +1005,12 @@ public class CMDBModel
 
     public static String getJoomlaUserId()
     {
-        return joomlaUserId;
+        return joomlaUserName;
     }
 
     public static void setJoomlaUserId(String userId)
     {
-        CMDBModel.joomlaUserId = userId;
+        CMDBModel.joomlaUserName = userId;
     }
 
     public static String getJoomlaPassword()

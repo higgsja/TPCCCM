@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.*;
 import javax.swing.*;
 import lombok.*;
+import org.apache.commons.math3.util.*;
 
 @Getter @Setter
 public class OptionController
@@ -502,16 +503,16 @@ public class OptionController
                         .dateClose(co.getDateClose())
                         .dateExpire(co.getDateExpire())
                         .shPerCtrct(co.getShPerCtrct())
-                        .units(co.getUnits())
+                        .units(Precision.round(co.getUnits() * (1.0 - alloc), 1))
                         .priceOpen(co.getPriceOpen())
                         .priceClose(co.getPriceClose())
                         .markUpDn(co.getMarkUpDn())
-                        .commission(co.getCommission())
-                        .taxes(co.getTaxes())
-                        .fees(co.getFees())
-                        .transLoad(co.getTransLoad())
+                        .commission(co.getCommission() * (1.0 - alloc))
+                        .taxes(co.getTaxes() * (1.0 - alloc))
+                        .fees(co.getFees() * (1.0 - alloc))
+                        .transLoad(co.getTransLoad() * (1.0 - alloc))
                         .totalOpen(co.getTotalOpen())
-                        .totalClose(co.getTotalClose())
+                        .totalClose(Precision.round(co.getTotalClose() * (1.0 - alloc), 4))
                         .curSym(co.getCurSym())
                         .subAcctSec(co.getSubAcctSec())
                         .subAcctFund(co.getSubAcctFund())
@@ -528,12 +529,14 @@ public class OptionController
 
                     this.optionClosedTransList.add(coTemp);
 
-                    // closing gets reduced
-                    co.setUnits(co.getUnits() + oo.getUnits());
+                    // closing gets reduced: both have same sign
+                    co.setUnits(co.getUnits() - oo.getUnits());
+                    //co.setUnits(co.getUnits() + oo.getUnits());
 
                     // opening gets reduced
                     oo.setUnits(0.0);
 
+                    //closing reduced by allocation
                     co.setCommission(co.getCommission() == null ? null : co.getCommission() * alloc);
                     co.setTaxes(co.getTaxes() == null ? null : co.getTaxes() * alloc);
                     co.setFees(co.getFees() == null ? null : co.getFees() * alloc);
@@ -580,7 +583,7 @@ public class OptionController
                     this.optionClosedTransList.add(coTemp);
 
                     // closing gets reduced
-                    co.setUnits(co.getUnits() + oo.getUnits());
+                    co.setUnits(co.getUnits() - oo.getUnits());
 
                     // opening gets reduced
                     oo.setUnits(0.0);
@@ -629,7 +632,7 @@ public class OptionController
                     this.optionClosedTransList.add(coTemp);
 
                     // opening gets reduced
-                    oo.setUnits(co.getUnits() + oo.getUnits());
+                    oo.setUnits(co.getUnits() - oo.getUnits());
 
                     // closing gets reduced
                     co.setUnits(0.0);
@@ -638,20 +641,20 @@ public class OptionController
                     oo.setTaxes(co.getTaxes() == null ? null : co.getTaxes() * alloc);
                     oo.setFees(co.getFees() == null ? null : co.getFees() * alloc);
                     oo.setTransLoad(co.getTransLoad() == null ? null : co.getTransLoad() * alloc);
-                    //opening and closing have opposite signs
                     oo.setTotalOpen(oo.getTotalOpen() * alloc);
                     break;
                 default:
             } //switch (comp)
 
-            CMDBController.executeSQL(String.format(ClosingOptionModel.UPDATE_UNITS, co.getUnits(),
-                co.getDmAcctId(), co.getJoomlaId(), co.getFiTId()));
+            //update the closing trade with the allocation
+            CMDBController.executeSQL(String.format(ClosingOptionModel.UPDATE_UNITS,
+                co.getUnits(), co.getDmAcctId(), co.getJoomlaId(), co.getFiTId()));
         }//for (ClosingOptionModel oo : this.optionClosingList)
 
         CMDBController.executeSQL(String.format(OpeningOptionModel.UPDATE_UNITS, oo.getUnits(),
             oo.getDmAcctId(), oo.getJoomlaId(), oo.getFiTId()));
 
-        if (oo.getUnits() > 0)
+        if (oo.getUnits() != 0)
         {
             // there is a remaining open position
             // add to optionOpenList
@@ -1027,7 +1030,7 @@ public class OptionController
             sSQL += ", ";
             sSQL += oo.getTotalOpen();
             sSQL += ", ";
-            sSQL += oo.getTotalClose(); //openingOptions.TotalClose is null
+            sSQL += oo.getTotalClose(); //openingOptions.TotalClose is 0.0
             sSQL += ", ";
             if (oo.getCurSym() == null)
             {
@@ -1070,19 +1073,19 @@ public class OptionController
                 sSQL += ", ";
                 if (co.getDateOpen() == null)
                 {
-                    sSQL += "null, '";
+                    sSQL += "null, ";
                 } else
                 {
-                    sSQL += co.getDateOpen() + "', '";
+                    sSQL += "'" + co.getDateOpen() + "', ";
                 }
                 if (co.getDateClose() == null)
                 {
-                    sSQL += "null, '";
+                    sSQL += "null, ";
                 } else
                 {
-                    sSQL += co.getDateClose() + "', '";
+                    sSQL += "'" + co.getDateClose() + "', ";
                 }
-                sSQL += co.getDateExpire();
+                sSQL += "'" + co.getDateExpire();
                 sSQL += "', ";
                 sSQL += co.getShPerCtrct();
                 sSQL += ", ";
@@ -1104,7 +1107,7 @@ public class OptionController
                 sSQL += ", ";
                 sSQL += co.getTotalOpen();  //closingOptions.totalOpen is null
                 sSQL += ", ";
-                sSQL += co.getTotalClose(); //closingOptions.totalClose has values
+                sSQL += Precision.round(co.getTotalClose(), 4); //closingOptions.totalClose has values
                 sSQL += ", ";
                 sSQL += co.getCurSym();
                 sSQL += ", '";
@@ -1133,7 +1136,9 @@ public class OptionController
                 {
                     co.setUnits(Math.abs(co.getUnits()));
                 }
+                
                 updateUnits += co.getUnits();
+                
                 if (co.getCommission() != null)
                 {
                     updateCommission += co.getCommission();
@@ -1178,11 +1183,11 @@ public class OptionController
             //  TotalClose amounts
             CMDBController.executeSQL(String.format(ClosedOptionFIFOModel.UPDATE_TOTAL_TOTALCLOSE,
                 Double.toString(updateUnits),
-                Double.toString(updateCommission),
-                Double.toString(updateTaxes),
-                Double.toString(updateFees),
-                Double.toString(updateTransLoad),
-                Double.toString(updateTotalClose),
+                Double.toString(Precision.round(updateCommission, 4)),
+                Double.toString(Precision.round(updateTaxes, 4)),
+                Double.toString(Precision.round(updateFees, 4)),
+                Double.toString(Precision.round(updateTransLoad, 4)),
+                Double.toString(Precision.round(updateTotalClose, 4)),
                 Double.toString(updateUnitPriceClose),
                 updateCloseDate,
                 rowIndex));
@@ -1201,8 +1206,8 @@ public class OptionController
             {
                 // optTransType selltoopen? buytoclose? No, never happens
                 CMDBController.executeSQL(String
-                    .format(OpenOptionFIFOModel.INSERT_ALL_VALUES, OpenOptionFIFOModel.ALL_FIELDS) + OpenOptionFIFOModel
-                    .insertAll(oo, userId));
+                    .format(OpenOptionFIFOModel.INSERT_ALL_VALUES,
+                        OpenOptionFIFOModel.ALL_FIELDS) + OpenOptionFIFOModel.insertAll(oo, userId));
             }
         }
     }
