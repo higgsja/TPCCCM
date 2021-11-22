@@ -529,8 +529,8 @@ public class OptionController
 
                     this.optionClosedTransList.add(coTemp);
 
-                    // closing gets reduced: both have same sign
-                    co.setUnits(co.getUnits() - oo.getUnits());
+                    // closing gets reduced
+                    co.setUnits(co.getUnits() + oo.getUnits());
                     //co.setUnits(co.getUnits() + oo.getUnits());
 
                     // opening gets reduced
@@ -583,7 +583,7 @@ public class OptionController
                     this.optionClosedTransList.add(coTemp);
 
                     // closing gets reduced
-                    co.setUnits(co.getUnits() - oo.getUnits());
+                    co.setUnits(co.getUnits() + oo.getUnits());
 
                     // opening gets reduced
                     oo.setUnits(0.0);
@@ -632,7 +632,7 @@ public class OptionController
                     this.optionClosedTransList.add(coTemp);
 
                     // opening gets reduced
-                    oo.setUnits(co.getUnits() - oo.getUnits());
+                    oo.setUnits(co.getUnits() + oo.getUnits());
 
                     // closing gets reduced
                     co.setUnits(0.0);
@@ -757,7 +757,7 @@ public class OptionController
                         .dateClose(co.getDateClose())
                         .dateExpire(co.getDateExpire())
                         .shPerCtrct(co.getShPerCtrct())
-                        .units(co.getUnits() * (1.0 - alloc))
+                        .units(Precision.round(co.getUnits() * (1.0 - alloc), 1))
                         .priceOpen(co.getPriceOpen())
                         .priceClose(co.getPriceClose())
                         .markUpDn(co.getMarkUpDn())
