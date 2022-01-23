@@ -1,14 +1,10 @@
 package com.hpi.TPCCMprefs;
 
 import java.util.ArrayList;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.*;
 @Getter @Setter
-
 public class CMOfxDLFIModel
 {
-
     private String fiName;
     private String fiOrg;
     private String brokerId;
