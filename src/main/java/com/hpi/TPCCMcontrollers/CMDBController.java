@@ -37,6 +37,7 @@ public class CMDBController
         {
             if (tmp.getsActive().equalsIgnoreCase("yes"))
             {
+                //find first active 
                 cmDB = tmp;
                 break;
             }
