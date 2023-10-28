@@ -245,7 +245,7 @@ public class CMHPIUtils {
         strike = strike.substring(0, strike.length() - 2);
         strike = charFill(8 - strike.length(), "0".charAt(0)) + strike;
         putcall = putcallString.substring(0, 1).toUpperCase();
-        expiration = DateFormatUtils.format(expireDate, "yyyyMMdd");
+        expiration = DateFormatUtils.format(expireDate, "yyMMdd");
 //        expiration = expireDate.toString().substring(2);
         symbol = ticker.toUpperCase() + charFill(6 - ticker.length(), " "
             .charAt(0));
@@ -265,7 +265,7 @@ public class CMHPIUtils {
         String expYear;
         String expMonth;
         String expDay;
-        String symbol;
+//        String symbol;
 
         /*
          * AAPL  210319C00130000
@@ -287,7 +287,6 @@ public class CMHPIUtils {
         transactionName += " ";
         transactionName += expDay;
         transactionName += (Month.of(Integer.parseInt(expMonth))).getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
-//        transactionName += "20" + (expYear);
         transactionName += expYear;
         transactionName += " ";
         transactionName += strike;

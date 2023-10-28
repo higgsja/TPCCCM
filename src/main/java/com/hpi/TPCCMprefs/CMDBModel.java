@@ -192,7 +192,8 @@ public class CMDBModel
               + "serverTimezone=America/Chicago"
               //              + "&useSSL=false&connectTimeout=15000&socketTimeout=30000",
               + "&useSSL=false&connectTimeout=60000&socketTimeout=60000",
-              "hlh-tx.com", "org.mariadb.jdbc.Driver", "hlhtxc5", "Jigger01");
+//              "hlh-tx.com", "org.mariadb.jdbc.Driver", "hlhtxc5", "Jigger01");
+        "162.254.37.212:3306", "org.mariadb.jdbc.Driver", "higgsja", "Jigger01");
         CMDBModel.dbList.add(dbTemp);
 
         dbTemp = new DB("Broker Data", "hlhtxc5_dbOfx", "OfxBroker", "Yes",
@@ -201,7 +202,8 @@ public class CMDBModel
               //+ "serverTimezone=UTC"
               + "serverTimezone=America/Chicago"
               + "&useSSL=false&connectTimeout=60000&socketTimeout=60000",
-              "hlh-tx.com", "org.mariadb.jdbc.Driver", "hlhtxc5", "Jigger01");
+//              "hlh-tx.com", "org.mariadb.jdbc.Driver", "hlhtxc5", "Jigger01");
+        "162.254.37.212:3306", "org.mariadb.jdbc.Driver", "higgsja", "Jigger01");
         CMDBModel.dbList.add(dbTemp);
 
         // aElement points to 'databases'

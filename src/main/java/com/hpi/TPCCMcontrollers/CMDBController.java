@@ -335,6 +335,8 @@ public class CMDBController
             // failed on duplicate, ok
             if (ex.getErrorCode() != 1062)
             {
+                //can get Field OfxInstFId doesn't have a default value
+                //when trying to insert a dup
                 CMHPIUtils.showDefaultMsg(
                     CMLanguageController.getDBErrorProp("Title"),
                     Thread.currentThread().getStackTrace()[1].getClassName(),
