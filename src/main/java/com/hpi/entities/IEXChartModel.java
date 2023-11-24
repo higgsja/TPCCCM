@@ -3,10 +3,6 @@ package com.hpi.entities;
 import java.math.BigDecimal;
 import java.util.*;
 
-/*
- * {"date":"2019-06-17","uClose":196.71,"uOpen":197.9,"uHigh":199.22,"uLow":201.1,"uVolume":14873098,"close":198.24,"open":193.3,"high":203.61,"low":201.69,"volume":15220364,"change":0,"changePercent":0,"label":"Jun
- * 17","changeOverTime":0}
- */
 public class IEXChartModel
 {
 
