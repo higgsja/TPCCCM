@@ -18,6 +18,8 @@ public class OpenOptionFIFOModel {
     public static final String DEMO_FIELDS =
         "FiTId, Ticker, EquityId, TransactionName, OptionType, StrikePrice, DateOpen, DateClose, DateExpire, ShPerCtrct, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId, Complete, OpeningOpen, OpeningHigh, OpeningLow, OpeningClose, Days";
     
+public static final String ACTIVE_OPTIONS = "select EquityId from hlhtxc5_dmOfx.OpenOptionFIFO oof where oof.DateExpire >= curdate();";
+    
 public static final String insertAll(OpeningOptionModel oo, Integer userId) {
         StringBuilder sb;
 

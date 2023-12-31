@@ -13,19 +13,23 @@ import javax.swing.*;
 import org.apache.commons.lang3.*;
 import org.apache.commons.lang3.time.*;
 
-public class CMHPIUtils {
+public class CMHPIUtils
+{
+
     public static synchronized void showMsgInitializing(String aClass,
         String aMethod,
-        String aMsg, Integer iIcon) {
+        String aMsg, Integer iIcon)
+    {
         // use prior to having the language file read
         String s;
         System.out.print("Title: Trader Performance Coach" + "; Class: "
-                             + aClass + "; Method: " + aMethod + ";\n Message: "
-                             + aMsg + "\n\n");
+            + aClass + "; Method: " + aMethod + ";\n Message: "
+            + aMsg + "\n\n");
     }
 
     public static void showDefaultMsg(String aTitle, String aClass,
-        String aMethod, String aMsg, Integer iIcon) {
+        String aMethod, String aMsg, Integer iIcon)
+    {
         showMsgTitleClassMethodMsgIcon(aTitle, aClass, aMethod,
             aMsg, iIcon, false);
     }
@@ -42,7 +46,8 @@ public class CMHPIUtils {
      */
     public static void showMsgTitleClassMethodMsgIcon(String aTitle,
         String aClass,
-        String aMethod, String aMsg, Integer iIcon, Boolean wait) {
+        String aMethod, String aMsg, Integer iIcon, Boolean wait)
+    {
         Properties errProps;
         StringBuffer sb;
 
@@ -51,7 +56,8 @@ public class CMHPIUtils {
         // use after the language file read
         String s;
 
-        if (CMGlobalsModel.getGui() != null && !CMGlobalsModel.getGui()) {
+        if (CMGlobalsModel.getGui() != null && !CMGlobalsModel.getGui())
+        {
             sb.append(aTitle); // title
             sb.append("; ");
             sb.append(errProps.getProperty("Err1")); // class
@@ -80,11 +86,12 @@ public class CMHPIUtils {
         sb.append(s);
         sb.append("\n");
 
-        if (wait) {
+        if (wait)
+        {
             JOptionPane.showMessageDialog(CMGlobalsModel.getFrame(),
                 sb.toString(), aTitle, iIcon);
-        }
-        else {
+        } else
+        {
             SwingUtilities.invokeLater(() ->
             {
                 JOptionPane.showMessageDialog(CMGlobalsModel.getFrame(),
@@ -101,7 +108,8 @@ public class CMHPIUtils {
      *
      * @return
      */
-    public static String formatMessage(String aString, Integer intMaxLength) {
+    public static String formatMessage(String aString, Integer intMaxLength)
+    {
         StringBuffer sbRet;
         sbRet = new StringBuffer();
         String s1;
@@ -114,7 +122,8 @@ public class CMHPIUtils {
         aString = aString.replace("\r\n", "\n");
 
         //	ensure the end of the string has a line feed
-        if (!aString.endsWith("\n")) {
+        if (!aString.endsWith("\n"))
+        {
             aString += "\n";
         }
 
@@ -124,29 +133,34 @@ public class CMHPIUtils {
         sLines = aString.split("\n");
 
         // then white space in each of those lines to insert more line feeds
-        for (String saLine : sLines) {
+        for (String saLine : sLines)
+        {
             // loop through all strings and ensure none exceed maxlength
-            if (saLine.length() <= intMaxLength) {
+            if (saLine.length() <= intMaxLength)
+            {
                 sbRet.append(saLine);
                 sbRet.append("\n");
-            }
-            else {
+            } else
+            {
                 // get array of strings on white space in the line
                 sWords = saLine.split("\\s");
                 sLine = "";
-                for (String sWord : sWords) {
+                for (String sWord : sWords)
+                {
                     iLength = sLine.length() + sWord.length();
-                    if (iLength <= intMaxLength) {
+                    if (iLength <= intMaxLength)
+                    {
                         sLine = sLine + sWord + " ";
-                    }
-                    else {
+                    } else
+                    {
                         sbRet.append(sLine);
                         sbRet.append("\n");
                         sLine = sWord + " ";
                     }
                 }
 
-                if (sLine.length() > 0) {
+                if (sLine.length() > 0)
+                {
                     sbRet.append(sLine);
                     sbRet.append("\n");
                 }
@@ -156,8 +170,10 @@ public class CMHPIUtils {
         return sbRet.toString();
     }
 
-    public static synchronized String charFill(int length, char charFill) {
-        if (length > 0) {
+    public static synchronized String charFill(int length, char charFill)
+    {
+        if (length > 0)
+        {
             char[] array = new char[length];
             Arrays.fill(array, charFill);
             return new String(array);
@@ -165,17 +181,19 @@ public class CMHPIUtils {
         return "";
     }
 
-    public static synchronized java.sql.Date convertStringToSQLDate(String date) {
+    public static synchronized java.sql.Date convertStringToSQLDate(String date)
+    {
         SimpleDateFormat format;
         Date parsed;
 
         format = new SimpleDateFormat("yyyy-MM-dd");
         parsed = null;
 
-        try {
+        try
+        {
             parsed = format.parse(date);
-        }
-        catch (ParseException ex) {
+        } catch (ParseException ex)
+        {
             Logger.getLogger(CMHPIUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -183,10 +201,10 @@ public class CMHPIUtils {
 
     }
 
-    public static synchronized java.sql.Date convertDateToSQLDate(java.util.Date date) {
+    public static synchronized java.sql.Date convertDateToSQLDate(java.util.Date date)
+    {
         return new java.sql.Date(date.getTime());
     }
-
 
     /**
      * Convert string YYYY-MM-DD to LocalDateTime
@@ -195,22 +213,25 @@ public class CMHPIUtils {
      *
      * @return
      */
-    public static LocalDateTime convertStringToLocalDateTime(String date) {
+    public static LocalDateTime convertStringToLocalDateTime(String date)
+    {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.parse(date, formatter);
     }
-    
+
     /**
      *
      * @return String, short date
      */
-    public static synchronized String getShortDateISO() {
+    public static synchronized String getShortDateISO()
+    {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar currentDate = Calendar.getInstance();
         return formatter.format(currentDate.getTime());
     }
 
-    public static synchronized String getShortDateISOOfx(String sDate) {
+    public static synchronized String getShortDateISOOfx(String sDate)
+    {
         return sDate.substring(0, 4) + "-" + sDate.substring(4, 6) + "-" + sDate
             .substring(6, 8) + " " + sDate.substring(8, 10) + ":" + sDate
             .substring(10, 12) + ":" + sDate.substring(12, 14);
@@ -221,14 +242,60 @@ public class CMHPIUtils {
      *
      * @return String, long date
      */
-    public static synchronized String getLongDate() {
+    public static synchronized String getLongDate()
+    {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddhhmmss");
         Calendar currentDate = Calendar.getInstance();
         return formatter.format(currentDate.getTime());
     }
 
+    /**
+     * Convert OCC Ticker to etrade ticker where:
+     * occ = ssssssyymmddP12345678
+     * etrade ticker=underlier:year:month:day:optionType:strikePrice.
+     *
+     * @param occTicker
+     * @return
+     */
+    public static String getEtradeOption(String occTicker)
+    {
+        String etradeOption;
+        String symbol;
+        String year;
+        String month;
+        String day;
+        String type;
+        String strike;
+
+        symbol = occTicker.substring(0, 6 - 1).trim();
+
+        year = "20" + occTicker.substring(6, 8);
+
+        month = occTicker.substring(8, 10);
+
+        day = occTicker.substring(10, 12);
+
+        type = occTicker.substring(12, 13);
+
+        strike = occTicker.substring(13, 21);
+
+        int i = 0;
+        while (i < strike.length() && strike.charAt(i) == '0')
+        {
+            i++;
+        }
+        StringBuilder sb = new StringBuilder(strike);
+        sb.replace(0, i, "");
+
+        etradeOption = symbol + ":" + year + ":" + month + ":" + day + ":"
+            + type + ":" + Double.parseDouble(strike) / 1000.0 + ":";
+
+        return etradeOption;
+    }
+
     public static String getOCCTicker(String ticker, Date expireDate,
-        String putcallString, Double strikeDouble) {
+        String putcallString, Double strikeDouble)
+    {
         String occString;
         String strike;
         String putcall;
@@ -256,7 +323,8 @@ public class CMHPIUtils {
         return occString;
     }
 
-    public static String getTransactionName(String occString) {
+    public static String getTransactionName(String occString)
+    {
         String transactionName;
         String ticker;
         String strike;

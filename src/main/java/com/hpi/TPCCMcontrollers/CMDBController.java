@@ -128,7 +128,7 @@ public class CMDBController
         try (Connection con = getConnection();
             PreparedStatement pStmt = con.prepareStatement(sSQLStatement))
         {
-            Boolean bRet = pStmt.execute();
+//            Boolean bRet = pStmt.execute();
 
             if (pStmt.execute())
             {
