@@ -288,7 +288,7 @@ public class CMHPIUtils
         sb.replace(0, i, "");
 
         etradeOption = symbol + ":" + year + ":" + month + ":" + day + ":"
-            + type + ":" + Double.parseDouble(strike) / 1000.0 + ":";
+            + type + ":" + Double.parseDouble(strike) / 1000.0;
 
         return etradeOption;
     }
