@@ -1,0 +1,54 @@
+<Databases>
+  <Version>1.0</Version>
+  <UserName></UserName>
+	<Type>EquityInfo</Type>
+	<Type>General</Type>
+	<Type>OfxDataMart</Type>
+	<Type>OfxRaw</Type>
+
+	<Active>No</Active>
+	<Active>Yes</Active>
+
+	<DBMS>MariaDB</DBMS>
+	<DBMS>MySQL</DBMS>
+	<DBMS>Oracle</DBMS>
+
+	<URL>"jdbc:mariadb:"</URL>
+	<URL>"jdbc:mysql:"</URL>
+
+	<Host>"localhost"</Host>
+	<Host>"hlh-tx.com"</Host>
+
+	<Driver>org.mariadb.jdbc.Driver</Driver>
+	<Driver>com.mysql.cj.jdbc.Driver</Driver>
+	
+	<OptionHistory>/home/white/Documents/Quicken/OptionData</OptionHistory>
+	<QuickenData>/home/white/Documents/Quicken</QuickenData>
+
+<Database>
+		<DbDisplayName>"DataMart"</DbDisplayName>
+		<DbName>hlhtxc5_dmOfx</DbName>
+		<Type>OfxDataMart</Type>
+		<Active>Yes</Active>
+		<DBMS>MariaDB</DBMS>
+		<URL>"jdbc:mariadb:"</URL>
+		<URLParameters>" autoReconnect=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&connectTimeout=15000&socketTimeout=30000"</URLParameters>
+		<Host>"hlh-tx.com"</Host>
+		<Driver>org.mariadb.jdbc.Driver</Driver>
+		<UId>hlhtxc5_higgsja</UId>
+		<PW>Jigger01</PW>
+</Database>
+<Database>
+		<DbDisplayName>"Broker Data"</DbDisplayName>
+		<DbName>hlhtxc5_dbOfx</DbName>
+		<Type>OfxRaw</Type>
+		<Active>Yes</Active>
+		<DBMS>MariaDB</DBMS>
+		<URL>"jdbc:mariadb:"</URL>
+		<URLParameters>" autoReconnect=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&connectTimeout=15000&socketTimeout=30000"</URLParameters>
+		<Host>"hlh-tx.com"</Host>
+		<Driver>org.mariadb.jdbc.Driver</Driver>
+		<UId>hlhtxc5_higgsja</UId>
+		<PW>Jigger01</PW>
+	</Database>
+</Databases>
