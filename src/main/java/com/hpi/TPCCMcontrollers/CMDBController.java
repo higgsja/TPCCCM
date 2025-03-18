@@ -60,15 +60,15 @@ public class CMDBController
     }
 
     public static synchronized List<Integer>
-        executeSQLSingleIntegerList(String sql)
+            executeSQLSingleIntegerList(String sql)
     {
         List<Integer> integerList;
         ResultSet rs;
 
         integerList = new ArrayList<>();
 
-        try (Connection con = getConnection();
-            PreparedStatement pStmt = con.prepareStatement(sql))
+        try (Connection con = getConnection(); PreparedStatement pStmt = con.
+                prepareStatement(sql))
         {
             pStmt.clearWarnings();
             rs = pStmt.executeQuery();
@@ -80,19 +80,21 @@ public class CMDBController
 
             pStmt.close();
             con.close();
-        } catch (SQLException ex)
+        }
+        catch (SQLException ex)
         {
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getDBErrorProp("Title"),
-                Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
+                    CMLanguageController.getDBErrorProp("Title"),
+                    Thread.currentThread().getStackTrace()[1].getClassName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
 
             throw new CMDAOException(
-                CMLanguageController.getDBErrorProp("Title"),
-                Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                sql + ";\n" + ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
+                    CMLanguageController.getDBErrorProp("Title"),
+                    Thread.currentThread().getStackTrace()[1].getClassName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    sql + ";\n" + ex.getMessage(),
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         return integerList;
@@ -101,23 +103,25 @@ public class CMDBController
     public static synchronized void callStored(String sStored)
     {
         try (Connection con = CMDBController.getConnection();
-            CallableStatement cStmt = con.prepareCall("{call " + sStored + "}");)
+                CallableStatement cStmt = con.prepareCall(
+                        "{call " + sStored + "}");)
         {
             cStmt.clearWarnings();
             cStmt.execute();
 
             cStmt.close();
             con.close();
-        } catch (SQLException ex)
+        }
+        catch (SQLException ex)
         {
             // even so, the stored proc continues to run
             // todo: still an issue to solve
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getDBErrorProp("Title"),
-                Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                ex.getMessage() + "\nStored Proc: " + sStored,
-                JOptionPane.INFORMATION_MESSAGE);
+                    CMLanguageController.getDBErrorProp("Title"),
+                    Thread.currentThread().getStackTrace()[1].getClassName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    ex.getMessage() + "\nStored Proc: " + sStored,
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -125,8 +129,15 @@ public class CMDBController
     {
         Integer iCount;
         ResultSet rs;
-        try (Connection con = getConnection();
-            PreparedStatement pStmt = con.prepareStatement(sSQLStatement))
+
+        if (sSQLStatement.contains("-Infinity"))
+        {
+            // bad data issue, ignore
+            return;
+        }
+
+        try (Connection con = getConnection(); PreparedStatement pStmt = con.
+                prepareStatement(sSQLStatement))
         {
 //            Boolean bRet = pStmt.execute();
 
@@ -140,7 +151,8 @@ public class CMDBController
                  */
                 rs = pStmt.getResultSet();
 
-            } else
+            }
+            else
             {
                 /*
                  * false if the first result is an update count
@@ -152,49 +164,54 @@ public class CMDBController
                 iCount = pStmt.getUpdateCount();
             }
             // so far, do not care what the return is when we use this
-        } catch (SQLException ex)
+        }
+        catch (SQLException ex)
         {
             // failed on duplicate, ok
             if (ex.getErrorCode() != 1062)
             {
                 CMHPIUtils.showDefaultMsg(
-                    CMLanguageController.getDBErrorProp("Title"),
-                    Thread.currentThread().getStackTrace()[1].getClassName(),
-                    Thread.currentThread().getStackTrace()[1].getMethodName(),
-                    ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
+                        CMLanguageController.getDBErrorProp("Title"),
+                        Thread.currentThread().getStackTrace()[1].getClassName(),
+                        Thread.currentThread().getStackTrace()[1].
+                                getMethodName(),
+                        ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
 
                 throw new CMDAOException(
-                    CMLanguageController.getDBErrorProp("Title"),
-                    Thread.currentThread().getStackTrace()[1].getClassName(),
-                    Thread.currentThread().getStackTrace()[1].getMethodName(),
-                    sSQLStatement + ";\n" + ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
+                        CMLanguageController.getDBErrorProp("Title"),
+                        Thread.currentThread().getStackTrace()[1].getClassName(),
+                        Thread.currentThread().getStackTrace()[1].
+                                getMethodName(),
+                        sSQLStatement + ";\n" + ex.getMessage(),
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
     public static synchronized void updateSQL(String sql)
     {
-        try (Connection con = getConnection();
-            PreparedStatement pStmt = con.prepareStatement(sql);)
+        try (Connection con = getConnection(); PreparedStatement pStmt = con.
+                prepareStatement(sql);)
         {
             pStmt.clearWarnings();
             pStmt.execute();
             pStmt.close();
             con.close();
-        } catch (SQLException ex)
+        }
+        catch (SQLException ex)
         {
             // thinking that those which timeout are working, just taking
             // longer than expected
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getDBErrorProp("Title"),
-                Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
+                    CMLanguageController.getDBErrorProp("Title"),
+                    Thread.currentThread().getStackTrace()[1].getClassName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     public static synchronized Integer doSQLAuto(String sTable, String[] keys,
-        String[] values, String checkSQL)
+            String[] values, String checkSQL)
     {
         String s;
         String sInsertSQL;
@@ -210,8 +227,8 @@ public class CMDBController
         // if we do have the row, do an update
         checkSQL = checkSQL.replace("'null'", "null");
 
-        try (Connection con = getConnection();
-            PreparedStatement pStmt = con.prepareStatement(checkSQL))
+        try (Connection con = getConnection(); PreparedStatement pStmt = con.
+                prepareStatement(checkSQL))
         {
             pStmt.clearWarnings();
             rs = pStmt.executeQuery();
@@ -224,18 +241,19 @@ public class CMDBController
             }
             pStmt.close();
             con.close();
-        } catch (SQLException e)
+        }
+        catch (SQLException e)
         {
             s = String.format(CMLanguageController.getErrorProps().
-                getProperty("Formatted14"),
-                e.toString());
+                    getProperty("Formatted14"),
+                    e.toString());
 
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getErrorProps().getProperty("Title"),
-                Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                s,
-                JOptionPane.ERROR_MESSAGE);
+                    CMLanguageController.getErrorProps().getProperty("Title"),
+                    Thread.currentThread().getStackTrace()[1].getClassName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    s,
+                    JOptionPane.ERROR_MESSAGE);
             return iAutoId;
         }
 
@@ -248,7 +266,7 @@ public class CMDBController
     }
 
     private static synchronized String createInsertQuery(String sTable,
-        String[] keys, String[] values)
+            String[] keys, String[] values)
     {
         StringBuffer s1, s2;
 
@@ -275,7 +293,8 @@ public class CMDBController
                 s2.append((String) null);
                 s2.append(",");
                 //s2 += null + ",";
-            } else
+            }
+            else
             {
                 s2.append("\"");
                 s2.append(s3);
@@ -288,10 +307,10 @@ public class CMDBController
         //s2 = s2.substring(0, s2.length() - 1);
 
         return String.format(CMLanguageController.
-            getOfxSqlProp("OfxSQLInsert"),
-            sTable,
-            s1,
-            s2);
+                getOfxSqlProp("OfxSQLInsert"),
+                sTable,
+                s1,
+                s2);
     }
 
     public static synchronized Integer insertAutoRow(String sInsertSQL)
@@ -301,9 +320,9 @@ public class CMDBController
         Integer iRet;
         iRet = null;
 
-        try (Connection con = getConnection();
-            PreparedStatement pStmt = con.prepareStatement(sInsertSQL,
-                Statement.RETURN_GENERATED_KEYS))
+        try (Connection con = getConnection(); PreparedStatement pStmt = con.
+                prepareStatement(sInsertSQL,
+                        Statement.RETURN_GENERATED_KEYS))
         {
             pStmt.clearWarnings();
             pStmt.executeUpdate();
@@ -313,23 +332,27 @@ public class CMDBController
             {
                 iRet = rs.getInt(1);
                 return iRet;
-            } else
+            }
+            else
             {
                 s = String.format(CMLanguageController.getErrorProps().
-                    getProperty("Formatted13"),
-                    sInsertSQL);
+                        getProperty("Formatted13"),
+                        sInsertSQL);
 
                 CMHPIUtils.showDefaultMsg(
-                    CMLanguageController.getDBErrorProps().
-                        getProperty("Title"),
-                    Thread.currentThread().getStackTrace()[1].getClassName(),
-                    Thread.currentThread().getStackTrace()[1].getMethodName(),
-                    s, JOptionPane.ERROR_MESSAGE);
+                        CMLanguageController.getDBErrorProps().
+                                getProperty("Title"),
+                        Thread.currentThread().getStackTrace()[1].getClassName(),
+                        Thread.currentThread().getStackTrace()[1].
+                                getMethodName(),
+                        s, JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException ex)
+        }
+        catch (SQLException ex)
         {
             //todo: remove this; just using for PCG issue
-            if (ex.getErrorCode() == 1054){
+            if (ex.getErrorCode() == 1054)
+            {
                 return -1;
             }
             // failed on duplicate, ok
@@ -338,10 +361,11 @@ public class CMDBController
                 //can get Field OfxInstFId doesn't have a default value
                 //when trying to insert a dup
                 CMHPIUtils.showDefaultMsg(
-                    CMLanguageController.getDBErrorProp("Title"),
-                    Thread.currentThread().getStackTrace()[1].getClassName(),
-                    Thread.currentThread().getStackTrace()[1].getMethodName(),
-                    ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
+                        CMLanguageController.getDBErrorProp("Title"),
+                        Thread.currentThread().getStackTrace()[1].getClassName(),
+                        Thread.currentThread().getStackTrace()[1].
+                                getMethodName(),
+                        ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
             }
             return iRet;
         }
@@ -358,8 +382,8 @@ public class CMDBController
         Integer iRet;
         String s;
 
-        try (Connection con = getConnection();
-            PreparedStatement sInsert = con.prepareStatement(sInsertSQL))
+        try (Connection con = getConnection(); PreparedStatement sInsert = con.
+                prepareStatement(sInsertSQL))
         {
             sInsert.clearWarnings();
             iRet = sInsert.executeUpdate();
@@ -369,17 +393,19 @@ public class CMDBController
             if (iRet == 0)
             {
                 s = String.format(CMLanguageController.getErrorProps().
-                    getProperty("Formatted13"),
-                    sInsertSQL);
+                        getProperty("Formatted13"),
+                        sInsertSQL);
 
                 CMHPIUtils.showDefaultMsg(
-                    CMLanguageController.getDBErrorProps().
-                        getProperty("Title"),
-                    Thread.currentThread().getStackTrace()[1].getClassName(),
-                    Thread.currentThread().getStackTrace()[1].getMethodName(),
-                    s, JOptionPane.ERROR_MESSAGE);
+                        CMLanguageController.getDBErrorProps().
+                                getProperty("Title"),
+                        Thread.currentThread().getStackTrace()[1].getClassName(),
+                        Thread.currentThread().getStackTrace()[1].
+                                getMethodName(),
+                        s, JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException ex)
+        }
+        catch (SQLException ex)
         {
             // failed on duplicate, ok
             if (bDupeOk && ex.getErrorCode() == 1062)
@@ -391,34 +417,36 @@ public class CMDBController
             {
                 // just report it
                 s = String.format(CMLanguageController.getErrorProps().
-                    getProperty("Formatted19"),
-                    sInsertSQL);
+                        getProperty("Formatted19"),
+                        sInsertSQL);
 
                 CMHPIUtils.showDefaultMsg(
-                    CMLanguageController.getDBErrorProps().
-                        getProperty("Title"),
-                    Thread.currentThread().getStackTrace()[1].getClassName(),
-                    Thread.currentThread().getStackTrace()[1].getMethodName(),
-                    s, JOptionPane.ERROR_MESSAGE);
+                        CMLanguageController.getDBErrorProps().
+                                getProperty("Title"),
+                        Thread.currentThread().getStackTrace()[1].getClassName(),
+                        Thread.currentThread().getStackTrace()[1].
+                                getMethodName(),
+                        s, JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             // otherwise, an issue we need to throw
             throw new CMDAOException(
-                CMLanguageController.getDBErrorProp("Title"),
-                Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
+                    CMLanguageController.getDBErrorProp("Title"),
+                    Thread.currentThread().getStackTrace()[1].getClassName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     public static synchronized void updateSQLNoCommit(String sql)
     {
-        try (Connection con = getConnection();
-            PreparedStatement pStmt1 = con.prepareStatement("set autocommit=0;");
-            PreparedStatement pStmt2 = con.prepareStatement(sql);
-            PreparedStatement pStmt3 = con.prepareStatement("commit;");
-            PreparedStatement pStmt4 = con.prepareStatement("set autocommit=1;");)
+        try (Connection con = getConnection(); PreparedStatement pStmt1 = con.
+                prepareStatement("set autocommit=0;");
+                PreparedStatement pStmt2 = con.prepareStatement(sql);
+                PreparedStatement pStmt3 = con.prepareStatement("commit;");
+                PreparedStatement pStmt4 = con.prepareStatement(
+                        "set autocommit=1;");)
         {
             pStmt1.clearWarnings();
             pStmt1.execute();
@@ -437,21 +465,22 @@ public class CMDBController
             pStmt2.close();
             pStmt1.close();
             con.close();
-        } catch (SQLException ex)
+        }
+        catch (SQLException ex)
         {
             // thinking that those which timeout are working, just taking
             // longer than expected; so, message and carry on
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getDBErrorProp("Title"),
-                Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
+                    CMLanguageController.getDBErrorProp("Title"),
+                    Thread.currentThread().getStackTrace()[1].getClassName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     public static synchronized void upsertRow(String sUpdateSQL,
-        String sInsertSQL)
-        throws CMDAOException
+            String sInsertSQL)
+            throws CMDAOException
     {
         Integer iRet;
         String sql;
@@ -460,7 +489,8 @@ public class CMDBController
         if (!sUpdateSQL.isEmpty())
         {
             sql = sUpdateSQL;
-        } else
+        }
+        else
         {
 
             if (!sInsertSQL.isEmpty())
@@ -474,8 +504,8 @@ public class CMDBController
             return;
         }
 
-        try (Connection con = getConnection();
-            PreparedStatement sUpdate = con.prepareStatement(sql))
+        try (Connection con = getConnection(); PreparedStatement sUpdate = con.
+                prepareStatement(sql))
         {
             if (sUpdateSQL.isEmpty())
             {
@@ -485,7 +515,8 @@ public class CMDBController
                 iRet = 0;
                 sUpdate.close();
                 con.close();
-            } else
+            }
+            else
             {
                 sUpdate.clearWarnings();
                 iRet = sUpdate.executeUpdate();
@@ -497,13 +528,14 @@ public class CMDBController
             {
                 insertRow(sInsertSQL, true);
             }
-        } catch (SQLException ex)
+        }
+        catch (SQLException ex)
         {
             throw new CMDAOException(
-                CMLanguageController.getDBErrorProp("Title"),
-                Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
+                    CMLanguageController.getDBErrorProp("Title"),
+                    Thread.currentThread().getStackTrace()[1].getClassName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    ex.getMessage(), JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -512,15 +544,16 @@ public class CMDBController
         try
         {
             return ds.getConnection();
-        } catch (SQLException e)
+        }
+        catch (SQLException e)
         {
             CMHPIUtils.showMsgTitleClassMethodMsgIcon(CMLanguageController.
-                getDBErrorProp("Title"),
-                Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                CMLanguageController.
-                    getDBErrorProp("IPAddressFailed"),
-                JOptionPane.ERROR_MESSAGE, true);
+                    getDBErrorProp("Title"),
+                    Thread.currentThread().getStackTrace()[1].getClassName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    CMLanguageController.
+                            getDBErrorProp("IPAddressFailed"),
+                    JOptionPane.ERROR_MESSAGE, true);
 
             CMDBModel.setJoomlaUserId(null);
             CMDBModel.setJoomlaPassword(null);
