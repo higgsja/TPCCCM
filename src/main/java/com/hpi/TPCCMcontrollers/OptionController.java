@@ -10,15 +10,15 @@ import javax.swing.*;
 import lombok.*;
 import org.apache.commons.math3.util.*;
 
-// LOG4J 2.x IMPORTS
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+// SLF4J IMPORTS (replacing Log4j2)
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Getter @Setter
 public class OptionController {
 
-    // LOG4J 2.x LOGGER
-    private static final Logger logger = LogManager.getLogger(OptionController.class);
+    // SLF4J LOGGER (replacing Log4j2)
+    private static final Logger logger = LoggerFactory.getLogger(OptionController.class);
 
     private ArrayList<Account> accountList;
     private ArrayList<String> equityIdList;
@@ -399,6 +399,7 @@ public class OptionController {
         }
     }
 
+    // Rest of the methods remain the same...
     public void processFIFOOptionLotsBuyToOpen() {
         logger.debug("Processing FIFO option lots for buy-to-open transactions");
         
