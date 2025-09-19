@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.*;
 import java.util.*;
 import javax.swing.JOptionPane;
 import org.apache.commons.dbcp2.*;
@@ -58,7 +59,35 @@ public class CMDBController
         ds.setValidationQuery("select 1;");
         ds.setValidationQueryTimeout(5);
     }
-
+    
+    /**
+     * Retrieves the date for a specific equity ID from the LastDailyStock table
+     * @param equityId The equity ID to search for (e.g., "AAPL")
+     * @return The date for the specified equity ID, or null if not found
+     */
+    public static LocalDate getDateForEquityId(String equityId) {
+        String sql = "SELECT `Date` FROM hlhtxc5_dmOfx.Util_LastDailyStock WHERE EquityId = ?";
+        LocalDate resultDate = null;
+        
+        try (Connection con = CMDBController.getConnection();
+             PreparedStatement pStmt = con.prepareStatement(sql)) {
+            
+            pStmt.setString(1, equityId);
+            pStmt.clearWarnings();
+            
+            try (ResultSet rs = pStmt.executeQuery()) {
+                if (rs.next()) {
+                    resultDate = rs.getDate("Date").toLocalDate();
+                }
+            }
+            
+        } catch (SQLException ex) {
+            // Handle the exception similar to other methods in CMDBController
+            throw new RuntimeException("Error retrieving date for equity ID: " + equityId, ex);
+        }
+        
+        return resultDate;
+    }
     public static synchronized List<Integer>
             executeSQLSingleIntegerList(String sql)
     {

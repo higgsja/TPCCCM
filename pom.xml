@@ -18,11 +18,11 @@
     <!-- Dependency management to force specific versions -->
     <dependencyManagement>
         <dependencies>
-            <dependency>
+<!--            <dependency>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-api</artifactId>
     <version>2.0.17</version>
-</dependency>
+</dependency>-->
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
@@ -47,7 +47,7 @@
 
     <dependencies>
         <!-- Spring Boot Logging - provides SLF4J API and Logback implementation -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
             <version>3.1.5</version>
@@ -57,7 +57,7 @@
             <artifactId>log4j-to-slf4j</artifactId>
         </exclusion>
     </exclusions>
-        </dependency>
+        </dependency>-->
         
         <!-- Math utilities -->
         <dependency>
