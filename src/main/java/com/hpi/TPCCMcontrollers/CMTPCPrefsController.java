@@ -85,8 +85,8 @@ public class CMTPCPrefsController
                         rs.getString("KeyValue"));
             }
 
-            sSQL.close();
-            con.close();
+//            sSQL.close();
+//            con.close();
         }
         catch (SQLException ex)
         {

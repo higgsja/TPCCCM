@@ -18,7 +18,7 @@ import org.jsoup.nodes.Element;
  * and accounts to directly download OFX data from.
  */
 public class CMOfxDirectModel
-    extends CMXMLModelBase
+        extends CMXMLModelBase
 {
 
     private final static ArrayList<CMOfxDLFIModel> FIMODELS;
@@ -39,12 +39,12 @@ public class CMOfxDirectModel
     }
 
     public synchronized static CMOfxDirectModel getInstance(
-        String sConfigFilename)
+            String sConfigFilename)
     {
         if (CMOfxDirectModel.instance == null)
         {
-            CMOfxDirectModel.instance =
-                 new CMOfxDirectModel(sConfigFilename);
+            CMOfxDirectModel.instance
+                    = new CMOfxDirectModel(sConfigFilename);
         }
 
         return CMOfxDirectModel.instance;
@@ -55,7 +55,7 @@ public class CMOfxDirectModel
         if (CMOfxDirectModel.instance == null)
         {
             throw (new UnsupportedOperationException(
-                "OfxDLModel instance not initialized."));
+                    "OfxDLModel instance not initialized."));
         }
 
         return CMOfxDirectModel.instance;
@@ -84,23 +84,23 @@ public class CMOfxDirectModel
             try
             {
                 copyToFile(getClass().getClassLoader().
-                    getResourceAsStream("res/" + this.configFilename),
-                    new File(this.configFullPath));
+                        getResourceAsStream("res/" + this.configFilename),
+                        new File(this.configFullPath));
             }
             catch (IOException e)
             {
                 CMHPIUtils.showDefaultMsg(
-                    CMLanguageController.getErrorProp("Error"),
-                    this.getClass().getName(),
-                    Thread.currentThread().getStackTrace()[1].
-                        getMethodName(),
-                    e.toString(), JOptionPane.ERROR_MESSAGE);
+                        CMLanguageController.getErrorProp("Error"),
+                        this.getClass().getName(),
+                        Thread.currentThread().getStackTrace()[1].
+                                getMethodName(),
+                        e.toString(), JOptionPane.ERROR_MESSAGE);
                 return;
             }
         }
 
         try (InputStream is = new FileInputStream(
-            this.getConfigFullPath()))
+                this.getConfigFullPath()))
         {
 
             doc = Jsoup.parse(is, "UTF-8", "");
@@ -108,10 +108,10 @@ public class CMOfxDirectModel
         catch (IOException e)
         {
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getErrorProp("Error"),
-                this.getClass().getName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                e.toString(), JOptionPane.ERROR_MESSAGE);
+                    CMLanguageController.getErrorProp("Error"),
+                    this.getClass().getName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    e.toString(), JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -131,11 +131,11 @@ public class CMOfxDirectModel
         if (aElement == null)
         {
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getErrorProp("Error"),
-                this.getClass().getName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                "File error: element is null.",
-                JOptionPane.ERROR_MESSAGE);
+                    CMLanguageController.getErrorProp("Error"),
+                    this.getClass().getName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    "File error: element is null.",
+                    JOptionPane.ERROR_MESSAGE);
 
             throw (new UnsupportedOperationException());
         }
@@ -154,15 +154,15 @@ public class CMOfxDirectModel
                     break;
                 default:
                     s = String.format(CMLanguageController.getErrorProp(
-                        "Formatted3"), element.tagName());
+                            "Formatted3"), element.tagName());
 
                     CMHPIUtils.showDefaultMsg(
-                        CMLanguageController.getErrorProp("Title"),
-                        this.getClass().getName(),
-                        Thread.currentThread().getStackTrace()[1].
-                            getMethodName(),
-                        s,
-                        JOptionPane.ERROR_MESSAGE);
+                            CMLanguageController.getErrorProp("Title"),
+                            this.getClass().getName(),
+                            Thread.currentThread().getStackTrace()[1].
+                                    getMethodName(),
+                            s,
+                            JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -185,9 +185,9 @@ public class CMOfxDirectModel
         endLine = System.getProperty("line.separator");
 
         try (BufferedWriter writer = new BufferedWriter(
-            new OutputStreamWriter(
-                new FileOutputStream(this.configFullPath),
-                StandardCharsets.UTF_8)))
+                new OutputStreamWriter(
+                        new FileOutputStream(this.configFullPath),
+                        StandardCharsets.UTF_8)))
         {
             writer.write("<ofxDownload>");
             writer.write(endLine);
@@ -202,55 +202,55 @@ public class CMOfxDirectModel
             for (CMOfxDLFIModel fiModel : FIMODELS)
             {
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<financialInstitution>");
                 writer.write(endLine);
                 iTab++;
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<finame>");
                 writer.write(fiModel.getFiName());
                 writer.write("</finame>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<fiOrg>");
                 writer.write(fiModel.getFiOrg());
                 writer.write("</fiorg>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<brokerId>");
                 writer.write(fiModel.getBrokerId());
                 writer.write("</brokerId>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<fiId>");
                 writer.write(fiModel.getFiId());
                 writer.write("</fiId>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<fiUrl>");
                 writer.write(fiModel.getFiUrl());
                 writer.write("</fiUrl>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<Active>");
                 writer.write(fiModel.getActive());
                 writer.write("</Active>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<directAccess>");
                 writer.write(endLine);
                 iTab++;
@@ -261,44 +261,43 @@ public class CMOfxDirectModel
 //                writer.write(fiModel.getTokenRefresh());
 //                writer.write("</tokenRefresh>");
 //                writer.write(endLine);
-
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<tokenRefresh>");
                 writer.write(fiModel.getTokenRefresh());
                 writer.write("</tokenRefresh>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<clientId>");
                 writer.write(fiModel.getClientId());
                 writer.write("</clientId>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<httpSchema>");
                 writer.write(fiModel.getHttpSchema());
                 writer.write("</httpSchema>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<httpHost>");
                 writer.write(fiModel.getHttpHost());
                 writer.write("</httpHost>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<httpPath>");
                 writer.write(fiModel.getHttpPath());
                 writer.write("</httpPath>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<debugbytes>");
                 writer.write(fiModel.getDebugBytes());
                 writer.write("</debugBytes>");
@@ -306,12 +305,12 @@ public class CMOfxDirectModel
 
                 iTab--;
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("</directAccess>");
                 writer.write(endLine);
 
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("<Accounts>");
                 writer.write(endLine);
                 iTab++;
@@ -320,41 +319,41 @@ public class CMOfxDirectModel
                 for (CMOfxDLAccountModel acctModel : fiModel.getAccountModels())
                 {
                     writer.write(CMHPIUtils.
-                        charFill(iTab, "\t".charAt(0)));
+                            charFill(iTab, "\t".charAt(0)));
                     writer.write("<Account>");
                     writer.write(endLine);
                     iTab++;
 
                     writer.write(CMHPIUtils.
-                        charFill(iTab, "\t".charAt(0)));
+                            charFill(iTab, "\t".charAt(0)));
                     writer.write("<acctNumber>");
                     writer.write(acctModel.getAcctNumber());
                     writer.write("</acctNumber>");
                     writer.write(endLine);
 
                     writer.write(CMHPIUtils.
-                        charFill(iTab, "\t".charAt(0)));
+                            charFill(iTab, "\t".charAt(0)));
                     writer.write("<acctName>");
                     writer.write(acctModel.getAcctName());
                     writer.write("</acctName>");
                     writer.write(endLine);
 
                     writer.write(CMHPIUtils.
-                        charFill(iTab, "\t".charAt(0)));
+                            charFill(iTab, "\t".charAt(0)));
                     writer.write("<acctUId>");
                     writer.write(acctModel.getAcctUId());
                     writer.write("</acctUId>");
                     writer.write(endLine);
 
                     writer.write(CMHPIUtils.
-                        charFill(iTab, "\t".charAt(0)));
+                            charFill(iTab, "\t".charAt(0)));
                     writer.write("<acctPW>");
                     writer.write(acctModel.getAcctPW());
                     writer.write("</acctPW>");
                     writer.write(endLine);
 
                     writer.write(CMHPIUtils.
-                        charFill(iTab, "\t".charAt(0)));
+                            charFill(iTab, "\t".charAt(0)));
                     writer.write("<Active>");
                     writer.write(acctModel.getAcctActive());
                     writer.write("</Active>");
@@ -362,20 +361,20 @@ public class CMOfxDirectModel
 
                     iTab--;
                     writer.write(CMHPIUtils.
-                        charFill(iTab, "\t".charAt(0)));
+                            charFill(iTab, "\t".charAt(0)));
                     writer.write("</Account>");
                     writer.write(endLine);
                 }
 
                 iTab--;
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("</Accounts>");
                 writer.write(endLine);
 
                 iTab--;
                 writer.write(CMHPIUtils.
-                    charFill(iTab, "\t".charAt(0)));
+                        charFill(iTab, "\t".charAt(0)));
                 writer.write("</financialInstitution>");
                 writer.write(endLine);
             }
@@ -396,10 +395,10 @@ public class CMOfxDirectModel
         catch (IOException e)
         {
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getErrorProp("Error"),
-                this.getClass().getName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                e.toString(), JOptionPane.ERROR_MESSAGE);
+                    CMLanguageController.getErrorProp("Error"),
+                    this.getClass().getName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    e.toString(), JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -415,11 +414,11 @@ public class CMOfxDirectModel
         if (aElement == null)
         {
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getErrorProp("Error"),
-                this.getClass().getName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                "File error: element is null.",
-                JOptionPane.ERROR_MESSAGE);
+                    CMLanguageController.getErrorProp("Error"),
+                    this.getClass().getName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    "File error: element is null.",
+                    JOptionPane.ERROR_MESSAGE);
 
             throw (new UnsupportedOperationException());
         }
@@ -438,15 +437,15 @@ public class CMOfxDirectModel
                     break;
                 default:
                     s = String.format(CMLanguageController.
-                        getErrorProp("Formatted3"), element.tagName());
+                            getErrorProp("Formatted3"), element.tagName());
 
                     CMHPIUtils.showDefaultMsg(
-                        CMLanguageController.getErrorProp("Title"),
-                        this.getClass().getName(),
-                        Thread.currentThread().getStackTrace()[1].
-                            getMethodName(),
-                        s,
-                        JOptionPane.ERROR_MESSAGE);
+                            CMLanguageController.getErrorProp("Title"),
+                            this.getClass().getName(),
+                            Thread.currentThread().getStackTrace()[1].
+                                    getMethodName(),
+                            s,
+                            JOptionPane.ERROR_MESSAGE);
 
                     throw (new UnsupportedOperationException());
             }
@@ -464,11 +463,11 @@ public class CMOfxDirectModel
         if (aElement == null)
         {
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getErrorProp("Error"),
-                this.getClass().getName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                "File error: element is null.",
-                JOptionPane.ERROR_MESSAGE);
+                    CMLanguageController.getErrorProp("Error"),
+                    this.getClass().getName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    "File error: element is null.",
+                    JOptionPane.ERROR_MESSAGE);
 
             throw (new UnsupportedOperationException());
         }
@@ -509,25 +508,24 @@ public class CMOfxDirectModel
                     break;
                 default:
                     s = String.format(CMLanguageController.getErrorProp(
-                        "Formatted3"), element.tagName());
+                            "Formatted3"), element.tagName());
 
                     CMHPIUtils.showDefaultMsg(
-                        CMLanguageController.getErrorProp("Title"),
-                        this.getClass().getName(),
-                        Thread.currentThread().getStackTrace()[1].
-                            getMethodName(),
-                        s,
-                        JOptionPane.ERROR_MESSAGE);
+                            CMLanguageController.getErrorProp("Title"),
+                            this.getClass().getName(),
+                            Thread.currentThread().getStackTrace()[1].
+                                    getMethodName(),
+                            s,
+                            JOptionPane.ERROR_MESSAGE);
 
                     throw (new UnsupportedOperationException());
             }
         }
 
         if (tempFIModel.getFiName().isEmpty() //              || tempFIModel.getFiOrg().isEmpty()
-            //              || tempFIModel.getBrokerId().isEmpty()
-            //              || tempFIModel.getFiId().isEmpty()
-            ||
-             tempFIModel.getFiUrl().isEmpty())
+                //              || tempFIModel.getBrokerId().isEmpty()
+                //              || tempFIModel.getFiId().isEmpty()
+                || tempFIModel.getFiUrl().isEmpty())
         {
             return;
         }
@@ -544,11 +542,11 @@ public class CMOfxDirectModel
         if (aElement == null)
         {
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getErrorProp("Error"),
-                this.getClass().getName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                "File error: element is null.",
-                JOptionPane.ERROR_MESSAGE);
+                    CMLanguageController.getErrorProp("Error"),
+                    this.getClass().getName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    "File error: element is null.",
+                    JOptionPane.ERROR_MESSAGE);
 
             throw (new UnsupportedOperationException());
         }
@@ -566,15 +564,15 @@ public class CMOfxDirectModel
                     break;
                 default:
                     s = String.format(CMLanguageController.getErrorProp(
-                        "Formatted3"), element.tagName());
+                            "Formatted3"), element.tagName());
 
                     CMHPIUtils.showDefaultMsg(
-                        CMLanguageController.getErrorProp("Title"),
-                        this.getClass().getName(),
-                        Thread.currentThread().getStackTrace()[1].
-                            getMethodName(),
-                        s,
-                        JOptionPane.ERROR_MESSAGE);
+                            CMLanguageController.getErrorProp("Title"),
+                            this.getClass().getName(),
+                            Thread.currentThread().getStackTrace()[1].
+                                    getMethodName(),
+                            s,
+                            JOptionPane.ERROR_MESSAGE);
 
                     throw (new UnsupportedOperationException());
             }
@@ -602,6 +600,9 @@ public class CMOfxDirectModel
                 case "clientid":
                     tempFIModel.setClientId(element.ownText());
                     break;
+                case "clientsecret":
+                    tempFIModel.setClientSecret(element.ownText());
+                    break;
                 case "httpschema":
                     tempFIModel.setHttpSchema(element.ownText());
                     break;
@@ -614,17 +615,38 @@ public class CMOfxDirectModel
                 case "debugbytes":
                     tempFIModel.setDebugBytes(element.ownText());
                     break;
+                case "redirecturl":
+                    tempFIModel.setRedirectUrl(element.ownText());
+                    break;
+                case "httptimeout":
+                    tempFIModel.setHttpTimeout(element.ownText());
+                    break;
+                case "scope":
+                    tempFIModel.setScope(element.ownText());
+                    break;
+                case "authurl":
+                    tempFIModel.setAuthUrl(element.ownText());
+                    break;
+                case "authtokenurl":
+                    tempFIModel.setAuthTokenUrl(element.ownText());
+                    break;
+                case "marketurl":
+                    tempFIModel.setMarketUrl(element.ownText());
+                    break;
+                case "traderurl":
+                    tempFIModel.setTraderUrl(element.ownText());
+                    break;
                 default:
                     s = String.format(CMLanguageController.getErrorProp(
-                        "Formatted3"), element.tagName());
+                            "Formatted3"), element.tagName());
 
                     CMHPIUtils.showDefaultMsg(
-                        CMLanguageController.getErrorProp("Title"),
-                        this.getClass().getName(),
-                        Thread.currentThread().getStackTrace()[1].
-                            getMethodName(),
-                        s,
-                        JOptionPane.ERROR_MESSAGE);
+                            CMLanguageController.getErrorProp("Title"),
+                            this.getClass().getName(),
+                            Thread.currentThread().getStackTrace()[1].
+                                    getMethodName(),
+                            s,
+                            JOptionPane.ERROR_MESSAGE);
 
                     throw (new UnsupportedOperationException());
             }
@@ -632,7 +654,7 @@ public class CMOfxDirectModel
     }
 
     private void readAccount(Element aElement,
-        CMOfxDLFIModel tempFiModel)
+            CMOfxDLFIModel tempFiModel)
     {
         Element element;
         Iterator<Element> iterator;
@@ -643,11 +665,11 @@ public class CMOfxDirectModel
         if (aElement == null)
         {
             CMHPIUtils.showDefaultMsg(
-                CMLanguageController.getErrorProp("Error"),
-                this.getClass().getName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
-                "File error: element is null.",
-                JOptionPane.ERROR_MESSAGE);
+                    CMLanguageController.getErrorProp("Error"),
+                    this.getClass().getName(),
+                    Thread.currentThread().getStackTrace()[1].getMethodName(),
+                    "File error: element is null.",
+                    JOptionPane.ERROR_MESSAGE);
 
             throw (new UnsupportedOperationException());
         }
@@ -679,15 +701,15 @@ public class CMOfxDirectModel
                     break;
                 default:
                     s = String.format(CMLanguageController.getErrorProp(
-                        "Formatted3"), element.tagName());
+                            "Formatted3"), element.tagName());
 
                     CMHPIUtils.showDefaultMsg(
-                        CMLanguageController.getErrorProp("Title"),
-                        this.getClass().getName(),
-                        Thread.currentThread().
-                            getStackTrace()[1].getMethodName(),
-                        s,
-                        JOptionPane.ERROR_MESSAGE);
+                            CMLanguageController.getErrorProp("Title"),
+                            this.getClass().getName(),
+                            Thread.currentThread().
+                                    getStackTrace()[1].getMethodName(),
+                            s,
+                            JOptionPane.ERROR_MESSAGE);
 
                     throw (new UnsupportedOperationException());
             }
