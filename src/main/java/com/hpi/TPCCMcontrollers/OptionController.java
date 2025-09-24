@@ -10,15 +10,8 @@ import javax.swing.*;
 import lombok.*;
 import org.apache.commons.math3.util.*;
 
-// SLF4J IMPORTS (replacing Log4j2)
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Getter @Setter
 public class OptionController {
-
-    // SLF4J LOGGER (replacing Log4j2)
-    private static final Logger logger = LoggerFactory.getLogger(OptionController.class);
 
     private ArrayList<Account> accountList;
     private ArrayList<String> equityIdList;
@@ -43,7 +36,6 @@ public class OptionController {
     protected OptionController() {
         // protected prevents instantiation outside of package 
         this.userId = CMDBModel.getUserId();
-        logger.debug("OptionController initialized for user: {}", this.userId);
 
         //force a progress bar
         this.progressBarCLI = new CMProgressBarCLI("true");
@@ -62,35 +54,27 @@ public class OptionController {
     public synchronized static OptionController getInstance() {
         if (OptionController.instance == null) {
             OptionController.instance = new OptionController();
-            logger.debug("OptionController singleton instance created");
         }
         return OptionController.instance;
     }
 
     void initCustom() {
-        logger.debug("OptionController custom initialization");
+
     }
 
     public void processFIFOOptionLotsAccounts() {
-        logger.info("Starting FIFO option lots processing for all accounts");
-        
         // query Accounts for list of DMAcctId
         this.getAccounts();
-        logger.info("Found {} accounts to process", this.accountList.size());
 
         // Iterate through the accounts
         for (Account account : this.accountList) {
-            logger.info("Processing account: {} (ID: {})", account.getClientAcctName(), account.getDmAcctId());
             System.out.println("      Processing account: " + account.getClientAcctName());
 
             // get unique list of equityId from OpeningOptions
             this.getDistinctEquityId(account.getDmAcctId());
-            logger.debug("Found {} distinct equities for account: {}", 
-                        this.equityIdList.size(), account.getClientAcctName());
 
             // iterate through equityId
             for (String equityId : this.equityIdList) {
-                logger.debug("Processing equity: {} for account: {}", equityId, account.getClientAcctName());
                 
                 //iterate the transaction types
                 for (OptionTransactionTypeEnum tte : OptionTransactionTypeEnum.values()) {
@@ -101,7 +85,6 @@ public class OptionController {
                     }
                 }
 
-                logger.debug("Processing FIFO buy-to-open for equity: {}", equityId);
                 processFIFOOptionLotsBuyToOpen();
 
                 // clear the arrays
@@ -111,7 +94,6 @@ public class OptionController {
                 this.optionClosedTransList.clear();
                 this.optionOpenList.clear();
 
-                logger.debug("Processing FIFO sell-to-open for equity: {}", equityId);
                 processFIFOOptionLotsSellToOpen();
 
                 // clear the arrays
@@ -126,12 +108,9 @@ public class OptionController {
             this.equityIdList.clear();
         }
         
-        logger.info("Completed FIFO option lots processing for all accounts");
     }
 
     void getAccounts() {
-        logger.debug("Retrieving accounts for user: {}", this.userId);
-        
         // FIXED: Use parameterized query to prevent SQL injection
         String sql = "SELECT Accounts.DMAcctId, BrokerId, AcctId, Org, FId, InvAcctIdFi, ClientAcctName " +
                     "FROM hlhtxc5_dmOfx.Accounts, hlhtxc5_dmOfx.ClientAccts " +
@@ -157,15 +136,10 @@ public class OptionController {
                         rs.getString("ClientAcctName"));
 
                     this.accountList.add(accountTemp);
-                    logger.debug("Added account: {} (ID: {})", 
-                                accountTemp.getClientAcctName(), accountTemp.getDmAcctId());
                 }
             }
             
-            logger.info("Retrieved {} accounts for user: {}", this.accountList.size(), this.userId);
-            
         } catch (SQLException ex) {
-            logger.error("Database error while retrieving accounts for user: {}", this.userId, ex);
             throw new CMDAOException(
                 CMLanguageController.getDBErrorProp("Title"),
                 Thread.currentThread().getStackTrace()[1].getClassName(),
@@ -176,8 +150,6 @@ public class OptionController {
     }
 
     public void getDistinctEquityId(Integer account) {
-        logger.debug("Getting distinct equity IDs for account: {}", account);
-        
         // FIXED: Use parameterized query to prevent SQL injection
         String sql = "SELECT DISTINCT A.EquityId FROM (" +
                     "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx.OpeningOptions " +
@@ -212,14 +184,9 @@ public class OptionController {
                 while (rs.next()) {
                     String equityId = rs.getString("EquityId");
                     this.equityIdList.add(equityId);
-                    logger.debug("Added equity ID: {} for account: {}", equityId, account);
                 }
             }
-            
-            logger.debug("Found {} distinct equity IDs for account: {}", this.equityIdList.size(), account);
-            
         } catch (SQLException ex) {
-            logger.error("Database error while getting distinct equity IDs for account: {}", account, ex);
             throw new CMDAOException(
                 CMLanguageController.getDBErrorProp("Title"),
                 Thread.currentThread().getStackTrace()[1].getClassName(),
@@ -237,9 +204,6 @@ public class OptionController {
      * @param optTransType
      */
     public void getAcctOptionsOpen(Integer account, String equityId, String optTransType) {
-        logger.debug("Getting account options (open) for account: {}, equity: {}, type: {}", 
-                    account, equityId, optTransType);
-        
         // Use the existing SQL from OpeningOptionModel but with proper parameterization
         String sqlOpen = String.format(OpeningOptionModel.GET_ALL_AVAIL,
             account, equityId, optTransType, this.userId,
@@ -293,17 +257,11 @@ public class OptionController {
                         this.optionOpeningSellList.add(ooTemp);
                         break;
                     default:
-                        logger.warn("Unknown option transaction type: {}", optTransType);
                 }
                 count++;
             }
             
-            logger.debug("Retrieved {} opening options for account: {}, equity: {}, type: {}", 
-                        count, account, equityId, optTransType);
-            
         } catch (SQLException ex) {
-            logger.error("Database error while getting opening options for account: {}, equity: {}, type: {}", 
-                        account, equityId, optTransType, ex);
             throw new CMDAOException(
                 CMLanguageController.getDBErrorProp("Title"),
                 Thread.currentThread().getStackTrace()[1].getClassName(),
@@ -321,9 +279,6 @@ public class OptionController {
      * @param optTransType
      */
     public void getAcctOptionsClose(Integer account, String equityId, String optTransType) {
-        logger.debug("Getting account options (close) for account: {}, equity: {}, type: {}", 
-                    account, equityId, optTransType);
-        
         String sqlClose = String.format(ClosingOptionModel.GET_ALL_AVAIL,
             account, equityId, optTransType, this.userId,
             account, equityId, optTransType, this.userId);
@@ -377,19 +332,14 @@ public class OptionController {
                                 this.optionClosingSellList.add(coTemp);
                                 break;
                             default:
-                                logger.warn("Unknown closing option transaction type: {}", optTransType);
                         }
                         count++;
                     }
-                    
-                    logger.debug("Retrieved {} closing options for account: {}, equity: {}, type: {}", 
-                                count, account, equityId, optTransType);
                 }
             }
             
         } catch (SQLException ex) {
-            logger.error("Database error while getting closing options for account: {}, equity: {}, type: {}", 
-                        account, equityId, optTransType, ex);
+
             throw new CMDAOException(
                 CMLanguageController.getDBErrorProp("Title"),
                 Thread.currentThread().getStackTrace()[1].getClassName(),
@@ -401,12 +351,8 @@ public class OptionController {
 
     // Rest of the methods remain the same...
     public void processFIFOOptionLotsBuyToOpen() {
-        logger.debug("Processing FIFO option lots for buy-to-open transactions");
-        
         // iterate through all OpeningBuy of one EquityId
         for (OpeningOptionModel oo : this.optionOpeningBuyList) {
-            logger.debug("Processing opening option: {} with {} units", oo.getFiTId(), oo.getUnits());
-            
             // iterate through all ClosingOptions for this EquityId
             this.doOptionClosingSellList(oo);
 
@@ -423,9 +369,6 @@ public class OptionController {
                     "FiTId: " + co.getFiTId() + "  " + 
                     "Units Left: " + co.getUnits();
 
-                logger.error("Option transaction mismatch: EquityId={}, FiTId={}, UnitsLeft={}", 
-                           co.getEquityId(), co.getFiTId(), co.getUnits());
-
                 CMHPIUtils.showDefaultMsg(
                     CMLanguageController.getAppProp("Title") + CMLanguageController.getErrorProp("Title"),
                     Thread.currentThread().getStackTrace()[1].getClassName(),
@@ -437,19 +380,14 @@ public class OptionController {
 
         // handle open positions
         this.doOptionOpenList();
-        logger.debug("Completed processing FIFO option lots for buy-to-open transactions");
     }
 
     public void processFIFOOptionLotsSellToOpen() {
-        logger.debug("Processing FIFO option lots for sell-to-open transactions");
-        
         Integer openingOption = 0;
         
         // iterate through all OpeningSell of one EquityId
         for (OpeningOptionModel oo : this.optionOpeningSellList) {
             openingOption++;
-            logger.debug("Processing opening sell option {} of {}: {} with {} units", 
-                        openingOption, this.optionOpeningSellList.size(), oo.getFiTId(), oo.getUnits());
 
             // iterate through all ClosingOptions for this EquityId
             this.doOptionClosingBuyList(oo);
@@ -467,9 +405,6 @@ public class OptionController {
                     "FiTId: " + co.getFiTId() + "  " + 
                     "Units Left: " + co.getUnits();
 
-                logger.error("Option transaction mismatch in sell-to-open: EquityId={}, FiTId={}, UnitsLeft={}", 
-                           co.getEquityId(), co.getFiTId(), co.getUnits());
-
                 CMHPIUtils.showDefaultMsg(
                     CMLanguageController.getAppProp("Title") + CMLanguageController.getErrorProp("Title"),
                     Thread.currentThread().getStackTrace()[1].getClassName(),
@@ -481,15 +416,12 @@ public class OptionController {
 
         // handle open positions
         this.doOptionOpenList();
-        logger.debug("Completed processing FIFO option lots for sell-to-open transactions");
     }
 
     /*
      * Given an opening option, iterate closing op
      */
     private void doOptionClosingSellList(OpeningOptionModel oo) {
-        logger.debug("Processing closing sell list for opening option: {}", oo.getFiTId());
-        
         for (ClosingOptionModel co : this.optionClosingSellList) {
             if (co.getUnits() == 0.0) {
                 // no units left in this closing
@@ -512,15 +444,11 @@ public class OptionController {
                 comp = -1;
             }
 
-            logger.debug("Matching opening units {} with closing units {}, comparison: {}", 
-                        oUnits, cUnits, comp);
-
             switch (comp) {
                 case -1:
                     // opening less than closing, need to split closing
                     Double alloc = (cUnits - oUnits) / cUnits;
-                    logger.debug("Splitting closing transaction, allocation: {}", alloc);
-                    
+
                     // part of closing goes to optionClosedTransList
                     ClosingOptionModel coTemp = createClosingOptionCopy(co, 1.0 - alloc);
                     this.optionClosedTransList.add(coTemp);
@@ -535,7 +463,6 @@ public class OptionController {
                     
                 case 0:
                     // opening equals closing
-                    logger.debug("Opening equals closing, perfect match");
                     ClosingOptionModel coTempEqual = createClosingOptionCopy(co, 1.0);
                     this.optionClosedTransList.add(coTempEqual);
 
@@ -546,7 +473,6 @@ public class OptionController {
                 case 1:
                     // opening greater than closing
                     Double allocOpening = (oUnits - cUnits) / oUnits;
-                    logger.debug("Opening greater than closing, opening allocation: {}", allocOpening);
                     
                     ClosingOptionModel coTempGreater = createClosingOptionCopy(co, 1.0);
                     this.optionClosedTransList.add(coTempGreater);
@@ -558,7 +484,6 @@ public class OptionController {
                     break;
                     
                 default:
-                    logger.warn("Unexpected comparison result: {}", comp);
             }
 
             // Update the closing trade with the allocation
@@ -573,7 +498,6 @@ public class OptionController {
             // there is a remaining open position
             OpeningOptionModel ooTemp = createOpeningOptionCopy(oo);
             this.optionOpenList.add(ooTemp);
-            logger.debug("Added remaining open position: {} with {} units", oo.getFiTId(), oo.getUnits());
         }
     }
 
@@ -581,8 +505,6 @@ public class OptionController {
      * Given an opening option, iterate closing op
      */
     private void doOptionClosingBuyList(OpeningOptionModel oo) {
-        logger.debug("Processing closing buy list for opening option: {}", oo.getFiTId());
-        
         for (ClosingOptionModel co : this.optionClosingBuyList) {
             if (co.getUnits() == 0.0) {
                 continue;
@@ -603,9 +525,6 @@ public class OptionController {
                 comp = -1;
             }
 
-            logger.debug("Matching opening units {} with closing buy units {}, comparison: {}", 
-                        oUnits, cUnits, comp);
-
             switch (comp) {
                 case -1:
                     // opening less than closing, need to split closing
@@ -641,18 +560,18 @@ public class OptionController {
                     break;
             }
 
-            CMDBController.executeSQL(String.format(ClosingOptionModel.UPDATE_UNITS, co.getUnits(),
+            CMDBController.executeSQL(String.format(ClosingOptionModel
+                    .UPDATE_UNITS, co.getUnits(),
                 co.getDmAcctId(), co.getJoomlaId(), co.getFiTId()));
         }
 
-        CMDBController.executeSQL(String.format(OpeningOptionModel.UPDATE_UNITS, oo.getUnits(),
+        CMDBController.executeSQL(String.format(OpeningOptionModel
+                .UPDATE_UNITS, oo.getUnits(),
             oo.getDmAcctId(), oo.getJoomlaId(), oo.getFiTId()));
 
         if (oo.getUnits() != 0) {
             OpeningOptionModel ooTemp = createOpeningOptionCopy(oo);
             this.optionOpenList.add(ooTemp);
-            logger.debug("Added remaining open position from buy list: {} with {} units", 
-                        oo.getFiTId(), oo.getUnits());
         }
     }
 
@@ -749,8 +668,6 @@ public class OptionController {
      * pair the opening to closing and write to the database
      */
     void doOptionClosedTransListSQL(OpeningOptionModel oo) {
-        logger.debug("Writing closed transactions to database for opening option: {}", oo.getFiTId());
-        
         Double updateUnits = 0.0;
         Double updateCommission = 0.0;
         Double updateTaxes = 0.0;
@@ -761,15 +678,11 @@ public class OptionController {
         java.sql.Date updateCloseDate = null;
 
         if (!this.optionClosedTransList.isEmpty()) {
-            logger.debug("Processing {} closed transactions", this.optionClosedTransList.size());
-            
             // put this opening transaction into ClosedOptionFIFOModel
             String sSQL = String.format(ClosedOptionFIFOModel.INSERT_ALL_VALUES, ClosedOptionFIFOModel.ALL_FIELDS);
             sSQL += buildClosedOptionInsertSQL(oo);
 
             Integer rowIndex = CMDBController.insertAutoRow(sSQL);
-            logger.debug("Inserted closed option FIFO record with row index: {}", rowIndex);
-
             // add optionClosedTransList to ClosedOptionTrans
             for (ClosingOptionModel co : this.optionClosedTransList) {
                 String transSQL = String.format(ClosedOptionTrans.INSERT_ALL_VALUES, ClosedOptionTrans.ALL_FIELDS);
@@ -821,7 +734,6 @@ public class OptionController {
                 rowIndex));
 
             this.optionClosedTransList.clear();
-            logger.debug("Updated closed option FIFO record and cleared transaction list");
         }
     }
 
@@ -868,7 +780,8 @@ public class OptionController {
         return sql.toString();
     }
 
-    private String buildClosedTransInsertSQL(OpeningOptionModel oo, ClosingOptionModel co, Integer rowIndex) {
+    private String buildClosedTransInsertSQL(OpeningOptionModel oo, 
+            ClosingOptionModel co, Integer rowIndex) {
         StringBuilder sql = new StringBuilder();
         sql.append(oo.getDmAcctId()).append(", '");
         sql.append(this.userId).append("', '");
@@ -916,22 +829,16 @@ public class OptionController {
     }
 
     void doOptionOpenList() {
-        logger.debug("Processing open option list with {} items", this.optionOpenList.size());
-        
         if (!this.optionOpenList.isEmpty()) {
             // there are open positions
             // optionOpen -> OpenOptionFIFO
             for (OpeningOptionModel oo : this.optionOpenList) {
-                logger.debug("Inserting open option: {} with {} units", oo.getFiTId(), oo.getUnits());
-                
                 CMDBController.executeSQL(String
                     .format(OpenOptionFIFOModel.INSERT_ALL_VALUES,
-                        OpenOptionFIFOModel.ALL_FIELDS) + OpenOptionFIFOModel.insertAll(oo, userId));
+                        OpenOptionFIFOModel.ALL_FIELDS) 
+                        + OpenOptionFIFOModel.insertAll(oo, userId));
             }
-            
-            logger.info("Inserted {} open option positions", this.optionOpenList.size());
         } else {
-            logger.debug("No open option positions to insert");
         }
     }
 }

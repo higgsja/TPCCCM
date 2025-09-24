@@ -12,6 +12,7 @@ public class CMOfxDLFIModel
     private String fiUrl;
     private String active;
     private String tokenRefresh;
+    private String accessToken;
     private String clientId;
     private String clientSecret;
     private String httpSchema;
@@ -36,6 +37,7 @@ public class CMOfxDLFIModel
         this.fiUrl = "";
         this.active = "";
         this.tokenRefresh = "";
+        this.accessToken = "";
         this.clientId = "";
         this.clientSecret = "";
         this.httpSchema = "";
@@ -62,6 +64,7 @@ public class CMOfxDLFIModel
         this.fiUrl = fiUrl;
         this.active = active;
         this.tokenRefresh = "";
+        this.accessToken = "";
         this.clientId = "";
         this.clientSecret = "";
         this.httpSchema = "";

@@ -255,26 +255,32 @@ public class CMOfxDirectModel
                 writer.write(endLine);
                 iTab++;
 
-//                writer.write(CMHPIUtils.
-//                    charFill(iTab, "\t".charAt(0)));
-//                writer.write("<tokenRefresh>");
-//                writer.write(fiModel.getTokenRefresh());
-//                writer.write("</tokenRefresh>");
-//                writer.write(endLine);
-                writer.write(CMHPIUtils.
-                        charFill(iTab, "\t".charAt(0)));
+                writer.write(CMHPIUtils.charFill(iTab, "\t".charAt(0)));
                 writer.write("<tokenRefresh>");
                 writer.write(fiModel.getTokenRefresh());
                 writer.write("</tokenRefresh>");
                 writer.write(endLine);
+                
+                writer.write(CMHPIUtils.charFill(iTab, "\t".charAt(0)));
+                writer.write("<AccessToken>");
+                writer.write(fiModel.getAccessToken());
+                writer.write("</AccessToken>");
+                writer.write(endLine);
 
-                writer.write(CMHPIUtils.
-                        charFill(iTab, "\t".charAt(0)));
+                writer.write(CMHPIUtils.charFill(iTab, "\t".charAt(0)));
                 writer.write("<clientId>");
                 writer.write(fiModel.getClientId());
                 writer.write("</clientId>");
                 writer.write(endLine);
 
+                writer.write(CMHPIUtils.
+                        charFill(iTab, "\t".charAt(0)));
+                writer.write("<clientsecret>");
+                writer.write(fiModel.getClientSecret());
+                writer.write("</clientsecret>");
+                writer.write(endLine);
+
+                
                 writer.write(CMHPIUtils.
                         charFill(iTab, "\t".charAt(0)));
                 writer.write("<httpSchema>");
@@ -298,10 +304,65 @@ public class CMOfxDirectModel
 
                 writer.write(CMHPIUtils.
                         charFill(iTab, "\t".charAt(0)));
-                writer.write("<debugbytes>");
+                writer.write("<debugBytes>");
                 writer.write(fiModel.getDebugBytes());
                 writer.write("</debugBytes>");
                 writer.write(endLine);
+                
+                writer.write(CMHPIUtils.
+                        charFill(iTab, "\t".charAt(0)));
+                writer.write("<redirectUrl>");
+                writer.write(fiModel.getRedirectUrl());
+                writer.write("</redirectUrl>");
+                writer.write(endLine);
+
+                
+                writer.write(CMHPIUtils.
+                        charFill(iTab, "\t".charAt(0)));
+                writer.write("<httpTimeout>");
+                writer.write(fiModel.getHttpTimeout());
+                writer.write("</httpTimeout>");
+                writer.write(endLine);
+
+                
+                writer.write(CMHPIUtils.
+                        charFill(iTab, "\t".charAt(0)));
+                writer.write("<scope>");
+                writer.write(fiModel.getScope());
+                writer.write("</scope>");
+                writer.write(endLine);
+
+                
+                writer.write(CMHPIUtils.
+                        charFill(iTab, "\t".charAt(0)));
+                writer.write("<authUrl>");
+                writer.write(fiModel.getAuthUrl());
+                writer.write("</authUrl>");
+                writer.write(endLine);
+
+                
+                writer.write(CMHPIUtils.
+                        charFill(iTab, "\t".charAt(0)));
+                writer.write("<authTokenUrl>");
+                writer.write(fiModel.getAuthTokenUrl());
+                writer.write("</authTokenUrl>");
+                writer.write(endLine);
+
+                
+                writer.write(CMHPIUtils.
+                        charFill(iTab, "\t".charAt(0)));
+                writer.write("<marketUrl>");
+                writer.write(fiModel.getMarketUrl());
+                writer.write("</marketUrl>");
+                writer.write(endLine);
+                
+                writer.write(CMHPIUtils.
+                        charFill(iTab, "\t".charAt(0)));
+                writer.write("<traderUrl>");
+                writer.write(fiModel.getTraderUrl());
+                writer.write("</traderUrl>");
+                writer.write(endLine);
+
 
                 iTab--;
                 writer.write(CMHPIUtils.
@@ -309,11 +370,23 @@ public class CMOfxDirectModel
                 writer.write("</directAccess>");
                 writer.write(endLine);
 
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 writer.write(CMHPIUtils.
                         charFill(iTab, "\t".charAt(0)));
                 writer.write("<Accounts>");
                 writer.write(endLine);
                 iTab++;
+                
+                
 
                 // accounts
                 for (CMOfxDLAccountModel acctModel : fiModel.getAccountModels())
@@ -594,6 +667,9 @@ public class CMOfxDirectModel
 
             switch (element.tagName().toLowerCase(Locale.US))
             {
+                case "accesstoken":
+                    tempFIModel.setAccessToken(element.ownText());
+                    break;
                 case "tokenrefresh":
                     tempFIModel.setTokenRefresh(element.ownText());
                     break;

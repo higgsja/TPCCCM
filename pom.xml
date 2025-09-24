@@ -18,11 +18,6 @@
     <!-- Dependency management to force specific versions -->
     <dependencyManagement>
         <dependencies>
-<!--            <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>2.0.17</version>
-</dependency>-->
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
@@ -46,19 +41,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Spring Boot Logging - provides SLF4J API and Logback implementation -->
-<!--        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-logging</artifactId>
-            <version>3.1.5</version>
-            <exclusions>
-        <exclusion>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-to-slf4j</artifactId>
-        </exclusion>
-    </exclusions>
-        </dependency>-->
-        
         <!-- Math utilities -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -81,8 +63,6 @@
             <version>1.18.38</version>
             <scope>provided</scope>
         </dependency>
-        
-        <!-- REMOVED: SLF4J API dependency - provided by spring-boot-starter-logging -->
         
         <!-- Database connection pooling -->
         <dependency>
@@ -211,7 +191,7 @@
             </plugin>
             
             <!-- Maven source plugin to create source JAR -->
-            <plugin>
+            <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.3.1</version>
@@ -223,10 +203,10 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
             
             <!-- Maven javadoc plugin -->
-            <plugin>
+            <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.11.1</version>
@@ -242,7 +222,110 @@
                     <source>17</source>
                     <detectJavaApiLink>false</detectJavaApiLink>
                 </configuration>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <!-- This profile is active by default -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!-- Default properties for development -->
+                <spring.profiles.active>dev</spring.profiles.active>
+                <build.environment>development</build.environment>
+                <log.level>DEBUG</log.level>
+            </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.11.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <source>17</source>
+                            <detectJavaApiLink>false</detectJavaApiLink>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>production</id>
+            <properties>
+                <!-- Production-specific properties -->
+                <spring.profiles.active>prod</spring.profiles.active>
+                <build.environment>production</build.environment>
+                <log.level>INFO</log.level>
+            </properties>
+            <build>
+                <plugins> 
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.14.0</version>
+                        <configuration>
+                            <debug>false</debug>
+                            <source>17</source>
+                            <target>17</target>
+                            <optimize>true</optimize> <!-- Enable optimization -->
+                        </configuration>
+                    </plugin>
+                </plugins>
+                
+                <resources>
+                    <!-- Include a different set of resources for production -->
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                        <excludes>
+                            <!-- Exclude dev-specific config files -->
+                            <exclude>logback-dev.xml</exclude>
+                        </excludes>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources-prod</directory>
+                        <includes>
+                            <!-- Include prod-specific config files -->
+                            <include>logback-prod.xml</include>
+                            <!--<include>application-prod.properties</include>-->
+                        </includes>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
 </project>
