@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <entry key="Version">1.0</entry>
+  <entry key="Title">Trader Performance Coach</entry>
+  <entry key="VersionTitle">Version: </entry>
+  <entry key="InfoViewerLastOSTitle">Last Operating System: </entry>
+  <entry key="InfoViewerLastVersionTitle">Last Version: </entry>
+  <entry key="LanguageViewerLanguageTitle">Language: </entry>
+  <entry key="TPCIntro">Trader Performance Coach Software™
+ 
+Every trader can improve through effective reviews of performance. Much like any skill, effective and timely reviews make a difference.
+
+From a knowledge management perspective, Data can be processed and enriched to deliver Information which provide answers to 'who', 'what', 'where', and 'when'.
+
+Information can be further analyzed via simple machine learning, artificial intelligence, visualization and other techniques into Knowledge which provides insights into 'how' things are occurring.
+
+Knowledge can be further processed, assessed, combined, compared and contrasted in ways that help deliver the answer to 'why'.
+
+Wisdom comes through the journey from Data to Knowledge, achieving full understanding and the ability to influence the future and improve performance in a given endeavor.
+
+The easier and more automated such reviews are, the more often they will occur. This is a practical outcome from human interaction: simpler is better. The more often performance is reviewed, the more likely improvements will be implemented.</entry>
+<!-- vvvTPCNotesvvv -->
+  <entry key="NotesTitle"> -- Notes</entry>
+  <entry key="NotesTableHeaderToolTips">Item: May be Ticker; OCC Option Symbol; or any other text,Description: Describes the item,High: latest available for equities,Low: latest available for equities,Close: latest available for equities,Notes: Notes,Date Entered: initial entry date,Action: choice,Trigger Type: choice,Trigger Target: choice,Mkt Cap: Market Capitalization,52w High%: percent above 52 week high,52w Low%: percent above 52 week low,Units: choice,Initial Price: close price on Entry Date,Change: latest price minus Initial Price,Change %: percent change from Initial Price,Gain: gain on Units since Entry Date,Sector: Sector,Industry: Industry,Beta: beta (TBD),PE: Price to Earnings,Fwd PE: PE using forecast for next fiscal year,PEG: PE/(3-5 year Growth),Div: Dividend,ATR: Average True Range; 14 day exponential moving average of daily [max(high:closePrev) - min(low:closePrev)],SMA 200: $ above,SMA 50: $ above,SMA 20: $ above,RSI: 14 day Relative Strenth Index; momentum oscillator of higher closes to lower closes,Analyst Rec: Analyst Recommendations; 1.0 Strong Buy; 2.0 Buy; 3.0 Hold; 4.0 Sell; 5.0 Strong Sell,Analyst Target: Combined analysts target price in 12 months,Earnings Date: latest availabe forecast of earnings date (not always exactly accurate)</entry>
+<entry key="NotesTableTitles"> Item, Description, High, Low, Close, Notes,Date Entered, Action,Trigger Type,Trigger Target,Mkt Cap,52w High%,52w Low%, Units,Initial Price, Change,Change %, Gain, Sector, Industry, Beta, PE,Fwd PE, PEG, Div, ATR,SMA 200,SMA 50,SMA 20, RSI,Analyst Rec,Analyst Target,Earnings Date</entry>
+  
+  <entry key="NotesBtnCancel">Cancel</entry>
+  <entry key="NotesBtnDelete">Close</entry>
+  <entry key="NotesBtnSave">Save</entry>
+  <entry key="NotesBtnAdd">Add</entry>
+  <entry key="NotesBtnEdit">Edit</entry>
+  <entry key="NotesAddTitle">Add Note</entry>
+  <entry key="NotesEditTitle">Edit Note</entry>
+  <entry key="NotesCheckboxOwn">Own</entry>
+  <entry key="NotesCheckboxCrowd">Crowd</entry>
+  <entry key = "NotesCheckboxClosed">Closed</entry>
+<!-- ^^^TPCNotes^^^ -->
+  <!-- FileController -->
+  <entry key="FCFormat1">
+  Processing: %s %s
+  </entry>
+  <entry key="FCFormat2">
+  Failed: %s %s
+  </entry>
+  <entry key="FCFormat3">
+  Complete: %s %s
+  </entry>
+  <entry key="Help">
+  --buildDemo: creates a demo account with the given userId (1 default)
+  --clearDbOfxUserId: Clears account dbOfx data for restart; dmOfx data not touched: best to use --clearDmOfxUserId --userId xxxx then --clearDbOfxUserId --userId
+  --clearDmOfxUserId: Clears account dmOfx data for restart; dbOfx data not touched: best to use --clearDmOfxUserId --userId xxxx then --clearDbOfxUserId --userId xxxx: Provides a Joomla Id where required
+  --dataMart: rebuilds the data mart
+  --dataMart --date yyyy-mm-dd: rebuilds the data mart from a given start date
+  --directOfxDownload For financial institutions that enable direct download
+  --directory [directory]: used with --processOfxFiles
+  --equityHistoryIEX: retrieves historical data on all tickers for up to a year
+  --equityHistoryIEXMin: retrieves historical data on select tickers for up to a year
+  --equityInfo: update equityInfo table from finviz.com
+  --file [file]: Fully specified file name; used with --processOfxFile
+  --help
+  --ignoreFiTId --fiTId [string] --acctId [int]
+  --optionHistory: updates database with historical option data
+  --positions: Creates Positions from transactions
+  --processOfxFiles: processes files from directory
+  --progressBar true|false: used with some elements for progress indication
+  <!-- trdstnDl directory directory: Download .qfx file from Tradestation-->
+  <!-- trdstnDl directory directory headless true: use the headless implementation-->
+  --resetSkip --fiTId [string] --acctId [int]
+  --tdAmeritradeOptions: download options price data
+  --tdAmeritradeStocks: download 2 year historical stock price data using equityInfo stock list
+  --tdAmeritradeStocks: download 5 Days historical stock price data using equityInfo stock list
+  
+  Version: %s
+  </entry>
+  <entry key="GlobalHelp">
+  --all: executes all global updates
+  --directory [directory]: provide a fully specified directory
+  --equityHistoryIEX: retrieves 90 days of historical data
+  --equityHistoryIEXAll: retrieves all available (5 years) historical data
+  --equityInfo: update equityInfo table from finviz.com
+  --file [file]: provide a fully specified file name
+  --help
+  --optionHistory: updates database with historical option data
+  --progressBar true|false: used with some elements for progress indication
+  --ofxInstitutions: update ofxInstitutions table from OFXHome
+  
+  Version: %s
+  </entry>
+  <entry key="TradeReportHandlerFilePrefix">IBTrans_</entry>
+  <entry key="TradeReportHandlerMsg1">IBLogTransactions rows added: </entry>
+  <entry key="TradeReportHandlerHeader">BrokerID\tAcctId\tClientId\tExch1\tExecId1\tOrderId\tPermId\tCumQty\tPrice\tAvgPrice\tLqdtion\tShares\tSide\tTime\tCmmsn\tCurSym1\tExecID2\tRlzdPNL\tYield\tYldRedeemDate\tCtrctID\tSymbol\tSecType\tExpiry\tStrike\tRight\tMult\tExch2\tCurSym2\tLclSym\tTrdCls\tSecIdType\tSecId\tComboLegDescr</entry>
+  <entry key="InstructionPanel">
+  1. Use 'File|Connect TWS' to connect to your TWS session.\n
+  \ta. Indicators in the bottom status bar indicate connection status.\n
+  2. Use 'Tools|Option Spread'\n
+  3. How it works:\n
+  \ta. Use Volatility and Target Price to caclulate ...</entry>
+  <entry key="MenuBarFileTitle">File</entry>
+  <entry key="MenuBarFileKeyEvent">F</entry>
+  <!--<entry key="MenuBarFileToolTip">File menu</entry>-->
+  
+  <entry key="MenuFileLogonTitle">Logon ...</entry>
+  <entry key="MenuFileLogonKeyEvent">L</entry>
+  <entry key="MenuFileLogonToolTip">Logon to HPI</entry>
+  
+  <entry key="MenuFileLogoffTitle">Logoff</entry>
+  <entry key="MenuFileLogoffKeyEvent">f</entry>
+  <entry key="MenuFileLogoffToolTip">Logoff from HPI</entry>
+  
+  <entry key="MenuFileExitTitle">Exit</entry>
+  <entry key="MenuFileExitKeyEvent">x</entry>
+  <entry key="MenuFileExitToolTip">Exit Application</entry>
+  
+  <entry key="MenuBarDataTitle">Data</entry>
+  <entry key="MenuBarDataKeyEvent">D</entry>
+  <!--<entry key="MenuBarDataToolTip">Data</entry>-->
+  
+  <entry key="MenuDataDownloadTitle">Download...</entry>
+  <entry key="MenuDataDownloadKeyEvent">n</entry>
+  <entry key="MenuDataDownloadToolTip">Download broker data</entry>
+  
+  <entry key="MenuDataTLAITitle">Trade Log</entry>
+  <entry key="MenuDataTLAIKeyEvent">L</entry>
+  <entry key="MenuDataTLAIToolTip">Trade Log Management</entry>
+  
+  <entry key="MenuDataBrokerTitle">Broker</entry>
+  <entry key="MenuDataBrokerKeyEvent">B</entry>
+  <entry key="MenuDataBrokerToolTip">Manage Broker data</entry>
+  
+  <entry key="MenuDataEITitle">Equity Info</entry>
+  <entry key="MenuDataEIKeyEvent">E</entry>
+  <entry key="MenuDataEIToolTip">Equity Information</entry>
+
+  <entry key="MenuDataOITitle">Option Info</entry>
+  <entry key="MenuDataOIKeyEvent">O</entry>
+  <entry key="MenuDataOIToolTip">Option Information</entry>
+  
+  <entry key="MenuBarPortfolioTitle">Portfolio</entry>
+  <entry key="MenuBarPortfolioKeyEvent">P</entry>
+  <!--<entry key="MenuBarPortfolioToolTip">Portfolio Management</entry>-->
+  
+  <entry key="MenuPortfolioDashboardTitle">Dashboard</entry>
+  <entry key="MenuPortfolioDashboardKeyEvent">D</entry>
+  <entry key="MenuPortfolioDashboardToolTip">Portfolio dashboard</entry>
+  
+  <entry key="MenuPortfolioPlanningTitle">Planning</entry>
+  <entry key="MenuPortfolioPlanningKeyEvent">P</entry>
+  <entry key="MenuPortfolioPlanningToolTip">Portfolio strategy planning</entry>
+  
+  <entry key="MenuBarCoachingTitle">Coaching</entry>
+  <entry key="MenuBarCoachingKeyEvent">c</entry>
+  <!--<entry key="MenuBarCoachingToolTip">Coaching</entry>-->
+  
+  <entry key="MenuBarPerfTitle">Performance</entry>
+  <entry key="MenuBarPerfKeyEvent">P</entry>
+  <entry key="MenuBarPerfToolTip">Performance management</entry>
+  
+  <entry key="MenuBarToolsTitle">Tools</entry>
+  <entry key="MenuBarToolsKeyEvent">T</entry>
+  <!--<entry key="MenuBarToolsToolTip">Tools menu</entry>-->
+  
+  <entry key="MenuToolsPreferencesTitle">Preferences</entry>
+  <entry key="MenuToolsPreferencesKeyEvent">P</entry>
+  <entry key="MenuToolsPreferencesToolTip">Set preferences</entry>
+  
+  <entry key="MenuToolsHedgeTitle">Hedging</entry>
+  <entry key="MenuToolsHedgeKeyEvent">H</entry>
+  <entry key="MenuToolsHedgeToolTip">Evaluate hedging tactics</entry>
+  
+  <entry key="MenuToolsHedgePortfolioTitle">Portfolio</entry>
+  <entry key="MenuToolsHedgePortfolioKeyEvent">o</entry>
+  <entry key="MenuToolsHedgePortfolioToolTip">Evaluate hedging tactics for your portfolio</entry>
+  
+  <entry key="MenuToolsHedgeSectorTitle">Sector</entry>
+  <entry key="MenuToolsHedgeSectorKeyEvent">S</entry>
+  <entry key="MenuToolsHedgeSectorToolTip">Evaluate hedging tactics for a Sector</entry>
+  
+  <entry key="MenuToolsHedgeEquityTitle">Equity</entry>
+  <entry key="MenuToolsHedgeEquityKeyEvent">E</entry>
+  <entry key="MenuToolsHedgeEquityToolTip">Evaluate hedging tactics for an Equity</entry>
+  
+  <entry key="MenuToolsNotesTitle">Notes</entry>
+  <entry key="MenuToolsNotesKeyEvent">N</entry>
+  <entry key="MenuToolsNotesToolTip">Financial Notes tool</entry>
+  
+  <entry key="HedgeInputTitle">Inputs</entry>
+
+  <!-- DlgWaitChkSymbol -->
+  <entry key="DlgWaitChkSymbolTitle">Retrieving option chain from IB ...</entry>
+  <!-- DlgContractBuilder -->
+  <entry key="DlgContractBuilderTitle">Contract Builder - Add</entry>
+  <entry key="DlgContractBuilderSymbolTip">Ticker symbol
+   Only alpha characters allowed.</entry>
+  <entry key="DlgContractBuilderRatioTip">Usually 1 but allows for
+   ratio spreads (not implemented).
+   Only integer numeric input allowed.</entry>
+  <entry key="DlgContractBuilderCurrencyTip">Usually USD</entry>
+  <entry key="DlgContractBuilderExchangeTip">Usually SMART</entry>
+  <entry key="DlgContractBuilderContractsTip">YYYYmmDD</entry>
+  <entry key="DlgContractBuilderCountTip">Number of option chain contracts to return</entry>
+  <entry key="DlgContractBuilderBtnAddLegTitle">Add Leg</entry>
+  <entry key="DlgContractBuilderBtnAddLegTip">Add to multi-leg contract</entry>
+  <entry key="DlgContractBuilderBtnSaveTitle">Save</entry>
+  <entry key="BtnSaveTitle">Save</entry>
+  <entry key="DlgContractBuilderBtnSaveTip">Save to file</entry>
+  <entry key="DlgContractBuilderBtnTrackerTitle">Track</entry>
+  <entry key="DlgContractBuilderBtnTrackerTip">Shortcut, add call/put tracking pair</entry>
+  <entry key="DlgContractBuilderBtnResetTitle">Reset</entry>
+  <entry key="DlgContractBuilderBtnResetTip">Clear table</entry>
+  
+  <!-- Preferences Dialog vvv -->
+  <entry key="DlgPrefTitle">Preferences</entry>
+  <entry key="DlgPrefCategoriesTitle">Categories</entry>
+  <entry key="DlgPrefCategories">General,Sectors,Equities,Accounts,Credits,Register,License</entry>
+  <entry key="DlgPrefGenEnvironmentTitle">Environment</entry>
+  <entry key="DlgPrefGenLanguageTitle">Language</entry>
+  <!-- ISO 639-2 language codes
+  http://www.loc.gov/standards/iso639-2/php/code_list.php -->
+  <!-- ISO 3166-1 alpha-2 region codes
+  https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements 
+  -->
+  <entry key="DlgPrefGenLanguages">
+  English(US),en-us,
+  English(GB),en-gb,
+  Spanish(MX),es-mx,
+  Spanish(ES),es-es,
+  French(FR),fr-fr,
+  German(DE),de-de
+  </entry>
+  <entry key="DlgPrefGenDirectoriesTitle">Directories</entry>
+  <entry key="DlgPrefGenOSTitle">Operating System: </entry>
+  <entry key="DlgPrefGenHomeTitle">Home: </entry>
+  <entry key="DlgPrefGenDefaultTitle">Default: </entry>
+  <entry key="DlgPrefGenReportsTitle">Reports: </entry>
+  <entry key="DlgPrefGenOfxFilesTitle">Quicken Data: </entry>
+  <entry key="DlgPrefGenOptionHistoryTitle">Options Data: </entry>
+  <entry key="DlgPrefGenDatabasesTitle">Databases</entry>
+  <entry key="DlgPrefCatTitle">Categories</entry>
+  <entry key="DlgPrefGenTitle">General</entry>
+  <entry key="DlgPrefGenAboutTitle">About</entry>
+  <entry key="DlgPrefLanguageTitle">Language</entry>
+  <entry key="DlgPrefDbDisplayName">Display name:</entry>
+  <entry key="DlgPrefDbDatabaseName">Database name:</entry>
+  <entry key="DlgPrefDbType">Type:</entry>
+  <entry key="DlgPrefDbActive">Active:</entry>
+  <entry key="DlgPrefDbDBMS">DBMS:</entry>
+  <entry key="DlgPrefDbURL">URL:</entry>
+  <entry key="DlgPrefDbURLParameters">URL Parameters:</entry>
+  <entry key="DlgPrefDbHost">Host:</entry>
+  <entry key="DlgPrefDbDriver">Driver:</entry>
+  <entry key="DlgPrefDbUId">User ID:</entry>
+  <entry key="DlgPrefDbPW">Password:</entry>
+  <entry key="DlgPrefDbNewBtn">New...</entry>
+  <entry key="DlgPrefDbEditBtn">Edit...</entry>
+  <entry key="DlgPrefDbDeleteBtn">Delete</entry>
+  <entry key="DlgPrefDbNewURLLabel">New URL: </entry>
+  <entry key="DlgPrefDbNewURLTitle">Create New URL</entry>
+  <entry key="DlgPrefDbTypeList">General ,OfxRaw, OfxDataMart, EquityInfo</entry>
+  <entry key="DlgPrefDirectorySelection">Directory Selection</entry>
+
+  <entry key="DlgPrefBtnSave">Save</entry>
+  <entry key="DlgPrefBtnSaveKey">S</entry>
+  <entry key="DlgPrefBtnCancel">Cancel</entry>
+  <entry key="DlgPrefBtnCancelKey">C</entry>
+  <entry key="DlgPrefBtnNew">New...</entry>
+  <entry key="DlgPrefBtnNewKey">N</entry>
+  <entry key="DlgPrefBtnDelete">Delete</entry>
+  <entry key="DlgPrefBtnDeleteKey">D</entry>
+  <entry key="DlgPrefBtnEdit">Edit...</entry>
+  <entry key="DlgPrefBtnEditKey">E</entry>
+  <entry key="DlgPrefBtnDone">Done</entry>
+  <entry key="DlgPrefBtnDoneKey">D</entry>
+  <entry key="DlgPrefBtnOK">OK</entry>
+  <entry key="DlgPrefBtnOKKey">O</entry>
+
+  
+  <entry key="DlgPrefAcctTitle">Accounts</entry>
+  <entry key="DlgPrefEditAcctTitle">Edit Account</entry>
+  <entry key="DlgPrefNewAcctTitle">New Account</entry>
+  <entry key="DlgPrefAcctInstitution">Institution:</entry>
+  <entry key="DlgPrefAcctAccount">Account Name:</entry>
+  <entry key="DlgPrefAcctOrganization">Organization:</entry>
+  <entry key="DlgPrefAcctInstitutionID">Institution ID:</entry>
+  <entry key="DlgPrefAcctBrokerID">Broker ID:</entry>
+  <entry key="DlgPrefAcctInstitutionURL">Institution URL:</entry>
+  <entry key="DlgPrefAcctAccountNumber">Account Number:</entry>
+  <entry key="DlgPrefAcctAccountUID">Account User ID:</entry>
+  <entry key="DlgPrefAcctAccountPW">Account Password:</entry>
+  <entry key="DlgPrefAcctAccountActive">Active:</entry>
+  
+  <!-- Preferences Dialog ^^^ -->
+  
+  <!-- Trade Log vvv -->
+  <entry key="DlgTLAITitle">Trader Log Attribute Input</entry>
+  <entry key="DlgTLAIEquity">Equity</entry>
+  <entry key="DlgTLAITransactionDate">Trans. Date</entry>
+  <entry key="DlgTLAITradeType">Trade Type</entry>
+  <entry key="DlgTLAITradeTactic">Trade Tactic</entry>
+  <entry key="DlgTLAIStopLoss">Stop Loss%</entry>
+  <entry key="DlgTLAITargetGain">Target Gain%</entry>
+  <entry key="DlgTLAITrigger">Trigger</entry>
+  <entry key="DlgTLAIComment">Comment</entry>
+  <entry key="DlgTLAIBtnSave">Save</entry>
+  <entry key="DlgTLAIBtnSaveKey">S</entry>
+  <entry key="DlgTLAIBtnCancel">Cancel</entry>
+  <entry key="DlgTLAIBtnCancelKey">l</entry>
+  <!-- Trade Log ^^^ -->
+  
+  
+  <!-- -->
+  <entry key="EquityInfoReturn">Equity information returned %s rows.
+  </entry>
+  <entry key="DlgPrefOS">Linux,Mac,Windows</entry>
+  <!-- Preferences Dialogs ^^^ -->
+  
+  <!-- General items vvv-->
+  <entry key="BtnOk">Ok</entry>
+  <entry key="BtnCancel">Cancel</entry>
+  <!-- General items ^^^-->
+  
+  <!-- Performance vvv -->
+  <entry key="PerfAll">All</entry>
+  <entry key="PerfSector">Sector</entry>
+  <entry key="PerfEquity">Equity</entry>
+  <entry key="PerfUpdate"></entry>
+  
+  <!-- Performance ^^^ -->
+  
+</properties>
+
