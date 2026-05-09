@@ -113,7 +113,7 @@ public class OptionController {
     void getAccounts() {
         // FIXED: Use parameterized query to prevent SQL injection
         String sql = "SELECT Accounts.DMAcctId, BrokerId, AcctId, Org, FId, InvAcctIdFi, ClientAcctName " +
-                    "FROM hlhtxc5_dmOfx.Accounts, hlhtxc5_dmOfx.ClientAccts " +
+                    "FROM hlhtxc5_dmOfx_dev.Accounts, hlhtxc5_dmOfx_dev.ClientAccts " +
                     "WHERE Accounts.DMAcctId = ClientAccts.DMAcctId " +
                     "AND ClientAccts.Active = 'Yes' " +
                     "AND ClientAccts.JoomlaId = ?";
@@ -152,16 +152,16 @@ public class OptionController {
     public void getDistinctEquityId(Integer account) {
         // FIXED: Use parameterized query to prevent SQL injection
         String sql = "SELECT DISTINCT A.EquityId FROM (" +
-                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx.OpeningOptions " +
+                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx_dev.OpeningOptions1 " +
                     "WHERE DMAcctId = ? AND JoomlaId = ? AND NOT(Units = 0) " +
                     "UNION " +
-                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx.ClientOpeningOptions " +
+                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx_dev.ClientOpeningOptions " +
                     "WHERE DMAcctId = ? AND JoomlaId = ? AND NOT(Units = 0) " +
                     "UNION " +
-                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx.ClosingOptions " +
+                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx_dev.ClosingOptions1 " +
                     "WHERE DMAcctId = ? AND JoomlaId = ? AND NOT(Units = 0) " +
                     "UNION " +
-                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx.ClientClosingOptions " +
+                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx_dev.ClientClosingOptions " +
                     "WHERE DMAcctId = ? AND JoomlaId = ? AND NOT(Units = 0)" +
                     ") AS A ORDER BY EquityId";
 

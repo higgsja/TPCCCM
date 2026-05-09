@@ -23,17 +23,17 @@ public class CMPrefsController
     {
         NOTES_PROPERTIES = new Properties();
         SQL_NOTES_GET =
-            "select * from hlhtxc5_dmOfx.NotesPreferences where JoomlaId = '%s' order by KeyId;";
+            "select * from hlhtxc5_dmOfx_dev.NotesPreferences where JoomlaId = '%s' order by KeyId;";
         SQL_NOTES_INSERT =
-            "insert into hlhtxc5_dmOfx.NotesPreferences (JoomlaId, KeyId, KeyValue) values (";
-        SQL_NOTES_UPDATE = "update hlhtxc5_dmOfx.NotesPreferences set ";
+            "insert into hlhtxc5_dmOfx_dev.NotesPreferences (JoomlaId, KeyId, KeyValue) values (";
+        SQL_NOTES_UPDATE = "update hlhtxc5_dmOfx_dev.NotesPreferences set ";
 
         TPC_PROPERTIES = new Properties();
         SQL_TPC_GET =
-            "select * from hlhtxc5_dmOfx.TPCPreferences where JoomlaId = '%s' order by KeyId;";
+            "select * from hlhtxc5_dmOfx_dev.TPCPreferences where JoomlaId = '%s' order by KeyId;";
         SQL_TPC_INSERT =
-            "insert into hlhtxc5_dmOfx.TPCPreferences (JoomlaId, KeyId, KeyValue) values (";
-        SQL_TPC_UPDATE = "update hlhtxc5_dmOfx.TPCPreferences set ";
+            "insert into hlhtxc5_dmOfx_dev.TPCPreferences (JoomlaId, KeyId, KeyValue) values (";
+        SQL_TPC_UPDATE = "update hlhtxc5_dmOfx_dev.TPCPreferences set ";
     }
 
     protected CMPrefsController()

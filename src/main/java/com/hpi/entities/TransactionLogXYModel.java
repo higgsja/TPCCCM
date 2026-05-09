@@ -34,7 +34,7 @@ public class TransactionLogXYModel
 
     static
     {
-        SQL = "select Accts.ClientAcctName, EquityId, GMTDtTrade, Units, UnitPrice, TransType, Tactics.TacticName, StopLoss, TargetGain, Triggers.TriggerName, Comment, OpenClose, Log.EquityType from hlhtxc5_dmOfx.TransactionLog as Log, hlhtxc5_dmOfx.TradeTactics as `Tactics`, hlhtxc5_dmOfx.TradeTriggers as `Triggers`, hlhtxc5_dmOfx.ClientAccts as Accts where Log.JoomlaId = '%s' and Log.TradeTactic = `Tactics`.TacticIndex and Log.TradeTrigger = `Triggers`.TriggerIndex and Log.DMAcctId = Accts.DMAcctId and Log.EquityId like '%s%%' order by EquityId, GMTDtTrade";
+        SQL = "select Accts.ClientAcctName, EquityId, GMTDtTrade, Units, UnitPrice, TransType, Tactics.TacticName, StopLoss, TargetGain, Triggers.TriggerName, Comment, OpenClose, Log.EquityType from hlhtxc5_dmOfx_dev.TransactionLog as Log, hlhtxc5_dmOfx_dev.TradeTactics as `Tactics`, hlhtxc5_dmOfx_dev.TradeTriggers as `Triggers`, hlhtxc5_dmOfx_dev.ClientAccts as Accts where Log.JoomlaId = '%s' and Log.TradeTactic = `Tactics`.TacticIndex and Log.TradeTrigger = `Triggers`.TriggerIndex and Log.DMAcctId = Accts.DMAcctId and Log.EquityId like '%s%%' order by EquityId, GMTDtTrade";
 
         LOG_XYMODELS = new ArrayList<>();
         dataSetCollection = null;

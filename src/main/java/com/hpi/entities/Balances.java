@@ -12,7 +12,7 @@ public class Balances
 {
 
     public static final String INSERT_BAL_DB_2_DM
-        = "insert ignore into hlhtxc5_dmOfx.Balances (DMAcctId, JoomlaId, Name, `Value`, DtAsOf) select dmAccts.DMAcctId, dbAccts.JoomlaId, 'AvailCash', ib.AvailCash, max(ib.DtAsOf) as DtAsOf from hlhtxc5_dbOfx.InvBal as ib, hlhtxc5_dbOfx.Accounts as dbAccts, hlhtxc5_dmOfx.Accounts as dmAccts where ib.AcctId = dbAccts.AcctId and dmAccts.AcctId = dbAccts.AcctId and dbAccts.JoomlaId = '%s' group by dbAccts.AcctId;";
+        = "insert ignore into hlhtxc5_dmOfx_dev.Balances (DMAcctId, JoomlaId, Name, `Value`, DtAsOf) select dmAccts.DMAcctId, dbAccts.JoomlaId, 'AvailCash', ib.AvailCash, max(ib.DtAsOf) as DtAsOf from hlhtxc5_dbOfx_dev.InvBal as ib, hlhtxc5_dbOfx_dev.Accounts as dbAccts, hlhtxc5_dmOfx_dev.Accounts as dmAccts where ib.AcctId = dbAccts.AcctId and dmAccts.AcctId = dbAccts.AcctId and dbAccts.JoomlaId = '%s' group by dbAccts.AcctId;";
 
     private final Integer dmAcctId;
     private final Integer joomlaId;

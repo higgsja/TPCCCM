@@ -34,37 +34,37 @@ public class OptionControllerBase
     public void before()
     {
         //clear closedOptionFIFO for user id
-        CMDBController.executeSQL("delete from hlhtxc5_dmOfx.ClosedOptionFIFO where JoomlaId = " + USER_ID);
+        CMDBController.executeSQL("delete from hlhtxc5_dmOfx_dev.ClosedOptionFIFO where JoomlaId = " + USER_ID);
 
         //clear closedOptionTrans for user id
-        CMDBController.executeSQL("delete from hlhtxc5_dmOfx.ClosedOptionTrans where JoomlaId = " + USER_ID);
+        CMDBController.executeSQL("delete from hlhtxc5_dmOfx_dev.ClosedOptionTrans where JoomlaId = " + USER_ID);
 
         //clear openOptionFIFO for user id
-        CMDBController.executeSQL("delete from hlhtxc5_dmOfx.OpenOptionFIFO where JoomlaId = " + USER_ID);
+        CMDBController.executeSQL("delete from hlhtxc5_dmOfx_dev.OpenOptionFIFO where JoomlaId = " + USER_ID);
 
         //clear OpeningOptions
         CMDBController
-            .executeSQL("delete from hlhtxc5_dmOfx.OpeningOptions where JoomlaId = " + USER_ID);
+            .executeSQL("delete from hlhtxc5_dmOfx_dev.OpeningOptions1 where JoomlaId = " + USER_ID);
 
         //clear ClosingOptions
         CMDBController
-            .executeSQL("delete from hlhtxc5_dmOfx.ClosingOptions where JoomlaId = " + USER_ID);
+            .executeSQL("delete from hlhtxc5_dmOfx_dev.ClosingOptions1 where JoomlaId = " + USER_ID);
 
         //clear OpeningTransactions
         CMDBController
-            .executeSQL("delete from hlhtxc5_dmOfx.OpeningTransactions where JoomlaId = " + USER_ID);
+            .executeSQL("delete from hlhtxc5_dmOfx_dev.OpeningTransactions where JoomlaId = " + USER_ID);
 
         //clear ClosingTransactions
         CMDBController
-            .executeSQL("delete from hlhtxc5_dmOfx.ClosingTransactions where JoomlaId = " + USER_ID);
+            .executeSQL("delete from hlhtxc5_dmOfx_dev.ClosingTransactions where JoomlaId = " + USER_ID);
 
         //clear fifoOpenTransactions
         CMDBController
-            .executeSQL("delete from hlhtxc5_dmOfx.FIFOOpenTransactions where JoomlaId = " + USER_ID);
+            .executeSQL("delete from hlhtxc5_dmOfx_dev.FIFOOpenTransactions where JoomlaId = " + USER_ID);
 
         //clear fifoClosedTransactions
         CMDBController
-            .executeSQL("delete from hlhtxc5_dmOfx.FIFOClosedTransactions where JoomlaId = " + USER_ID);
+            .executeSQL("delete from hlhtxc5_dmOfx_dev.FIFOClosedTransactions where JoomlaId = " + USER_ID);
 
         optionController.getAccountList().clear();
         optionController.getEquityIdList().clear();

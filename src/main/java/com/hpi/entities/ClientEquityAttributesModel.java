@@ -14,22 +14,22 @@ public class ClientEquityAttributesModel
 {
 
     public static final String UPDATE_SECTORID
-        = "update (select Ticker, Sector, max(`Date`) as `Date` from hlhtxc5_dmOfx.EquityInfo group by Ticker order by Ticker) as A, hlhtxc5_dmOfx.ClientEquityAttributes as CEA, hlhtxc5_dmOfx.ClientSectorList as CSL set CEA.ClientSectorId = CSL.ClientSectorId where CEA.Ticker = A.Ticker and CSL.ClientSector = A.Sector and CEA.JoomlaId = CSL.JoomlaId and isnull(CEA.ClientSectorId) and CEA.JoomlaId = '%s';";
+        = "update (select Ticker, Sector, max(`Date`) as `Date` from hlhtxc5_dmOfx_dev.EquityInfo group by Ticker order by Ticker) as A, hlhtxc5_dmOfx_dev.ClientEquityAttributes as CEA, hlhtxc5_dmOfx_dev.ClientSectorList as CSL set CEA.ClientSectorId = CSL.ClientSectorId where CEA.Ticker = A.Ticker and CSL.ClientSector = A.Sector and CEA.JoomlaId = CSL.JoomlaId and isnull(CEA.ClientSectorId) and CEA.JoomlaId = '%s';";
 
     public static final String FORCE_UPDATE_ACTIVE
-        = "update hlhtxc5_dmOfx.ClientEquityAttributes set Active = if(isnull(ActPct), if(isnull(TgtPct), Active, if(TgtPct > 0, 'Yes', Active)), if(ActPct > 0, 'Yes', Active)) where JoomlaId = '%s';";
+        = "update hlhtxc5_dmOfx_dev.ClientEquityAttributes set Active = if(isnull(ActPct), if(isnull(TgtPct), Active, if(TgtPct > 0, 'Yes', Active)), if(ActPct > 0, 'Yes', Active)) where JoomlaId = '%s';";
 
     public static final String UPDATE_ANALYST_TGTS
-        = "update hlhtxc5_dmOfx.ClientEquityAttributes as C inner join (select Ticker, MAX(`Date`) AS `Date` FROM hlhtxc5_dmOfx.EquityInfo GROUP BY Ticker ORDER BY Ticker ASC) as A on C.Ticker = A.Ticker inner join hlhtxc5_dmOfx.EquityInfo on EquityInfo.`Date` = A.`Date` and EquityInfo.Ticker = A.Ticker set C.AnalystTgt = EquityInfo.TgtPrice where A.`Date` = EquityInfo.`Date` and C.Ticker = A.Ticker and JoomlaId = '%s';";
+        = "update hlhtxc5_dmOfx_dev.ClientEquityAttributes as C inner join (select Ticker, MAX(`Date`) AS `Date` FROM hlhtxc5_dmOfx_dev.EquityInfo GROUP BY Ticker ORDER BY Ticker ASC) as A on C.Ticker = A.Ticker inner join hlhtxc5_dmOfx_dev.EquityInfo on EquityInfo.`Date` = A.`Date` and EquityInfo.Ticker = A.Ticker set C.AnalystTgt = EquityInfo.TgtPrice where A.`Date` = EquityInfo.`Date` and C.Ticker = A.Ticker and JoomlaId = '%s';";
 
     public static final String UPDATE_CEA_CASH_SECTORID
-        = "update hlhtxc5_dmOfx.ClientEquityAttributes cea, hlhtxc5_dmOfx.ClientSectorList csl set cea.ClientSectorId = csl.ClientSectorId where cea.Ticker = 'CASH' and cea.Ticker = csl.ClientSector and cea.JoomlaId = csl.JoomlaId and cea.JoomlaId = '%s'";
+        = "update hlhtxc5_dmOfx_dev.ClientEquityAttributes cea, hlhtxc5_dmOfx_dev.ClientSectorList csl set cea.ClientSectorId = csl.ClientSectorId where cea.Ticker = 'CASH' and cea.Ticker = csl.ClientSector and cea.JoomlaId = csl.JoomlaId and cea.JoomlaId = '%s'";
 
     public static final String INSERT_CASH_2_CEA
-        = "insert ignore into hlhtxc5_dmOfx.ClientEquityAttributes (JoomlaId, Ticker, TickerIEX, Active, ClientSectorId, TgtPct, AnalystTgt, StkPrice, Comment, TgtLocked, ActPct) values ('%s', 'CASH', 'CASH', 'Yes', '%s', 0, 0, 1, '', 'No', 0);";
+        = "insert ignore into hlhtxc5_dmOfx_dev.ClientEquityAttributes (JoomlaId, Ticker, TickerIEX, Active, ClientSectorId, TgtPct, AnalystTgt, StkPrice, Comment, TgtLocked, ActPct) values ('%s', 'CASH', 'CASH', 'Yes', '%s', 0, 0, 1, '', 'No', 0);";
 
     public static final String UPDATE_ACT_PCT
-        = "update hlhtxc5_dmOfx.ClientEquityAttributes A left join (select fp.Ticker, sum(fp.ActPct) as sumActPct from hlhtxc5_dmOfx.FIFOOpenTransactions fp where JoomlaId = '%s' group by fp.Ticker) as B on B.Ticker = A.Ticker set A.ActPct = B.sumActPct where A.JoomlaId = '%s' and A.Active = 'Yes';";
+        = "update hlhtxc5_dmOfx_dev.ClientEquityAttributes A left join (select fp.Ticker, sum(fp.ActPct) as sumActPct from hlhtxc5_dmOfx_dev.FIFOOpenTransactions fp where JoomlaId = '%s' group by fp.Ticker) as B on B.Ticker = A.Ticker set A.ActPct = B.sumActPct where A.JoomlaId = '%s' and A.Active = 'Yes';";
 
     Integer joomlaId;
     String ticker;
@@ -64,10 +64,10 @@ public class ClientEquityAttributesModel
     static
     {
         SQLSELECT
-            = "select Ticker, ClientSectorId, Active, Comment, JoomlaId, TickerIEX, TgtPct, AnalystTgt, StkPrice, TgtLocked, ActPct from hlhtxc5_dmOfx.ClientEquityAttributes where JoomlaId = '%s' order by Ticker asc;";
+            = "select Ticker, ClientSectorId, Active, Comment, JoomlaId, TickerIEX, TgtPct, AnalystTgt, StkPrice, TgtLocked, ActPct from hlhtxc5_dmOfx_dev.ClientEquityAttributes where JoomlaId = '%s' order by Ticker asc;";
         SQLINSERT
-            = "insert into hlhtxc5_dmOfx.ClientEquityAttributes (JoomlaId, Ticker, TickerIEX, Active, ClientSectorId, TgtPct, AnalystTgt, StkPrice, Comment, TgtLocked, ActPct) values (";
-        SQLUPDATE = "update hlhtxc5_dmOfx.ClientEquityAttributes set ";
+            = "insert into hlhtxc5_dmOfx_dev.ClientEquityAttributes (JoomlaId, Ticker, TickerIEX, Active, ClientSectorId, TgtPct, AnalystTgt, StkPrice, Comment, TgtLocked, ActPct) values (";
+        SQLUPDATE = "update hlhtxc5_dmOfx_dev.ClientEquityAttributes set ";
         CLIENT_EQUITY_DB_MODELS = new ArrayList<>();
     }
 

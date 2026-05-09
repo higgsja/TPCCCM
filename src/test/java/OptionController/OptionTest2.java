@@ -58,7 +58,7 @@ public class OptionTest2
         optionController.processFIFOOptionLotsBuyToOpen();
 
         //read back from database
-        sql = "select * from hlhtxc5_dmOfx.ClosedOptionFIFO where Ticker = 'pcg' and JoomlaId = '5'";
+        sql = "select * from hlhtxc5_dmOfx_dev.ClosedOptionFIFO where Ticker = 'pcg' and JoomlaId = '5'";
 
         try (Connection con = CMDBController.getConnection();
             PreparedStatement pStmt = con.prepareStatement(sql))

@@ -169,7 +169,7 @@ public class StockController
         String sql;
 
         sql
-            = "select distinct A.EquityId from (select EquityId from hlhtxc5_dmOfx.OpeningStock where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select EquityId from hlhtxc5_dmOfx.ClientOpeningStock where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select EquityId from hlhtxc5_dmOfx.ClosingStock where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select EquityId from hlhtxc5_dmOfx.ClientClosingStock where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0)) as A order by EquityId;";
+            = "select distinct A.EquityId from (select EquityId from hlhtxc5_dmOfx_dev.OpeningStock1 where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select EquityId from hlhtxc5_dmOfx_dev.ClientOpeningStock where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select EquityId from hlhtxc5_dmOfx_dev.ClosingStock1 where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0) union select EquityId from hlhtxc5_dmOfx_dev.ClientClosingStock where DMAcctId = '%s' and JoomlaId = '%s' and not(Units = 0)) as A order by EquityId;";
 
         sql = String.format(sql,
             account,
@@ -217,7 +217,7 @@ public class StockController
         OpeningStockModel osTemp;
 
 ////        sql =
-////            "select * from hlhtxc5_dmOfx.OpeningStock where DMAcctId = '%s' and EquityId = '%s' and JoomlaId = '%s' and Units <> 0 union select %s from hlhtxc5_dmOfx.clientOpeningStock where DMAcctId = '%s' and EquityId = '%s' and JoomlaId = '%s' and Units <> 0 order by EquityId, GMTDtTrade, FiTId;";
+////            "select * from hlhtxc5_dmOfx_dev.OpeningStock1 where DMAcctId = '%s' and EquityId = '%s' and JoomlaId = '%s' and Units <> 0 union select %s from hlhtxc5_dmOfx_dev.clientOpeningStock where DMAcctId = '%s' and EquityId = '%s' and JoomlaId = '%s' and Units <> 0 order by EquityId, GMTDtTrade, FiTId;";
 //
 //        sql = String.format(sql,
 //            account, equityId, this.userId,
@@ -289,7 +289,7 @@ public class StockController
         ClosingStockModel csTemp;
 
 //        sql =
-//            "select * from hlhtxc5_dmOfx.ClosingStock where DMAcctId = '%s' and EquityId = '%s' and JoomlaId = '%s' and not(Units = 0) union select %s from hlhtxc5_dmOfx.clientClosingStock where DMAcctId = '%s' and EquityId = '%s' and JoomlaId = '%s' and not(Units = 0) order by EquityId, GMTDtTrade, FiTId;";
+//            "select * from hlhtxc5_dmOfx_dev.ClosingStock1 where DMAcctId = '%s' and EquityId = '%s' and JoomlaId = '%s' and not(Units = 0) union select %s from hlhtxc5_dmOfx_dev.clientClosingStock where DMAcctId = '%s' and EquityId = '%s' and JoomlaId = '%s' and not(Units = 0) order by EquityId, GMTDtTrade, FiTId;";
 //        sql = String.format(sql,
 //            account, equityId, this.userId,
 //            ClientClosingStockModel.MATCH_CLOSING_STOCK, account, equityId,
@@ -619,7 +619,7 @@ public class StockController
             } //switch (comp)
 
             sql
-                = "update hlhtxc5_dmOfx.ClosingStock set Units = '%s' where DMAcctId = '%s' and JoomlaId = '%s' and FiTId = '%s';";
+                = "update hlhtxc5_dmOfx_dev.ClosingStock1 set Units = '%s' where DMAcctId = '%s' and JoomlaId = '%s' and FiTId = '%s';";
             CMDBController.executeSQL(String.format(sql,
                 cs.getUnits(),
                 cs.getDmAcctId(),
@@ -628,7 +628,7 @@ public class StockController
         }//for (ClosingStockModel cs : this.stockClosingList)
 
         sql
-            = "update hlhtxc5_dmOfx.OpeningStock set Units = '%s' where DMAcctId = '%s' and JoomlaId = '%s' and FiTId = '%s';";
+            = "update hlhtxc5_dmOfx_dev.OpeningStock1 set Units = '%s' where DMAcctId = '%s' and JoomlaId = '%s' and FiTId = '%s';";
         CMDBController.executeSQL(String.format(sql,
             os.getUnits(),
             os.getDmAcctId(),
@@ -763,7 +763,7 @@ public class StockController
             }
 
             // update ClosedStockFIFOModel object
-            sql = "update hlhtxc5_dmOfx.ClosedStockFIFO set "
+            sql = "update hlhtxc5_dmOfx_dev.ClosedStockFIFO set "
                 + "Units = " + Double.toString(updateUnits)
                 + " , Commission = " + Double.toString(updateCommission)
                 + " , Taxes = " + Double.toString(updateTaxes)

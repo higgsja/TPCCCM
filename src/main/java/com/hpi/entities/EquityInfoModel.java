@@ -8,10 +8,10 @@ public class EquityInfoModel
 
     //get current ticker set
     public static final String TICKER
-        //        = "select distinct Ticker from hlhtxc5_dmOfx.EquityInfo where `Date` > date_sub(now(), interval 365 day);";
-        = "select distinct Ticker from hlhtxc5_dmOfx.EquityInfo where `Date` > date_sub(now(), interval 10 day);";
+        //        = "select distinct Ticker from hlhtxc5_dmOfx_dev.EquityInfo where `Date` > date_sub(now(), interval 365 day);";
+        = "select distinct Ticker from hlhtxc5_dmOfx_dev.EquityInfo where `Date` > date_sub(now(), interval 10 day);";
 
-    public static final String SELECT_DISTINCT_SECTORS = "select distinct Sector from hlhtxc5_dmOfx.EquityInfo;";
+    public static final String SELECT_DISTINCT_SECTORS = "select distinct Sector from hlhtxc5_dmOfx_dev.EquityInfo;";
 
     String ticker;
     String company;

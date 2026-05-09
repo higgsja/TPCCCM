@@ -40,7 +40,7 @@ public class StockTest1
     {
 //        String sql;
 //
-//        sql = "insert ignore into hlhtxc5_dmOfx.OpeningStock () values(JoomlaId, FiTId, Ticker, EquityId, DateOpen, ShPerCtrct, Units, PriceOpen, TotalOpen, SubAcctSec, SubAcctFund, EquityType, TransactionType";
+//        sql = "insert ignore into hlhtxc5_dmOfx_dev.OpeningStock1 () values(JoomlaId, FiTId, Ticker, EquityId, DateOpen, ShPerCtrct, Units, PriceOpen, TotalOpen, SubAcctSec, SubAcctFund, EquityType, TransactionType";
 //        sql += osm1.getJoomlaId();
 //        sql += osm1.getFiTId();
 //        sql += osm1.getTicker();
@@ -59,7 +59,7 @@ public class StockTest1
 //        //and push to the database
 //        CMDBController.executeSQL(sql);
 //
-//        sql = "insert ignore into hlhtxc5_dmOfx.ClosingStock () values(JoomlaId, FiTId, Ticker, EquityId, DateClose, ShPerCtrct, Units, PriceClose, TotalClose, SubAcctSec, SubAcctFund, EquityType, TransactionType";
+//        sql = "insert ignore into hlhtxc5_dmOfx_dev.ClosingStock1 () values(JoomlaId, FiTId, Ticker, EquityId, DateClose, ShPerCtrct, Units, PriceClose, TotalClose, SubAcctSec, SubAcctFund, EquityType, TransactionType";
 //        sql += csm1.getJoomlaId();
 //        sql += csm1.getFiTId();
 //        sql += csm1.getTicker();
@@ -78,7 +78,7 @@ public class StockTest1
 //        //and push to the database
 //        CMDBController.executeSQL(sql);
 //        
-//        sql = "insert ignore into hlhtxc5_dmOfx.ClosingStock () values(JoomlaId, FiTId, Ticker, EquityId, DateClose, ShPerCtrct, Units, PriceClose, TotalClose, SubAcctSec, SubAcctFund, EquityType, TransactionType";
+//        sql = "insert ignore into hlhtxc5_dmOfx_dev.ClosingStock1 () values(JoomlaId, FiTId, Ticker, EquityId, DateClose, ShPerCtrct, Units, PriceClose, TotalClose, SubAcctSec, SubAcctFund, EquityType, TransactionType";
 //        sql += csm2.getJoomlaId();
 //        sql += csm2.getFiTId();
 //        sql += csm2.getTicker();

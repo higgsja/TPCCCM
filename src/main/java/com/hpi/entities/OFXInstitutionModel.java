@@ -29,8 +29,8 @@ public class OFXInstitutionModel
     static
     {
         OFXINSTITUTION_MODELS = new ArrayList<>();
-         SQLINSERT = "insert into hlhtxc5_dmOfx.OfxInstitutions (Name, FId, Org, BrokerId, Url, OfxFail, SSlFail, LastOfxValidation, LastSslValidation) values (";
-        SQLUPDATE = "update hlhtxc5_dmOfx.OfxInstitutions set ";
+         SQLINSERT = "insert into hlhtxc5_dmOfx_dev.OfxInstitutions (Name, FId, Org, BrokerId, Url, OfxFail, SSlFail, LastOfxValidation, LastSslValidation) values (";
+        SQLUPDATE = "update hlhtxc5_dmOfx_dev.OfxInstitutions set ";
         SQLGETALL = "SELECT * FROM `OfxInstitutions` order by Name;";
     }
 

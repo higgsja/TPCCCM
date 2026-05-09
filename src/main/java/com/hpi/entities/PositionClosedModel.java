@@ -8,14 +8,14 @@ public class PositionClosedModel
 {
 
     public static final String POSITION_INSERT
-        = "insert ignore into hlhtxc5_dmOfx.PositionsClosed (DMAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, DateClose, Days, Gain, PositionType, TransactionType, TotalOpen, TotalClose, EquityType) values (%s, %s, '%s', '%s', '%s', %s, %s, %s, %s, %s, '%s', '%s', %s, %s, '%s', '%s', %s, %s, '%s')";
+        = "insert ignore into hlhtxc5_dmOfx_dev.PositionsClosed (DMAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, DateClose, Days, Gain, PositionType, TransactionType, TotalOpen, TotalClose, EquityType) values (%s, %s, '%s', '%s', '%s', %s, %s, %s, %s, %s, '%s', '%s', %s, %s, '%s', '%s', %s, %s, '%s')";
 
 //    public static final String POSITION_UPDATE_TACTICID
-//        = "update hlhtxc5_dmOfx.PositionsClosed set TacticId = '%s' where PositionId = '%s'";
+//        = "update hlhtxc5_dmOfx_dev.PositionsClosed set TacticId = '%s' where PositionId = '%s'";
 //    public static final String POSITION_UPDATE_POSITIONNAME
-//        = "update hlhtxc5_dmOfx.PositionsClosed set PositionName = '%s' where PositionId = '%s'";
+//        = "update hlhtxc5_dmOfx_dev.PositionsClosed set PositionName = '%s' where PositionId = '%s'";
 //    public static final String POSITION_UPDATE_FIELDS
-//        = "update hlhtxc5_dmOfx.PositionsClosed set Units = '%s', PriceOpen = '%s', Price = '%s', GainPct = '%s', DateOpen = '%s', Days = '%s', TacticId = '%s' where PositionId = '%s'";
+//        = "update hlhtxc5_dmOfx_dev.PositionsClosed set Units = '%s', PriceOpen = '%s', Price = '%s', GainPct = '%s', DateOpen = '%s', Days = '%s', TacticId = '%s' where PositionId = '%s'";
     public PositionClosedModel(PositionClosedModel pcm)
     {
         this.positionId = pcm.positionId;
