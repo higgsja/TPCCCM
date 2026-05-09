@@ -22,7 +22,7 @@ public class AccountsModel
 {
 
     public static final String SYNC_ACCTS_DB_TO_DM
-        = "select JoomlaId, hlhtxc5_dbOfx.Brokers.BrokerId, AcctId, Org, FId, BrokerIdFi, InvAcctIdFi from hlhtxc5_dbOfx.Accounts, hlhtxc5_dbOfx.Brokers where Accounts.BrokerId = Brokers.BrokerId and JoomlaId = '%s';";
+        = "select JoomlaId, hlhtxc5_dbOfx_dev.Brokers.BrokerId, AcctId, Org, FId, BrokerIdFi, InvAcctIdFi from hlhtxc5_dbOfx_dev.Accounts, hlhtxc5_dbOfx_dev.Brokers where Accounts.BrokerId = Brokers.BrokerId and JoomlaId = '%s';";
 
     private final ArrayList<AccountModel> accountsModel;
     private final String errorPrefix;

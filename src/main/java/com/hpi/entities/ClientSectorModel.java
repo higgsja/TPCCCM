@@ -12,17 +12,17 @@ public class ClientSectorModel
 {
 
     public static final String SELECT_SECTOR
-        = "select ClientSectorId, ClientSector from hlhtxc5_dmOfx.ClientSectorList where JoomlaId = '%s' and ClientSector = '%s';";
+        = "select ClientSectorId, ClientSector from hlhtxc5_dmOfx_dev.ClientSectorList where JoomlaId = '%s' and ClientSector = '%s';";
 
     public static final String CASH_SECTORID
-        = "select ClientSectorId from hlhtxc5_dmOfx.ClientSectorList where ClientSector = 'CASH' and JoomlaId = '%s';";
+        = "select ClientSectorId from hlhtxc5_dmOfx_dev.ClientSectorList where ClientSector = 'CASH' and JoomlaId = '%s';";
 
     public static final String FORCE_UPDATE_ACTIVE
-        = "update hlhtxc5_dmOfx.ClientSectorList set Active = if(isnull(ActPct), if(isnull(TgtPct), Active, if(TgtPct > 0, 'Yes', Active)), if(ActPct > 0, 'Yes', Active)) where JoomlaId = '%s';";
+        = "update hlhtxc5_dmOfx_dev.ClientSectorList set Active = if(isnull(ActPct), if(isnull(TgtPct), Active, if(TgtPct > 0, 'Yes', Active)), if(ActPct > 0, 'Yes', Active)) where JoomlaId = '%s';";
 
     //
     public static final String UPDATE_MKTVAL_LMKTVAL
-        = "update hlhtxc5_dmOfx.ClientSectorList as CSL left join (select FIFOOpenTransactions.ClientSectorId, sum(FIFOOpenTransactions.MktVal) as sumMktVal, sum(FIFOOpenTransactions.LMktVal) as sumLMktVal from hlhtxc5_dmOfx.ClientSectorList as CSL, hlhtxc5_dmOfx.FIFOOpenTransactions where CSL.JoomlaId = '%s' and CSL.JoomlaId = FIFOOpenTransactions.JoomlaId and CSL.ClientSectorId = FIFOOpenTransactions.ClientSectorId group by FIFOOpenTransactions.ClientSectorId) as A on A.ClientSectorId = CSL.ClientSectorId set CSL.MktVal = if(isnull(A.sumMktVal), 0, A.sumMktVal), CSL.LMktVal = if(isnull(A.sumLMktVal), 0, A.sumLMktVal);";
+        = "update hlhtxc5_dmOfx_dev.ClientSectorList as CSL left join (select FIFOOpenTransactions.ClientSectorId, sum(FIFOOpenTransactions.MktVal) as sumMktVal, sum(FIFOOpenTransactions.LMktVal) as sumLMktVal from hlhtxc5_dmOfx_dev.ClientSectorList as CSL, hlhtxc5_dmOfx_dev.FIFOOpenTransactions where CSL.JoomlaId = '%s' and CSL.JoomlaId = FIFOOpenTransactions.JoomlaId and CSL.ClientSectorId = FIFOOpenTransactions.ClientSectorId group by FIFOOpenTransactions.ClientSectorId) as A on A.ClientSectorId = CSL.ClientSectorId set CSL.MktVal = if(isnull(A.sumMktVal), 0, A.sumMktVal), CSL.LMktVal = if(isnull(A.sumLMktVal), 0, A.sumLMktVal);";
 
     Integer joomlaId;
     Integer clientSectorId;
@@ -45,10 +45,10 @@ public class ClientSectorModel
 
     static {
         SQLSELECT
-            = "select CSecShort, ClientSectorId, Active, Comment, JoomlaId, ClientSector, TgtPct, TgtLocked, ActPct, MktVal, LMktVal, CustomSector from hlhtxc5_dmOfx.ClientSectorList where JoomlaId = 'jid' order by CSecShort asc;";
+            = "select CSecShort, ClientSectorId, Active, Comment, JoomlaId, ClientSector, TgtPct, TgtLocked, ActPct, MktVal, LMktVal, CustomSector from hlhtxc5_dmOfx_dev.ClientSectorList where JoomlaId = 'jid' order by CSecShort asc;";
         SQLINSERT
-            = "insert into hlhtxc5_dmOfx.ClientSectorList (JoomlaId, ClientSectorId, ClientSector, CSecShort, Active, TgtPct, Comment, TgtLocked, ActPct, MktVal, LMktVal, CustomSector) values (";
-        SQLUPDATE = "update hlhtxc5_dmOfx.ClientSectorList set ";
+            = "insert into hlhtxc5_dmOfx_dev.ClientSectorList (JoomlaId, ClientSectorId, ClientSector, CSecShort, Active, TgtPct, Comment, TgtLocked, ActPct, MktVal, LMktVal, CustomSector) values (";
+        SQLUPDATE = "update hlhtxc5_dmOfx_dev.ClientSectorList set ";
         ClientSectorModel.CLIENT_SECTOR_DB_MODELS = new ArrayList<>();
     }
 

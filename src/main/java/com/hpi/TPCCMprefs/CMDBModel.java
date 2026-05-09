@@ -185,7 +185,7 @@ public class CMDBModel
         DB dbTemp;
 
         // set defaults; anything found in databases.config will override
-        dbTemp = new DB("DataMart", "hlhtxc5_dmOfx", "OfxDataMart", "Yes",
+        dbTemp = new DB("DataMart", "hlhtxc5_dmOfx_dev", "OfxDataMart", "Yes",
               "MariaDB", "jdbc:mariadb:",
               "autoReconnect=true&useLegacyDatetimeCode=false&"
               //+ "serverTimezone=UTC"
@@ -197,7 +197,7 @@ public class CMDBModel
         "zeus:3306", "org.mariadb.jdbc.Driver", "higgsja", "Jigger01");
         CMDBModel.dbList.add(dbTemp);
 
-        dbTemp = new DB("Broker Data", "hlhtxc5_dbOfx", "OfxBroker", "Yes",
+        dbTemp = new DB("Broker Data", "hlhtxc5_dbOfx_dev", "OfxBroker", "Yes",
               "MariaDB", "jdbc:mariadb:",
               "autoReconnect=true&useLegacyDatetimeCode=false&"
               //+ "serverTimezone=UTC"

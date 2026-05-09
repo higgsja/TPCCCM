@@ -7,9 +7,9 @@ import lombok.*;
  */
 @Getter @Setter @Builder
 public class ClosedOptionFIFOModel {
-    public static final String INSERT_ALL_VALUES = "insert into hlhtxc5_dmOfx.ClosedOptionFIFO (%s) values (";
+    public static final String INSERT_ALL_VALUES = "insert into hlhtxc5_dmOfx_dev.ClosedOptionFIFO (%s) values (";
     
-    public static final String UPDATE_TOTAL_TOTALCLOSE = "update hlhtxc5_dmOfx.ClosedOptionFIFO set Units = '%s', Commission = '%s', Taxes = '%s', Fees = '%s', TransLoad = '%s', TotalClose = '%s', PriceClose = '%s', DateClose = '%s' where TransactionGrp = '%s';";
+    public static final String UPDATE_TOTAL_TOTALCLOSE = "update hlhtxc5_dmOfx_dev.ClosedOptionFIFO set Units = '%s', Commission = '%s', Taxes = '%s', Fees = '%s', TransLoad = '%s', TotalClose = '%s', PriceClose = '%s', DateClose = '%s' where TransactionGrp = '%s';";
     
     public static final String ALL_FIELDS =
         "DMAcctId, JoomlaId, FiTId, TransactionGrp, Ticker, EquityId, TransactionName, OptionType, StrikePrice, DateOpen, DateClose, DateExpire, ShPerCtrct, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, TransactionType";

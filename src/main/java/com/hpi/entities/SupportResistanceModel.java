@@ -19,7 +19,7 @@ public class SupportResistanceModel
     static
     {
         SQL =
-            "select * from hlhtxc5_dmOfx.SupResDay where JoomlaId = '%s' and EquityId = '%s';";
+            "select * from hlhtxc5_dmOfx_dev.SupResDay where JoomlaId = '%s' and EquityId = '%s';";
         SR_MODELS = new ArrayList<>();
     }
 

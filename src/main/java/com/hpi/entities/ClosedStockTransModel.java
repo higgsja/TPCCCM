@@ -5,7 +5,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @Getter
 public class ClosedStockTransModel {
-    public static final String INSERT_VALUES = "insert into hlhtxc5_dmOfx.ClosedStockTrans (%s) values ";
+    public static final String INSERT_VALUES = "insert into hlhtxc5_dmOfx_dev.ClosedStockTrans (%s) values ";
 
     public static final String ALL_FIELDS =
         "DMAcctId, JoomlaId, FiTIdOpening, TransactionGrp, FiTIdClosing, EquityId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId";

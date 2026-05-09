@@ -7,7 +7,7 @@ import lombok.*;
 @Getter @Setter
 @Builder
 public class ClosedStockFIFOModel {
-    public static final String INSERT_VALUES = "insert into hlhtxc5_dmOfx.ClosedStockFIFO (%s) values ";
+    public static final String INSERT_VALUES = "insert into hlhtxc5_dmOfx_dev.ClosedStockFIFO (%s) values ";
 
     public static final String ALL_FIELDS =
         "DMAcctId, JoomlaId, FiTId, TransactionGrp, EquityId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId, GainPct, Complete";

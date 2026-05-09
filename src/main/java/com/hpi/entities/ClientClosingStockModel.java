@@ -5,9 +5,9 @@ import lombok.*;
 @AllArgsConstructor
 public class ClientClosingStockModel
 {
-public static final String DMOFX = "insert ignore into hlhtxc5_dmOfx.ClosingStock (%s) select %s from hlhtxc5_dmOfx.ClientClosingStock where not(Units = 0) and JoomlaId = '%s';";
+public static final String DMOFX = "insert ignore into hlhtxc5_dmOfx_dev.ClosingStock1 (%s) select %s from hlhtxc5_dmOfx_dev.ClientClosingStock where not(Units = 0) and JoomlaId = '%s';";
     
-    public static final String DMOFX_UNITS_UPDATE = "update hlhtxc5_dmOfx.ClosingStock, hlhtxc5_dmOfx.ClientClosingStock set ClientClosingStock.Units = 0.0 where ClosingStock.DMAcctId = ClientClosingStock.DMAcctId and ClosingStock.JoomlaId = ClientClosingStock.JoomlaId and ClosingStock.FiTId = ClientClosingStock.FiTId and ClientClosingStock.JoomlaId = '%s';";
+    public static final String DMOFX_UNITS_UPDATE = "update hlhtxc5_dmOfx_dev.ClosingStock1, hlhtxc5_dmOfx_dev.ClientClosingStock set ClientClosingStock.Units = 0.0 where ClosingStock.DMAcctId = ClientClosingStock.DMAcctId and ClosingStock.JoomlaId = ClientClosingStock.JoomlaId and ClosingStock.FiTId = ClientClosingStock.FiTId and ClientClosingStock.JoomlaId = '%s';";
     
     private final Integer dmAcctId;
     private final Integer joomlaId;
