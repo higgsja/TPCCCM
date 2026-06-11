@@ -43,11 +43,11 @@ public class StockControllerBase
 
         //clear OpeningStock
         CMDBController
-            .executeSQL("delete from hlhtxc5_dmOfx_dev.OpeningStock1 where JoomlaId = " + USER_ID);
+            .executeSQL("delete from hlhtxc5_dmOfx_dev.OpeningStock where JoomlaId = " + USER_ID);
 
         //clear ClosingStock
         CMDBController
-            .executeSQL("delete from hlhtxc5_dmOfx_dev.ClosingStock1 where JoomlaId = " + USER_ID);
+            .executeSQL("delete from hlhtxc5_dmOfx_dev.ClosingStock where JoomlaId = " + USER_ID);
 
         //clear OpeningTransactions
         CMDBController

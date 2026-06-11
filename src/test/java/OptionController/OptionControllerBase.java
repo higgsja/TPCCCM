@@ -44,11 +44,11 @@ public class OptionControllerBase
 
         //clear OpeningOptions
         CMDBController
-            .executeSQL("delete from hlhtxc5_dmOfx_dev.OpeningOptions1 where JoomlaId = " + USER_ID);
+            .executeSQL("delete from hlhtxc5_dmOfx_dev.OpeningOptions where JoomlaId = " + USER_ID);
 
         //clear ClosingOptions
         CMDBController
-            .executeSQL("delete from hlhtxc5_dmOfx_dev.ClosingOptions1 where JoomlaId = " + USER_ID);
+            .executeSQL("delete from hlhtxc5_dmOfx_dev.ClosingOptions where JoomlaId = " + USER_ID);
 
         //clear OpeningTransactions
         CMDBController
