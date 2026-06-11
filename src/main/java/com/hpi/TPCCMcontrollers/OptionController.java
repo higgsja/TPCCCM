@@ -152,13 +152,13 @@ public class OptionController {
     public void getDistinctEquityId(Integer account) {
         // FIXED: Use parameterized query to prevent SQL injection
         String sql = "SELECT DISTINCT A.EquityId FROM (" +
-                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx_dev.OpeningOptions1 " +
+                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx_dev.OpeningOptions " +
                     "WHERE DMAcctId = ? AND JoomlaId = ? AND NOT(Units = 0) " +
                     "UNION " +
                     "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx_dev.ClientOpeningOptions " +
                     "WHERE DMAcctId = ? AND JoomlaId = ? AND NOT(Units = 0) " +
                     "UNION " +
-                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx_dev.ClosingOptions1 " +
+                    "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx_dev.ClosingOptions " +
                     "WHERE DMAcctId = ? AND JoomlaId = ? AND NOT(Units = 0) " +
                     "UNION " +
                     "SELECT DISTINCT EquityId FROM hlhtxc5_dmOfx_dev.ClientClosingOptions " +
