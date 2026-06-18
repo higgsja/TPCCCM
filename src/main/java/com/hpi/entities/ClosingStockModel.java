@@ -8,31 +8,6 @@ import lombok.*;
 public class ClosingStockModel {
     //acctOpeningStock: from openingStock and clientOpeningStock
     public static final String GET_CLOSING_STOCK_BY_ACCT = "select DMAcctId, JoomlaId, FiTId, Ticker, EquityId, DateOpen, DateClose, ShPerCtrct, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, EquityType, OptionType, TransactionType, ReversalFiTId, Comment from hlhtxc5_dmOfx.ClosingStock where DMAcctId = '%s' and EquityId = '%s' and JoomlaId = '%s' and not(Units = 0) union select DMAcctId, JoomlaId, FiTId, Ticker, EquityId, DateOpen, DateClose, ShPerCtrct, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, EquityType, OptionType, TransactionType, ReversalFiTId, Comment from hlhtxc5_dmOfx.ClientClosingStock where DMAcctId = '%s' and EquityId = '%s' and JoomlaId = '%s' and not(Units = 0) order by EquityId, DateClose, FiTId;";
-//    //sell to close
-//    public static final String DBOFX_DMOFX_SELL =
-//        "insert ignore into hlhtxc5_dmOfx.ClosingStock (DMAcctId, JoomlaId, FiTId, EquityId, Ticker, DateClose, Units, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalClose, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId, Comment, EquityType) select Accounts.DMAcctId, Accounts.JoomlaId, SellStock.FiTId, SecInfo.EquityId, SecInfo.Ticker, convert(InvTran.DtTrade, Date), InvSell.Units, InvSell.UnitPrice, InvSell.Markdown, InvSell.Commission, InvSell.Taxes, InvSell.Fees, InvSell.TransLoad, InvSell.Total, InvSell.CurSym, InvSell.SubAcctSec, InvSell.SubAcctFund, SellStock.SellType, InvTran.ReversalFiTId, '', 'STOCK' from hlhtxc5_dbOfx.InvSell as InvSell, hlhtxc5_dbOfx.SellStock as SellStock, hlhtxc5_dbOfx.InvTran as InvTran, hlhtxc5_dbOfx.SecInfo as SecInfo, hlhtxc5_dmOfx.Accounts as Accounts where InvTran.Skip = 0 and InvTran.Complete = 0 and Accounts.JoomlaId = '%s' and SellStock.SellType <> 'SELLSHORT' and InvSell.AcctId = SellStock.AcctId and InvSell.AcctId = InvTran.AcctId and InvSell.FiTId = SellStock.FiTId and InvSell.FiTId = InvTran.FiTId and InvSell.SecId = SecInfo.SecId and SellStock.AcctId = Accounts.AcctId;";
-//
-//    //buy to cover
-//    public static final String DBOFX_DMOFX_BUY =
-//        "insert ignore into hlhtxc5_dmOfx.ClosingStock (DMAcctId, JoomlaId, FiTId, EquityId, Ticker, DateClose, Units, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalClose, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId, Comment, EquityType) select Accounts.DMAcctId, Accounts.JoomlaId, BuyStock.FiTId, SecInfo.EquityId, SecInfo.Ticker, convert(InvTran.DtTrade, Date), InvBuy.Units, InvBuy.UnitPrice, InvBuy.Markup, InvBuy.Commission, InvBuy.Taxes, InvBuy.Fees, InvBuy.TransLoad, InvBuy.Total, InvBuy.CurSym, InvBuy.SubAcctSec, InvBuy.SubAcctFund, BuyStock.BuyType, InvTran.ReversalFiTId, '', 'STOCK' from hlhtxc5_dbOfx.InvBuy as InvBuy, hlhtxc5_dbOfx.BuyStock as BuyStock, hlhtxc5_dbOfx.InvTran as InvTran, hlhtxc5_dbOfx.SecInfo as SecInfo, hlhtxc5_dmOfx.Accounts as Accounts where InvTran.Skip = 0 and InvTran.Complete = 0 and InvBuy.AcctId = BuyStock.AcctId and InvBuy.FiTId = BuyStock.FiTId and InvTran.AcctId = InvBuy.AcctId and InvTran.FiTId = InvBuy.FiTId and SecInfo.SecId = InvBuy.SecId and BuyStock.BuyType = 'BUYTOCOVER' and SecInfo.BrokerId = Accounts.BrokerId and BuyStock.AcctId = Accounts.AcctId and Accounts.JoomlaId = '%s';";
-//
-//    //update InvTran.Complete
-//    public static final String DBOFX_UPDATE =
-//        "update hlhtxc5_dmOfx.ClosingStock, hlhtxc5_dbOfx.InvTran set hlhtxc5_dbOfx.InvTran.Complete = 1 where hlhtxc5_dmOfx.ClosingStock.FiTId = hlhtxc5_dbOfx.InvTran.FiTId and hlhtxc5_dbOfx.InvTran.AcctId = hlhtxc5_dmOfx.ClosingStock.DMAcctId and hlhtxc5_dmOfx.ClosingStock.JoomlaId  = '%s';";
-
-//    // sell to close (Sold) and buy to cover (Bought To Cover) from etradeTransactions, 2026-06-17 forward
-//    // superseded: etradeHarness --transactions populates ClosingStock directly
-//    public static final String ETRADE_CLOSING_STOCK =
-//        "insert ignore into hlhtxc5_dmOfx.ClosingStock"
-//        + " (DMAcctId, JoomlaId, FiTId, EquityId, Ticker, DateClose, Units, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalClose, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId, Comment, EquityType)"
-//        + " select dm_acct_id, joomla_id, CAST(transaction_id AS CHAR), equity_id, prd_symbol,"
-//        + " DATE(transaction_date), brk_quantity, brk_price, 0, 0, 0, brk_fee, 0, amount, 'USD', 'CASH', 'CASH',"
-//        + " transaction_type, NULL, '', 'STOCK'"
-//        + " from hlhtxc5_dmOfx.EtradeTransactions"
-//        + " where joomla_id = '%s'"
-//        + " and prd_security_type = 'EQ'"
-//        + " and transaction_type in ('Sold', 'Bought To Cover')"
-//        + " and DATE(transaction_date) >= '2026-06-17';";
 
     private Integer dmAcctId;
     private Integer joomlaId;
