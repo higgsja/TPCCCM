@@ -16,7 +16,7 @@ public class PositionOpenTransactionModel
 {
 
     public static final String POSITION_TRANSACTION_INSERT
-        = "insert ignore into hlhtxc5_dmOfx.PositionsOpenTransactions(DMAcctId, JoomlaId, PositionId, FiTId, TransactionName, Ticker, DateOpen, Units, PriceOpen, DateExpire, Days, PositionType, TotalOpen, EquityType, Gain, GainPct, TransactionType, Complete, MktVal, LMktVal, ActPct) values (%s, %s, %s, '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', %s, '%s', %s, %s, '%s', %s, %s, %s, %s)";
+        = "insert ignore into hlhtxc5_dmOfx_dev.PositionsOpenTransactions(DMAcctId, JoomlaId, PositionId, FiTId, TransactionName, Ticker, DateOpen, Units, PriceOpen, DateExpire, Days, PositionType, TotalOpen, EquityType, Gain, GainPct, TransactionType, Complete, MktVal, LMktVal, ActPct) values (%s, %s, %s, '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', %s, '%s', %s, %s, '%s', %s, %s, %s, %s)";
 
     public PositionOpenTransactionModel(PositionOpenTransactionModel potm)
     {

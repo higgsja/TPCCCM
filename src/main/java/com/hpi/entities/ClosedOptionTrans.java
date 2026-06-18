@@ -8,7 +8,7 @@ import lombok.*;
 @Getter @Setter @Builder
 public class ClosedOptionTrans
 {
-    public static final String INSERT_ALL_VALUES = "insert into hlhtxc5_dmOfx.ClosedOptionTrans (%s) values (";
+    public static final String INSERT_ALL_VALUES = "insert into hlhtxc5_dmOfx_dev.ClosedOptionTrans (%s) values (";
     
     public static final String ALL_FIELDS = "DMAcctId, JoomlaId, FiTIdOpening, TransactionGrp, FiTIdClosing, Ticker, EquityId, TransactionName, OptionType, StrikePrice, DateOpen, DateClose, DateExpire, ShPerCtrct, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId";
     

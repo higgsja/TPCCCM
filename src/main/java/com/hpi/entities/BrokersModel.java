@@ -23,7 +23,7 @@ public class BrokersModel
 {
 
     public static final String SYNC_BROKER_DB_TO_DM
-        = "insert ignore into hlhtxc5_dmOfx.Brokers (BrokerId, Org, FId, BrokerIdFi) select BrokerId, Org, FId, BrokerIdFi from hlhtxc5_dbOfx.Brokers;";
+        = "insert ignore into hlhtxc5_dmOfx_dev.Brokers (BrokerId, Org, FId, BrokerIdFi) select BrokerId, Org, FId, BrokerIdFi from hlhtxc5_dbOfx_dev.Brokers;";
     private final ArrayList<BrokerModel> listBrokers;
     private final String errorPrefix;
     private String fErrorPrefix;

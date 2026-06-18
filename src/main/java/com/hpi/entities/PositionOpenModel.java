@@ -71,19 +71,19 @@ public class PositionOpenModel
         }
     }
 
-//    public static final String POSITION_INSERT3 = "insert into hlhtxc5_dmOfx.PositionsOpen(DMAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, Days, Gain, PositionType, MktVal, LMktVal, ActPct) select '%s','%s','%s', '%s','%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s';";
+//    public static final String POSITION_INSERT3 = "insert into hlhtxc5_dmOfx_dev.PositionsOpen(DMAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, Days, Gain, PositionType, MktVal, LMktVal, ActPct) select '%s','%s','%s', '%s','%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s';";
     public static final String POSITION_INSERT3
-        //        = "insert into hlhtxc5_dmOfx.PositionsOpen(JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, Days, Gain, PositionType, MktVal, LMktVal, ActPct) select '%s','%s','%s', '%s','%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s';";
-        = "insert into hlhtxc5_dmOfx.PositionsOpen(DmAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, Days, Gain, PositionType, TotalOpen, TotalClose, EquityType, TransactionType, MktVal) select %s, %s,'%s','%s', '%s', %s, %s, %s, %s, %s, '%s', %s, %s, '%s', %s, %s, '%s', '%s', %s;";
+        //        = "insert into hlhtxc5_dmOfx_dev.PositionsOpen(JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, Days, Gain, PositionType, MktVal, LMktVal, ActPct) select '%s','%s','%s', '%s','%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s';";
+        = "insert into hlhtxc5_dmOfx_dev.PositionsOpen(DmAcctId, JoomlaId, Ticker, EquityId, PositionName, TacticId, Units, PriceOpen, Price, GainPct, DateOpen, Days, Gain, PositionType, TotalOpen, TotalClose, EquityType, TransactionType, MktVal) select %s, %s,'%s','%s', '%s', %s, %s, %s, %s, %s, '%s', %s, %s, '%s', %s, %s, '%s', '%s', %s;";
 
 //    public static final String POSITION_UPDATE_TACTICID
-//        = "update hlhtxc5_dmOfx.PositionsOpen set TacticId = '%s' where PositionId = '%s'";
+//        = "update hlhtxc5_dmOfx_dev.PositionsOpen set TacticId = '%s' where PositionId = '%s'";
 
 //    public static final String POSITION_UPDATE_POSITIONNAME
-//        = "update hlhtxc5_dmOfx.PositionsOpen set PositionName = '%s' where PositionId = '%s'";
+//        = "update hlhtxc5_dmOfx_dev.PositionsOpen set PositionName = '%s' where PositionId = '%s'";
 
 //    public static final String POSITION_UPDATE_FIELDS
-//        = "update hlhtxc5_dmOfx.PositionsOpen set Units = '%s', PriceOpen = '%s', Price = '%s', GainPct = '%s', DateOpen = '%s', Days = '%s', TacticId = '%s' where PositionId = '%s'";
+//        = "update hlhtxc5_dmOfx_dev.PositionsOpen set Units = '%s', PriceOpen = '%s', Price = '%s', GainPct = '%s', DateOpen = '%s', Days = '%s', TacticId = '%s' where PositionId = '%s'";
 
     //do not store ClientSectorId; we get it from the source, ClientEquityAttributes, when required
     private Integer positionId;

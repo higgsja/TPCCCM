@@ -15,7 +15,7 @@ import lombok.*;
 public class PositionClosedTransactionModel{
     //cannot set EquityId in options so cannot set at all
     public static final String POSITION_TRANSACTION_INSERT =
-        "insert into hlhtxc5_dmOfx.PositionsClosedTransactions(DMAcctId, JoomlaId, PositionId, FiTId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, Days, PositionType, TotalOpen, TotalClose, EquityType, Gain, GainPct, TransactionType, Complete) values (%s, %s, %s, '%s', '%s', '%s', '%s', '%s', %s, %s, %s, %s, '%s', %s, %s, '%s', %s, %s, '%s', %s)";
+        "insert into hlhtxc5_dmOfx_dev.PositionsClosedTransactions(DMAcctId, JoomlaId, PositionId, FiTId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, Days, PositionType, TotalOpen, TotalClose, EquityType, Gain, GainPct, TransactionType, Complete) values (%s, %s, %s, '%s', '%s', '%s', '%s', '%s', %s, %s, %s, %s, '%s', %s, %s, '%s', %s, %s, '%s', %s)";
 
     public PositionClosedTransactionModel(PositionClosedTransactionModel pctm) {
         this.dmAcctId = pctm.dmAcctId;

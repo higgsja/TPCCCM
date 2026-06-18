@@ -10,9 +10,9 @@ public class OpenStockFIFOModel
 {
 
     public static final String UPDATE_GAIN_PCT
-        = "update hlhtxc5_dmOfx.OpenStockFIFO, hlhtxc5_dmOfx.Util_LastDailyStock set OpenStockFIFO.GainPct = if (OpenStockFIFO.Units < 0, -round(100 * (Util_LastDailyStock.Close - OpenStockFIFO.PriceOpen)/OpenStockFIFO.PriceOpen, 4), round(100 * (Util_LastDailyStock.Close - OpenStockFIFO.PriceOpen)/OpenStockFIFO.PriceOpen, 4)) where Util_LastDailyStock.EquityId = OpenStockFIFO.EquityId and OpenStockFIFO.JoomlaId = '%s';";
+        = "update hlhtxc5_dmOfx_dev.OpenStockFIFO, hlhtxc5_dmOfx_dev.Util_LastDailyStock set OpenStockFIFO.GainPct = if (OpenStockFIFO.Units < 0, -round(100 * (Util_LastDailyStock.Close - OpenStockFIFO.PriceOpen)/OpenStockFIFO.PriceOpen, 4), round(100 * (Util_LastDailyStock.Close - OpenStockFIFO.PriceOpen)/OpenStockFIFO.PriceOpen, 4)) where Util_LastDailyStock.EquityId = OpenStockFIFO.EquityId and OpenStockFIFO.JoomlaId = '%s';";
 
-    public static final String INSERT_ALL_VALUES = "insert ignore into hlhtxc5_dmOfx.OpenStockFIFO (%s) values ";
+    public static final String INSERT_ALL_VALUES = "insert ignore into hlhtxc5_dmOfx_dev.OpenStockFIFO (%s) values ";
 
     public static final String ALL_FIELDS
         = "DMAcctId, JoomlaId, FiTId, EquityId, TransactionName, Ticker, DateOpen, DateClose, Units, PriceOpen, PriceClose, MarkUpDn, Commission, Taxes, Fees, TransLoad, TotalOpen, TotalClose, CurSym, SubAcctSec, SubAcctFund, TransactionType, ReversalFiTId";

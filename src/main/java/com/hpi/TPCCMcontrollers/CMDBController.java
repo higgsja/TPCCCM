@@ -66,7 +66,7 @@ public class CMDBController
      * @return The date for the specified equity ID, or null if not found
      */
     public static LocalDate getDateForEquityId(String equityId) {
-        String sql = "SELECT `Date` FROM hlhtxc5_dmOfx.Util_LastDailyStock WHERE EquityId = ?";
+        String sql = "SELECT `Date` FROM hlhtxc5_dmOfx_dev.Util_LastDailyStock WHERE EquityId = ?";
         LocalDate resultDate = null;
         
         try (Connection con = CMDBController.getConnection();
