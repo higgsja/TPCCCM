@@ -38,3 +38,9 @@ Shared library consumed by TPCcli (and potentially other TPC apps). Contains ent
 - `INSERT IGNORE` is the deduplication strategy throughout; PKs enforce uniqueness
 - `StockController` and `OptionController` do in-memory FIFO lot matching, then write results to `OpenStockFIFO`/`OpenOptionFIFO` and closed equivalents
 - `Sector` is sourced from `hlhtxc5_dmOfx.EquityInfo` (FinViz), not from OFX or eTrade tables
+- `FinVizEquityInfoModel` (`com.hpi.entities`) has **no Lombok** — all getters/setters are explicit; used by TPCcli's `FinVizController4`
+
+## NetBeans / Lombok
+- `annotationProcessorPaths` removed from `maven-compiler-plugin` — NetBeans cannot discover Lombok via that path
+- Lombok declared as `provided` scope dependency; Maven finds it on the classpath automatically
+- `nbactions.xml` at project root with `process-classes` goal ensures annotation processing before IDE inspection
